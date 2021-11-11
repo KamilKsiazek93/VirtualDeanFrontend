@@ -1,5 +1,6 @@
 import React from 'react';
 import { webAPIUrl } from './AppSettings';
+import './styles/styles.scss';
 
 const brotherUrl = webAPIUrl + `/brothers`;
 
