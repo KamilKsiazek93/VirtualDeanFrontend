@@ -1,26 +1,29 @@
 import React from 'react';
-import { webAPIUrl } from './AppSettings';
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { DeanPage } from './components/DeanPage';
+import { LiturgistPage } from './components/LiturgistPage';
 import './styles/styles.scss';
 
-const brotherUrl = webAPIUrl + `/brothers`;
-
-const fetchingData = () => {
-  fetch(`${webAPIUrl}/brothers`)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-}
+// const fetchingData = () => {
+//   fetch(`${webAPIUrl}/brothers`)
+//     .then(response => response.json())
+//     .then(data => {
+//       console.log(data);
+//     })
+// }
 
 function App() {
-  fetchingData()
+  //fetchingData()
   return (
-    <div className="App">
-      <header>
-        <h1>Welcome bro!</h1>
-      </header>
-    </div>
-  );
+    <BrowserRouter >
+        <div>
+          <Routes>
+            <Route path="dziekan/*" element={<DeanPage />} />
+            <Route path="liturgista" element={<LiturgistPage />} />
+          </Routes>
+        </div>
+    </BrowserRouter>
+  )
 }
 
 export default App;
