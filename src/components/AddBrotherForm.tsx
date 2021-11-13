@@ -1,16 +1,7 @@
 import React, {useState} from "react";
+import { Form, Button } from "react-bootstrap";
 import { webAPIUrl } from "../AppSettings";
-
-interface AddingBrother {
-    id: number;
-    name: string;
-    surname: string;
-    precedency: string;
-    isSinging: boolean;
-    isLector: boolean;
-    isAcolit: boolean;
-    isDiacon: boolean;
-}
+import { AddingBrother } from "./Brother";
 
 export const AddBrotherForm = () => {
     const [name, setName] = useState("");
@@ -35,35 +26,19 @@ export const AddBrotherForm = () => {
     }
 
     const changeSinging = ({target} : any) => {
-        if(target.value === "on") {
-            setSinging(true)
-        } else {
-            setSinging(false)
-        }
+        setSinging(!singing)
     }
 
     const changeLector = ({target} : any) => {
-        if(target.value === "on") {
-            setLector(true)
-        } else {
-            setLector(false)
-        }
+       setLector(!lector)
     }
 
     const changeAcolit = ({target} : any) => {
-        if(target.value === "on") {
-            setAcolit(true)
-        } else {
-            setAcolit(false)
-        }
+        setAcolit(!acolit)
     }
 
     const changeDiacon = ({target} : any) => {
-        if(target.value === "on") {
-            setDiacon(true)
-        } else {
-            setDiacon(false)
-        }
+        setDiacon(!diacon)
     }
 
     const addBrotherToDB = () => {
@@ -77,6 +52,7 @@ export const AddBrotherForm = () => {
             isAcolit: acolit,
             isDiacon: diacon
         }
+        console.log(data)
         
         fetch(`${webAPIUrl}/brothers`, {
             method: 'POST',
@@ -96,14 +72,22 @@ export const AddBrotherForm = () => {
 
     return (
         <div className="form-frame">
-            <input className="form-input" type="text" placeholder="Imie" id="name" onChange={changeName} />
-            <input className="form-input" type="text" placeholder="Nazwisko" id="lastname" onChange={changeSurname} />
-            <input className="form-input" type="date" placeholder="Precedencja" id="precedency" onChange={changePrecedency} />
-            Schola: <input className="form-input" type="checkbox" id="singing" onChange={changeSinging} />
-            Lektor: <input className="form-input"  type="checkbox" id="lector" onChange={changeLector} />
-            Akolita: <input className="form-input"  type="checkbox" id="acolit" onChange={changeAcolit} />
-            Diakon: <input className="form-input"  type="checkbox" id="diacon" onChange={changeDiacon} />
-            <button onClick={addBrotherToDB}>Dodaj</button>
+            <Form>
+                <Form.Group>
+                    <Form.Control type="text" placeholder="Imie" id="name" onChange={changeName} />
+                    <br />
+                    <Form.Control type="text" placeholder="Nazwisko" id="lastname" onChange={changeSurname} />
+                    <br />
+                    <Form.Control type="date" placeholder="Precedencja" id="precedency" onChange={changePrecedency} />
+                    <br />
+                    <Form.Check label="Schola" type="checkbox" id="singing" onChange={changeSinging} />
+                    <Form.Check label="Lektor" type="checkbox" id="lector" onChange={changeLector} />
+                    <Form.Check label="Akolita" type="checkbox" id="acolit" onChange={changeAcolit} />
+                    <Form.Check label="Diakon" type="checkbox" id="diacon" onChange={changeDiacon} />
+                    <br />
+                    <Button variant="primary" onClick={addBrotherToDB}>Dodaj</Button>
+                </Form.Group>
+            </Form>
         </div>
     )
 }
