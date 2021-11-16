@@ -8,3 +8,9 @@ export interface AddingBrother {
     isAcolit: boolean;
     isDiacon: boolean;
 }
+
+export interface BaseBrother {
+    id: number;
+    name: string;
+    surname: string;
+}
