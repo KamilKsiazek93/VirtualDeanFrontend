@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import { webAPIUrl } from "../AppSettings";
 import { BaseBrother } from "./Brother";
 import { Table, FormCheck } from "react-bootstrap";
+import { KitchenOfficeResp } from "./Offices";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
+    const [office, setKitchenOffice] = useState<KitchenOfficeResp[]>([]);
+    let offices = Array<KitchenOfficeResp>();
+
+    const numberOfKitchenOfficeInSungleDay = 5;
 
     useEffect(() => {
         async function getBrothersFromDB() {
@@ -15,9 +20,23 @@ export const KitchenOffice = () => {
         getBrothersFromDB();
     }, [])
 
-    const handleSaturdayOa = (e : any) => {
-        console.log(e.target.value)
+    const handleSaturdayOa = (idBrother:number, day:string, officeName:string) => {
+       
+        // 1. Sprawdź, czy zarejestrować czy odjąć ze stanu (jeśli to odznacznie checkboxa -> mapowanie)
+        // 2. Oznacz pozostałe checkboxy z kolumny jako disabled lub usuń atrybut disabled
+
+        // setKitchenOffice(offices => [
+        //     ...offices, {idBrother, officeName, day}
+        // ]);
+        const objectExist = offices.find(office => office.idBrother === idBrother && office.officeName === officeName && office.day === day);
+        if(!objectExist?.idBrother) {
+            offices.push(...office, { idBrother, officeName, day})
+        } else {
+            offices = offices.filter(office => office !== objectExist)
+        }
+        console.log(offices)
     }
+    //console.log(offices)
 
     return (
         <div>
@@ -26,8 +45,8 @@ export const KitchenOffice = () => {
                 <thead>
                     <tr>
                         <th colSpan={3}></th>
-                        <th colSpan={5}>Sobota</th>
-                        <th colSpan={5}>Niedziela</th>
+                        <th colSpan={numberOfKitchenOfficeInSungleDay}>Sobota</th>
+                        <th colSpan={numberOfKitchenOfficeInSungleDay}>Niedziela</th>
                     </tr>
                     <tr>
                         <th>Lp</th>
@@ -51,16 +70,16 @@ export const KitchenOffice = () => {
                             <td>{brother.id}</td>
                             <td>{brother.name}</td>
                             <td>{brother.surname}</td>
-                            <td><FormCheck onChange={handleSaturdayOa} /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
-                            <td><FormCheck /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Oa")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Ob")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "W")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Zm")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Zw")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Oa")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Ob")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "W")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Zm")} /></td>
+                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Zw")} /></td>
                         </tr>
                     )}
                 </tbody>
