@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { webAPIUrl } from "../AppSettings";
 import { BaseBrother } from "./Brother";
-import { Table, FormCheck } from "react-bootstrap";
+import { Table, FormCheck, Button } from "react-bootstrap";
 import { KitchenOfficeResp } from "./Offices";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
-    const [office, setKitchenOffice] = useState<KitchenOfficeResp[]>([]);
+    //const [office, setKitchenOffice] = useState<KitchenOfficeResp[]>([]);
     let offices = Array<KitchenOfficeResp>();
 
     const numberOfKitchenOfficeInSungleDay = 5;
@@ -20,7 +20,24 @@ export const KitchenOffice = () => {
         getBrothersFromDB();
     }, [])
 
-    const handleSaturdayOa = (idBrother:number, day:string, officeName:string) => {
+    const handleSendOffice = () => {
+        fetch(`${webAPIUrl}/kitchen-offices`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify(offices)
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+    }
+
+    const handleSaturdayOa = (brotherId:number, day:string, officeName:string) => {
        
         // 1. Sprawdź, czy zarejestrować czy odjąć ze stanu (jeśli to odznacznie checkboxa -> mapowanie)
         // 2. Oznacz pozostałe checkboxy z kolumny jako disabled lub usuń atrybut disabled
@@ -28,9 +45,9 @@ export const KitchenOffice = () => {
         // setKitchenOffice(offices => [
         //     ...offices, {idBrother, officeName, day}
         // ]);
-        const objectExist = offices.find(office => office.idBrother === idBrother && office.officeName === officeName && office.day === day);
-        if(!objectExist?.idBrother) {
-            offices.push(...office, { idBrother, officeName, day})
+        const objectExist = offices.find(office => office.brotherId === brotherId && office.officeName === officeName && office.day === day);
+        if(!objectExist?.brotherId) {
+            offices.push({brotherId, officeName, day})
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
@@ -84,6 +101,7 @@ export const KitchenOffice = () => {
                     )}
                 </tbody>
             </Table>
+            <Button onClick={handleSendOffice}>Zatwierdź</Button>
         </div>
     )
 }
