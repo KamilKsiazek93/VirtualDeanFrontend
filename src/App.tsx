@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { DeanPage } from './components/DeanPage';
 import { LiturgistPage } from './components/LiturgistPage';
+import { MainNavbar } from './components/MainNavbar';
 import './styles/styles.scss';
 
 // const fetchingData = () => {
@@ -15,14 +16,18 @@ import './styles/styles.scss';
 function App() {
   //fetchingData()
   return (
-    <BrowserRouter >
-        <div>
-          <Routes>
-            <Route path="dziekan/*" element={<DeanPage />} />
-            <Route path="liturgista" element={<LiturgistPage />} />
-          </Routes>
-        </div>
-    </BrowserRouter>
+    <div>
+      
+      <BrowserRouter >
+      <MainNavbar />
+          <div>
+            <Routes>
+              <Route path="dziekan/*" element={<DeanPage />} />
+              <Route path="liturgista" element={<LiturgistPage />} />
+            </Routes>
+          </div>
+      </BrowserRouter>
+    </div>
   )
 }
 
