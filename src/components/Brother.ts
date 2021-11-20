@@ -14,3 +14,7 @@ export interface BaseBrother {
     name: string;
     surname: string;
 }
+
+export interface SingingBrothers extends BaseBrother {
+    isSinging: boolean;
+}
