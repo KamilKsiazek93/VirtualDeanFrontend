@@ -6,7 +6,6 @@ import { KitchenOfficeResp } from "./Offices";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
-    //const [office, setKitchenOffice] = useState<KitchenOfficeResp[]>([]);
     let offices = Array<KitchenOfficeResp>();
 
     const numberOfKitchenOfficeInSungleDay = 5;
@@ -37,14 +36,8 @@ export const KitchenOffice = () => {
         });
     }
 
-    const handleSaturdayOa = (brotherId:number, day:string, officeName:string) => {
+    const handleSetKitchenOffice = (brotherId:number, day:string, officeName:string) => {
        
-        // 1. Sprawdź, czy zarejestrować czy odjąć ze stanu (jeśli to odznacznie checkboxa -> mapowanie)
-        // 2. Oznacz pozostałe checkboxy z kolumny jako disabled lub usuń atrybut disabled
-
-        // setKitchenOffice(offices => [
-        //     ...offices, {idBrother, officeName, day}
-        // ]);
         const objectExist = offices.find(office => office.brotherId === brotherId && office.officeName === officeName && office.day === day);
         if(!objectExist?.brotherId) {
             offices.push({brotherId, officeName, day})
@@ -87,16 +80,16 @@ export const KitchenOffice = () => {
                             <td>{brother.id}</td>
                             <td>{brother.name}</td>
                             <td>{brother.surname}</td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Oa")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Ob")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "W")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Zm")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "saturday", "Zw")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Oa")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Ob")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "W")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Zm")} /></td>
-                            <td><FormCheck onChange={(e) => handleSaturdayOa(brother.id, "sunday", "Zw")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "saturday", "Oa")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "saturday", "Ob")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "saturday", "W")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "saturday", "Zm")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "saturday", "Zw")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "sunday", "Oa")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "sunday", "Ob")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "sunday", "W")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "sunday", "Zm")} /></td>
+                            <td><FormCheck onChange={(e) => handleSetKitchenOffice(brother.id, "sunday", "Zw")} /></td>
                         </tr>
                     )}
                 </tbody>
