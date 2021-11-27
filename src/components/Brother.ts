@@ -18,3 +18,8 @@ export interface BaseBrother {
 export interface SingingBrothers extends BaseBrother {
     isSinging: boolean;
 }
+
+export interface SingingEditBrothers {
+    idBrother: number;
+    isSinging: boolean;
+}
