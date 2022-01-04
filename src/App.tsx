@@ -24,7 +24,7 @@ function App() {
           <div>
             <Routes>
               <Route path="dziekan/*" element={<DeanPage />} />
-              <Route path="liturgista" element={<LiturgistPage />} />
+              <Route path="liturgista/*" element={<LiturgistPage />} />
               <Route path="kantor/*" element={<CantorPage />} />
             </Routes>
           </div>
