@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { DeanPage } from './components/DeanPage';
 import { LiturgistPage } from './components/LiturgistPage';
+import { CantorPage } from './components/CantorPage';
 import { MainNavbar } from './components/MainNavbar';
 import './styles/styles.scss';
 
@@ -23,7 +24,8 @@ function App() {
           <div>
             <Routes>
               <Route path="dziekan/*" element={<DeanPage />} />
-              <Route path="liturgista" element={<LiturgistPage />} />
+              <Route path="liturgista/*" element={<LiturgistPage />} />
+              <Route path="kantor/*" element={<CantorPage />} />
             </Routes>
           </div>
       </BrowserRouter>
