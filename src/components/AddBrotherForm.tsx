@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { Form, Button } from "react-bootstrap";
 import { webAPIUrl } from "../AppSettings";
 import { AddingBrother } from "./Brother";
@@ -11,22 +11,7 @@ export const AddBrotherForm = () => {
     const [lector, setLector] = useState(false);
     const [acolit, setAcolit] = useState(false);
     const [diacon, setDiacon] = useState(false);
-    const [brother, setBrother] = useState<AddingBrother | null>();
     const [messageAddedUser, setMessageAddedUser] = useState("");
-
-    useEffect(() => {
-        const brotherDefault = {
-            id: 0,
-            name: "",
-            surname: "",
-            precedency: "",
-            isSinging: false,
-            isLector: false,
-            isAcolit: false,
-            isDiacon: false
-        }
-        setBrother(brotherDefault)
-    }, [])
 
     const changeName = ({target} : any) => {
         setName(target.value)
@@ -70,16 +55,6 @@ export const AddBrotherForm = () => {
         setMessageAddedUser(message)
     }
 
-    // const changeBrotherState = (inputValue:any, officeName:string) => {
-
-    //     const updatedState = {
-    //         ...brother,
-    //         [officeName]: inputValue
-    //     }
-    //     setBrother(updatedState)
-    //     console.log(brother)
-    // }
-
     const addBrotherToDB = () => {
         const data : AddingBrother = {
             id : 0,
@@ -102,13 +77,11 @@ export const AddBrotherForm = () => {
         })
         .then(response => response.json())
         .then(data => {
-        console.log('Success:', data);
-        console.log(data.message)
-        clearDataInForm()
-        showInfoFromRequest(data.message)
+            clearDataInForm()
+            showInfoFromRequest(data.message)
         })
         .catch((error) => {
-        console.error('Error:', error);
+            console.error('Error:', error);
         });
     }
 
