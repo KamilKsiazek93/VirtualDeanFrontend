@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
-import { webAPIUrl } from "../AppSettings";
 import { BaseBrother } from "./Brother";
-import { getConstOBstacleWithBrotherTest } from "./FetchData";
+import { deleteConstObstacle, getBaseBrother, getConstOBstacleWithBrotherTest , postConstObstacle, putConstObstacle} from "./ApiConnection";
 import { IObstacleWithBrotherData } from "./Obstacle";
 
 
@@ -24,31 +23,21 @@ export const ObstacleConst = () => {
     const [brotherSurname, setBrotherSurname] = useState("")
     const [obstacleConstName, setNameObstacleConst] = useState("");
     const [obstacleWithBrothers, setObstacleWithBrothers] = useState<Array<IObstacleWithBrotherData> | null>(null);
-    const [brothers, setBrothers] = useState<Array<BaseBrother | null>>();
+    const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
     const [deletingId, setDeletingId] = useState(0);
     
 
     const ObstacleExample = ["PR", "SR", "T8", "T9", "T10", "T12", "T13", "T15", "T17", "T19", "T20", "T21"]
 
     useEffect(() => {
-        const getBrothersFromDB = async() => {
-            let response = await fetch(`${webAPIUrl}/brothers-base`);
-            let result : Array<BaseBrother> = await response.json();
-            setBrothers(result);
+        const getData = async() => {
+            const baseBrother = await getBaseBrother();
+            setBrothers(baseBrother)
+            const obstacle = await getConstOBstacleWithBrotherTest();
+            setObstacleWithBrothers(obstacle)
         }
 
-        const getObstacleWithBrothers = async() => {
-            
-            // let response = await fetch(`${webAPIUrl}/obstacle-const/brothers-data`);
-            // let result : Array<IObstacleWithBrotherData> = await response.json();
-            // setObstacleWithBrothers(result)
-
-            const resultTest = await getConstOBstacleWithBrotherTest();
-            setObstacleWithBrothers(resultTest)
-        }
-
-        getBrothersFromDB()
-        getObstacleWithBrothers()
+        getData()
        
     }, [stateUpdater])
 
@@ -78,74 +67,37 @@ export const ObstacleConst = () => {
         handleShowEdit();
     }
 
-    const deleteObstacle = () => {
-        console.log(deletingId)
-        fetch(`${webAPIUrl}/obstacle-const/${deletingId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-              },
-            body: JSON.stringify(deletingId)
-        })
-        .then(response => response.json())
-        .then(data => {
-            handleCloseDelete()
-            console.log(data)
-            setStateUpdater(stateUpdater+1)
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
+    const deleteObstacle = async() => {
+        const result = await deleteConstObstacle(deletingId)
+        console.log(result)
+        handleCloseDelete()
+        setStateUpdater(stateUpdater+1)
+     }
 
-    const handleAddObstacleToDB = () => {
+    const handleAddObstacleToDB = async() => {
         const data = {
             id: 0,
             brotherId: idBrotherForObstacleConst,
             obstacleName: obstacleConstName
         }
 
-        fetch(`${webAPIUrl}/obstacle-const`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-              },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            handleClose()
-            console.log(data)
-            setStateUpdater(stateUpdater+1)
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        const result = await postConstObstacle(data)
+        console.log(result)
+        handleClose()
+        setStateUpdater(stateUpdater+1)
     }
 
-    const editObstacle = () => {
+    const editObstacle = async() => {
         const data = {
             id: idObstacle,
             brotherId: idBrotherForObstacleConst,
             obstacleName: obstacleConstName
         }
         
-        fetch(`${webAPIUrl}/obstacle-const/${idObstacle}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-              },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            handleCloseEdit()
-            console.log(data)
-            setStateUpdater(stateUpdater+1)
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        const result = await putConstObstacle(data)
+        handleCloseEdit()
+        console.log(result)
+        setStateUpdater(stateUpdater+1)
     }
 
     return (
