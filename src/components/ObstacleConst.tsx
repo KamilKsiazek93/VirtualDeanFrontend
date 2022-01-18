@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { webAPIUrl } from "../AppSettings";
 import { BaseBrother } from "./Brother";
+import { getConstOBstacleWithBrotherTest } from "./FetchData";
 import { IObstacleWithBrotherData } from "./Obstacle";
 
 
@@ -37,9 +38,13 @@ export const ObstacleConst = () => {
         }
 
         const getObstacleWithBrothers = async() => {
-            let response = await fetch(`${webAPIUrl}/obstacle-const/brothers-data`);
-            let result : Array<IObstacleWithBrotherData> = await response.json();
-            setObstacleWithBrothers(result)
+            
+            // let response = await fetch(`${webAPIUrl}/obstacle-const/brothers-data`);
+            // let result : Array<IObstacleWithBrotherData> = await response.json();
+            // setObstacleWithBrothers(result)
+
+            const resultTest = await getConstOBstacleWithBrotherTest();
+            setObstacleWithBrothers(resultTest)
         }
 
         getBrothersFromDB()
