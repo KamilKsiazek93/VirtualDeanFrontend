@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../actions/auth";
 import { BaseBrother, loginAction } from "./Brother";
 
 export const LoginPage = () => {
+    const dispatch = useDispatch()
     const location = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
+    const [loginInformation, setLoginInformation] = useState("");
 
     const handleEmail = (email:string) => {
         setEmail(email)   
@@ -18,6 +22,10 @@ export const LoginPage = () => {
     }
 
     const redirectActionAfterLogin = (brother:BaseBrother | undefined) => {
+
+        const id = brother?.id ?? 0 
+        dispatch(login(id))
+        
         switch (brother?.statusBrother) {
             case "BRAT":
                 location("/brat/dashboard", {state: {name: brother.name, surname: brother.surname }})
@@ -32,7 +40,7 @@ export const LoginPage = () => {
                 location("/dziekan")
                 break;
             default:
-                console.log(brother)
+                setLoginInformation("Niepoprawny login lub hasło!")
                 break;
         }
     }
@@ -46,6 +54,7 @@ export const LoginPage = () => {
 
     return (
         <div>
+            <div id="loginInformation">{loginInformation}</div>
             <div className="form-frame">
                 <Form>
                     <Form.Group>
