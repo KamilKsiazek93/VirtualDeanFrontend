@@ -1,14 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { BaseBrother } from "./Brother";
-
-interface RootState {
-    auth: boolean
-}
+import { RootState } from "./Brother";
 
 export const BrotherDashboard = () => {
     const user = useSelector((state:RootState) => state.auth)
-    console.log(user)
+    console.log(user.id)
 
     const name = "Imie"
     const surname = "Nazwisko"

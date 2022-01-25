@@ -1,9 +1,11 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "./Brother";
 
 export const BrotherAddObstacle = () => {
-    const location = useLocation()
-    console.log(location.state)
+    const user = useSelector((state:RootState) => state.auth)
+
+    console.log(user.id)
 
     return (
         <div>
