@@ -3,9 +3,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "./Brother";
 
 export const BrotherAddObstacle = () => {
-    const user = useSelector((state:RootState) => state.auth)
-
-    console.log(user.id)
+    const { user } = useSelector((state:RootState) => state.auth)
+    console.log(user)
 
     return (
         <div>

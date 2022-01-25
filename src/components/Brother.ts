@@ -33,11 +33,11 @@ export interface SingingEditBrothers {
 }
 
 export interface RootState {
-    auth: UserId;
+    auth: UserState;
 }
 
-export interface UserId {
-    id: number;
+export interface UserState {
+    user: BaseBrother;
 }
 
 export const loginAction = async(brother:LoginData): Promise<BaseBrother | undefined> => {

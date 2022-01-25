@@ -23,8 +23,8 @@ export const LoginPage = () => {
 
     const redirectActionAfterLogin = (brother:BaseBrother | undefined) => {
 
-        const id = brother?.id ?? 0 
-        dispatch(login(id))
+        const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? "", surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? ""}
+        dispatch(login(brotherState))
         
         switch (brother?.statusBrother) {
             case "BRAT":

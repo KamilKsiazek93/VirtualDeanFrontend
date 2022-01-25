@@ -1,6 +1,8 @@
-export const login = (id:number) => ({
+import { BaseBrother } from "../components/Brother"
+
+export const login = (user:BaseBrother) => ({
     type: 'LOGIN',
-    id
+    user
 })
 
 export const logout = () => ({
