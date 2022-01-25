@@ -1,14 +1,9 @@
 import React from "react";
-import { Navigate, Outlet  } from "react-router-dom";
-import { connect } from "react-redux";
+import { Navigate  } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../components/Brother";
 
-export const PrivateRoute = (auth:any) => {
-    console.log(auth?.id)
-    return auth?.id ? <Outlet /> : <Navigate to="/" />
+export const PrivateRoute = ({children}:any) => {
+    const auth = useSelector((state:RootState) => state.auth)
+    return auth?.id ? children : <Navigate to="/" />
 }
-
-const mapStateToProps = (state:any) => ({
-    auth: !!state.auth.id
-})
-
-export default connect(mapStateToProps)(PrivateRoute)

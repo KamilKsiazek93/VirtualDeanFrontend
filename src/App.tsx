@@ -5,7 +5,6 @@ import { LiturgistPage } from './components/LiturgistPage';
 import { CantorPage } from './components/CantorPage';
 import { BrotherPage } from './components/BrotherPage';
 import { LoginPage } from './components/LoginPage';
-import PrivateRoute from './routers/PrivateRoute';
 
 function App() {
 
@@ -15,10 +14,6 @@ function App() {
             <Routes>
               <Route path="dziekan/*" element={<DeanPage />} />
               <Route path="liturgista/*" element={<LiturgistPage />} />
-              <Route path="kantor/*" element={<CantorPage />} />
-              <Route path="brat/*" element={<PrivateRoute />} >
-                <Route path="brat/*" element={<BrotherPage />} />
-              </Route>
               <Route path="/" element={<LoginPage />} />
             </Routes>
       </BrowserRouter>

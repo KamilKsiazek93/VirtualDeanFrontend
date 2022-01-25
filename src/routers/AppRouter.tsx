@@ -15,7 +15,7 @@ export const AppRouter = () => {
                   <Route path="dziekan/*" element={<DeanPage />} />
                   <Route path="liturgista/*" element={<LiturgistPage />} />
                   <Route path="kantor/*" element={<CantorPage />} />
-                  <Route path="brat/*" element={<BrotherPage />} />
+                  <Route path="brat/*" element={<PrivateRoute><BrotherPage /></PrivateRoute>} />
                   <Route path="/" element={<LoginPage />} />
                 </Routes>
           </BrowserRouter>
