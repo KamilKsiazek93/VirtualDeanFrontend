@@ -23,12 +23,13 @@ export const LoginPage = () => {
 
     const redirectActionAfterLogin = (brother:BaseBrother | undefined) => {
 
-        const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? "", surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? ""}
+        const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? ""
+        , surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? ""}
         dispatch(login(brotherState))
         
         switch (brother?.statusBrother) {
             case "BRAT":
-                location("/brat/dashboard", {state: {name: brother.name, surname: brother.surname }})
+                location("/brat/dashboard")
                 break;
             case "KANTOR":
                 location("/kantor")

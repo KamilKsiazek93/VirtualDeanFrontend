@@ -3,7 +3,7 @@ import { Navigate  } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../components/Brother";
 
-export const PrivateRoute = ({children}:any) => {
+export const CantorRoute = ({children}:any) => {
     const { user } = useSelector((state:RootState) => state.auth)
-    return user?.statusBrother === 'BRAT' ? children : <Navigate to="/" />
+    return user?.statusBrother === 'KANTOR' ? children : <Navigate to="/" />
 }
