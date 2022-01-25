@@ -8,9 +8,7 @@ export const MainNavbar = () => (
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="main-navbar-nav">
             <Nav className="me-auto">
-                <Nav.Link as={Link} to="kantor">Strefa kantora</Nav.Link>
-                <Nav.Link as={Link} to="liturgista">Strefa liturgisty</Nav.Link>
-                <Nav.Link as={Link} to="dziekan">Strefa dziekana</Nav.Link>
+                <Nav.Link as={Link} to="login">Zaloguj się</Nav.Link>
             </Nav>
             </Navbar.Collapse>
         </Container>
