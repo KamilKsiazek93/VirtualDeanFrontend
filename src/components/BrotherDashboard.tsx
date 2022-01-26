@@ -9,7 +9,7 @@ export const BrotherDashboard = () => {
     const surname = brotherLocalStorage.surname
     return (
         <div>
-            <h1>Strona po zalogowaniu. Witaj: {name} {surname}!</h1>
+            <h1>Witaj: {name} {surname}!</h1>
         </div>
     )
 }
