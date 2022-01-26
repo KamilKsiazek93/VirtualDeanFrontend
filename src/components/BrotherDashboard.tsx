@@ -1,12 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "./Brother";
+import {  } from "react-redux";
+import { BaseBrother } from "./Brother";
 
 export const BrotherDashboard = () => {
-    const { user } = useSelector((state:RootState) => state.auth)
+    const storage = window.localStorage;
+    const userLocalStorage:BaseBrother = JSON.parse(storage.getItem('user') || "");
 
-    const name = user.name ?? "Imie"
-    const surname = user.surname ?? "Nazwisko"
+    const name = userLocalStorage.name
+    const surname = userLocalStorage.surname
     return (
         <div>
             <h1>Strona po zalogowaniu. Witaj: {name} {surname}!</h1>

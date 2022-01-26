@@ -8,6 +8,7 @@ import { BaseBrother, loginAction } from "./Brother";
 export const LoginPage = () => {
     const dispatch = useDispatch()
     const location = useNavigate();
+    const storage = window.localStorage;
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
@@ -25,6 +26,11 @@ export const LoginPage = () => {
 
         const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? ""
         , surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? ""}
+        
+        if(brotherState.id > 0) {
+            storage.setItem('user', JSON.stringify(brotherState));
+        }
+
         dispatch(login(brotherState))
         
         switch (brother?.statusBrother) {
