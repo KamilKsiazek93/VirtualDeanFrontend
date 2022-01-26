@@ -1,13 +1,12 @@
 import React from "react";
 import {  } from "react-redux";
-import { BaseBrother } from "./Brother";
+import { getBrotherFromLocalStorage } from "./Brother";
 
 export const BrotherDashboard = () => {
-    const storage = window.localStorage;
-    const userLocalStorage:BaseBrother = JSON.parse(storage.getItem('user') || "");
+    const brotherLocalStorage = getBrotherFromLocalStorage()
 
-    const name = userLocalStorage.name
-    const surname = userLocalStorage.surname
+    const name = brotherLocalStorage.name
+    const surname = brotherLocalStorage.surname
     return (
         <div>
             <h1>Strona po zalogowaniu. Witaj: {name} {surname}!</h1>

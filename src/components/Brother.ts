@@ -40,6 +40,11 @@ export interface UserState {
     user: BaseBrother;
 }
 
+export const getBrotherFromLocalStorage = ():BaseBrother => {
+    const storage = window.localStorage;
+    return JSON.parse(storage.getItem('user') || "");
+}
+
 export const loginAction = async(brother:LoginData): Promise<BaseBrother | undefined> => {
     const result = await http<BaseBrother, LoginData>({
         path: `/brother-login?email=${brother.email}&password=${brother.password}`
