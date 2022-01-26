@@ -5,17 +5,20 @@ import { LiturgistPage } from "../components/LiturgistPage";
 import { CantorPage } from "../components/CantorPage";
 import { BrotherPage } from "../components/BrotherPage";
 import { LoginPage } from "../components/LoginPage";
-import { PrivateRoute } from "./PrivateRoute";
+import { BrotherRoute } from "./BrotherRoute";
+import { CantorRoute } from "./CantorRoute";
+import { DeanRoute } from "./DeanRoute";
+import { LiturgistRoute } from "./LiturgistRoute";
 
 export const AppRouter = () => {
     return (
         <div>
           <BrowserRouter >
                 <Routes>
-                  <Route path="dziekan/*" element={<DeanPage />} />
-                  <Route path="liturgista/*" element={<LiturgistPage />} />
-                  <Route path="kantor/*" element={<CantorPage />} />
-                  <Route path="brat/*" element={<PrivateRoute><BrotherPage /></PrivateRoute>} />
+                  <Route path="dziekan/*" element={<DeanRoute><DeanPage /></DeanRoute>} />
+                  <Route path="liturgista/*" element={<LiturgistRoute><LiturgistPage /></LiturgistRoute>} />
+                  <Route path="kantor/*" element={<CantorRoute><CantorPage /></CantorRoute>} />
+                  <Route path="brat/*" element={<BrotherRoute><BrotherPage /></BrotherRoute>} />
                   <Route path="/" element={<LoginPage />} />
                 </Routes>
           </BrowserRouter>

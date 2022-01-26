@@ -7,9 +7,11 @@ import { logout } from "../actions/auth";
 export const BrotherNavbar = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const storage = window.localStorage
 
     const handleLogout = () => {
         dispatch(logout)
+        storage.removeItem('user')
         navigate('/')
     }
 
