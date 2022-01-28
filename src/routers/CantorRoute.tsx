@@ -1,9 +1,14 @@
 import React from "react";
 import { Navigate  } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../components/Brother";
+import { BaseBrother } from "../components/Brother";
 
 export const CantorRoute = ({children}:any) => {
-    const { user } = useSelector((state:RootState) => state.auth)
-    return user?.statusBrother === 'KANTOR' ? children : <Navigate to="/" />
+    let userLocalStorage:BaseBrother = {id: 0, name: "", surname: "" , statusBrother: ""};
+    const storage = window.localStorage;
+
+    if(storage.length > 0) {
+        userLocalStorage = JSON.parse(storage.getItem('user') || "");
+    }
+
+    return userLocalStorage?.statusBrother === 'KANTOR' ? children : <Navigate to="/" />
 }
