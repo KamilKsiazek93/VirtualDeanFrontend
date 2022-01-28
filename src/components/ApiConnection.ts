@@ -8,6 +8,12 @@ export const mapObstacle = (
     ...obstacle,
 })
 
+export interface IBody {
+    status?: number;
+    message?: string;
+}
+
+
 export const getConstOBstacleWithBrotherTest = async (): Promise <IObstacleWithBrotherData[] | null> => {
     const result = await http<IObstacleWithBrotherData[]>({
         path: '/obstacle-const/brothers-data'
