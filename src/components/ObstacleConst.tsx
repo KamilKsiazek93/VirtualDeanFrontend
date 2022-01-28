@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { BaseBrother } from "./Brother";
 import { deleteConstObstacle, getBaseBrother, getConstOBstacleWithBrotherTest , postConstObstacle, putConstObstacle} from "./ApiConnection";
-import { IObstacleWithBrotherData } from "./Obstacle";
+import { getOfficesName, IObstacleWithBrotherData, OfficeName } from "./Obstacle";
 
 
 export const ObstacleConst = () => {
@@ -25,9 +25,7 @@ export const ObstacleConst = () => {
     const [obstacleWithBrothers, setObstacleWithBrothers] = useState<Array<IObstacleWithBrotherData> | null>(null);
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
     const [deletingId, setDeletingId] = useState(0);
-    
-
-    const ObstacleExample = ["PR", "SR", "T8", "T9", "T10", "T12", "T13", "T15", "T17", "T19", "T20", "T21"]
+    const [officeNames, setOfficesName] = useState<Array<string> | null>(null)
 
     useEffect(() => {
         const getData = async() => {
@@ -35,6 +33,8 @@ export const ObstacleConst = () => {
             setBrothers(baseBrother)
             const obstacle = await getConstOBstacleWithBrotherTest();
             setObstacleWithBrothers(obstacle)
+            const officeNames = await getOfficesName()
+            setOfficesName(officeNames)
         }
 
         getData()
@@ -125,8 +125,8 @@ export const ObstacleConst = () => {
                     Wybierz przeszkodę:
                     <select id="selectObstacleName" onChange={(e) => handleNameObstacle(e.target.value)}>
                         <option defaultValue="" >Wybierz przeszkodę</option>
-                        {ObstacleExample?.map((obstacle) => 
-                            <option value={obstacle} key={obstacle}>{obstacle}</option>
+                        {officeNames?.map((nameOffice, index) => 
+                            <option value={nameOffice} key={index}>{nameOffice}</option>
                         )}
                     </select>
                 </Modal.Body>
@@ -179,8 +179,8 @@ export const ObstacleConst = () => {
                     Wybierz przeszkodę:
                     <select id="selectObstacleName" onChange={(e) => handleNameObstacle(e.target.value)}>
                         <option defaultValue={obstacleConstName} >{obstacleConstName}</option>
-                        {ObstacleExample?.map((obstacle) => 
-                            <option value={obstacle} key={obstacle}>{obstacle}</option>
+                        {officeNames?.map((nameOffice, index) => 
+                            <option value={nameOffice} key={index}>{nameOffice}</option>
                         )}
                     </select>
                 </Modal.Body>

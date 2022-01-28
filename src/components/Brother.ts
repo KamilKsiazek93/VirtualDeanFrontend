@@ -40,6 +40,7 @@ export interface UserState {
     user: BaseBrother;
 }
 
+
 export const getBrotherFromLocalStorage = ():BaseBrother => {
     const storage = window.localStorage;
     return JSON.parse(storage.getItem('user') || "");
