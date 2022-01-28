@@ -40,7 +40,7 @@ export const BrotherAddObstacle = () => {
     return (
         <div>
             <h2 className="header-frame">Zgłoś przeszkodę</h2>
-            {message}
+            <div className="message-body">{message}</div>
             <div className="table-center">
                 <Table striped bordered hover variant="light">
                     <thead>
