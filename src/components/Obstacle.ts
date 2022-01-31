@@ -47,3 +47,55 @@ export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[]): Promise<
     }
     return undefined;
 }
+
+export interface ObstacleBetweenOffice {
+    id: number;
+    officeName: string;
+    officeConnected: string;
+}
+
+export const getObstacleBetweenOffices = async():Promise<ObstacleBetweenOffice[] | null> => {
+    const result = await http<ObstacleBetweenOffice[], ObstacleBetweenOffice>({
+        path: '/obstacle-between-office'
+    });
+    if(result.ok && result.body) {
+        return result.body;
+    }
+    return []
+}
+
+export const postObstacleBetweenOffices = async(data:ObstacleBetweenOffice): Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, ObstacleBetweenOffice>({
+        path: '/obstacle-between-office',
+        method: 'post',
+        body: data
+    });
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
+}
+
+export const putObstacleBetweenOffices = async(data:ObstacleBetweenOffice): Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, ObstacleBetweenOffice>({
+        path: `/obstacle-between-office/${data.id}`,
+        method: 'put',
+        body: data
+    });
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
+}
+
+export const deleteObstacleBetweenOffices = async(id:number): Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, number>({
+        path: `/obstacle-between-office/${id}`,
+        method: 'delete',
+        body: id
+    });
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
+}
