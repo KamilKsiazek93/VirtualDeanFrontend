@@ -36,11 +36,28 @@ export const KitchenOffice = () => {
         });
     }
 
+    const addOfficeToArray = (brotherId:number, officeName:string, day:string) => {
+        if(day === "saturday") {
+            offices.push({brotherId, saturdayOffices : officeName})
+        } else {
+            offices.push({brotherId, sundayOffices : officeName})
+        }
+    }
+
+    const findingObjectInKitchenArray = (brotherId:number, day:string, officeName:String) => {
+        if(day === "saturday") {
+            return offices.find(office => office.brotherId === brotherId && office.saturdayOffices === officeName)
+        } else {
+            return offices.find(office => office.brotherId === brotherId && office.sundayOffices === officeName)
+        }
+    }
+
     const handleSetKitchenOffice = (brotherId:number, day:string, officeName:string) => {
        
-        const objectExist = offices.find(office => office.brotherId === brotherId && office.officeName === officeName && office.day === day);
+        
+        const objectExist = findingObjectInKitchenArray(brotherId, day, officeName)
         if(!objectExist?.brotherId) {
-            offices.push({brotherId, officeName, day})
+            addOfficeToArray(brotherId, officeName, day)
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
