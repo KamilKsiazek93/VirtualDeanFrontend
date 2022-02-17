@@ -3,8 +3,8 @@ import { MessageBody } from "./Obstacle";
 
 export interface KitchenOfficeResp {
     brotherId: number;
-    officeName: string;
-    day: string;
+    saturdayOffices?: string;
+    sundayOffices?: string;
 }
 
 export interface CantorOfficeResponse {
