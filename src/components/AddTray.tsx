@@ -30,23 +30,35 @@ export const AddTray = () => {
         console.log('send!')
     }
 
-    const handleSetTray = (brotherId:number, trayHour:string) => {
+    const pushObjectToArrayTray = (brotherId:number, trayHour:string) => {
         const objectExist = offices.find(office => office.brotherId === brotherId && office.trayHour === trayHour);
         if(!objectExist?.brotherId) {
             offices.push({brotherId, trayHour})
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
+        console.log(offices)
     }
 
-    // const isAvailableCheck = (hour:string) => {
-    //     switch (hour) {
-    //         case "8.00":
-    //             return false
-    //         case "9.00":
-    //             return false
-    //     }
-    // }
+    const handleSetTray = (brotherId:number, trayHour:string, index:number) => {
+        const id = index.toString() + trayHour
+        if(isAvailableCheck(id, brotherId, trayHour)) {
+            pushObjectToArrayTray(brotherId, trayHour)
+        }
+    }
+
+    const isAvailableCheck = (id:string, brotherId:number, trayHour:string):Boolean => {
+        let checkedBox = document.getElementById(id) as HTMLInputElement
+        
+        const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === trayHour)).length ?? 0
+        if(isObstacled > 0) {
+            console.log('Nie może wziąć tego oficjum')
+            checkedBox.checked = false
+            return false
+        }
+        return true;
+        // console.log(obstaclesBetweenOffices)
+    }
 
     return (
         <div>Wyznaczanie tacy
@@ -74,16 +86,16 @@ export const AddTray = () => {
                             <td>{index+1}</td>
                             <td>{brother.name}</td>
                             <td>{brother.surname}</td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T8")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T9")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T10")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T12")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T13")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T15")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T17")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T19")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T20")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "T21")} /></td>
+                            <td><FormCheck id={index.toString() + "T8"} onChange={(e) => handleSetTray(brother.id, "T8", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T9"} onChange={(e) => handleSetTray(brother.id, "T9", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T10"} onChange={(e) => handleSetTray(brother.id, "T10", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T12"} onChange={(e) => handleSetTray(brother.id, "T12", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T13"} onChange={(e) => handleSetTray(brother.id, "T13", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T15"} onChange={(e) => handleSetTray(brother.id, "T15", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T17"} onChange={(e) => handleSetTray(brother.id, "T17", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T19"} onChange={(e) => handleSetTray(brother.id, "T19", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T20"} onChange={(e) => handleSetTray(brother.id, "T20", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T21"} onChange={(e) => handleSetTray(brother.id, "T21", index)} /></td>
                         </tr>
                     )}
                 </tbody>
