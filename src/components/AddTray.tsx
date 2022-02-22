@@ -3,13 +3,13 @@ import { Table, Button, FormCheck } from "react-bootstrap";
 import { getBaseBrotherForTray } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { ITrayHourResponse } from "./Offices";
+import { BrotherDashboardOffice, getLastOffice, ITrayHourResponse } from "./Offices";
 
 export const AddTray = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
-    const [obstaclesBetweenOffices, setObstacleBetweenOffices] = useState<Array<ObstacleBetweenOffice> | null>()
+    const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
 
     let offices = Array<ITrayHourResponse>()
 
@@ -19,8 +19,8 @@ export const AddTray = () => {
             setBrothers(brothers)
             const obstacles = await getObstacleFromBrothers();
             setObstacles(obstacles)
-            const obstacleBetweenOffices = await getObstacleBetweenOffices();
-            setObstacleBetweenOffices(obstacleBetweenOffices)
+            const lastOffice = await getLastOffice();
+            setLastOffice(lastOffice)
         }
         getData()
     }, [])
@@ -52,6 +52,12 @@ export const AddTray = () => {
         
         const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === trayHour)).length ?? 0
         if(isObstacled > 0) {
+            console.log('Nie może wziąć tego oficjum')
+            checkedBox.checked = false
+            return false
+        }
+        const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && item.cantorOffice !== null)
+        if(obstacleOfficeConnected && trayHour === "T10") {
             console.log('Nie może wziąć tego oficjum')
             checkedBox.checked = false
             return false
