@@ -32,3 +32,8 @@ export const addScholaToDb = async(data:CantorOfficeResponse[]):Promise<MessageB
     }
     return undefined;
 }
+
+export interface ITrayHourResponse {
+    brotherId: number;
+    trayHour: string;
+}

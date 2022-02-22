@@ -99,3 +99,18 @@ export const deleteObstacleBetweenOffices = async(id:number): Promise<MessageBod
     }
     return undefined
 }
+
+export interface IObstacleFromBrothers {
+    brotherId: number;
+    obstacles: Array<string>;
+}
+
+export const getObstacleFromBrothers = async(): Promise<IObstacleFromBrothers[] | null> => {
+    const result = await http<IObstacleFromBrothers[]>({
+        path: '/obstacle-last'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((item, index) => item)
+    }
+    return []
+}
