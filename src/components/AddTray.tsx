@@ -3,13 +3,14 @@ import { Table, Button, FormCheck } from "react-bootstrap";
 import { getBaseBrotherForTray } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { BrotherDashboardOffice, getLastOffice, ITrayHourResponse } from "./Offices";
+import { addTrayToDB, BrotherDashboardOffice, getLastOffice, ITrayHourResponse } from "./Offices";
 
 export const AddTray = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
     const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
+    const [message, setMessage] = useState<string>()
 
     let offices = Array<ITrayHourResponse>()
 
@@ -26,8 +27,11 @@ export const AddTray = () => {
     }, [])
 
 
-    const handleSendLiturgistTray = () => {
-        console.log('send!')
+    const handleSendLiturgistTray = async() => {
+        const result = await addTrayToDB(offices)
+        setMessage(result?.message)
+        console.log(result)
+
     }
 
     const pushObjectToArrayTray = (brotherId:number, trayHour:string) => {
@@ -37,7 +41,6 @@ export const AddTray = () => {
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
-        console.log(offices)
     }
 
     const handleSetTray = (brotherId:number, trayHour:string, index:number) => {
@@ -68,6 +71,7 @@ export const AddTray = () => {
 
     return (
         <div>Wyznaczanie tacy
+            <div className="message-body">{message}</div>
             <Table striped bordered hover variant="light">
                 <thead>
                     <tr>
