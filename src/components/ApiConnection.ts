@@ -70,3 +70,14 @@ export const getBaseBrother = async(): Promise<BaseBrother[] | null> => {
     }
     return []
 }
+
+export const getBaseBrotherForTray = async(): Promise<BaseBrother[] | null> => {
+    const result = await http<BaseBrother[]>({
+        path: '/brothers-tray'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((bro, index) => bro)
+    }
+    return []
+}
+

@@ -1,40 +1,77 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, FormCheck } from "react-bootstrap";
-import { webAPIUrl } from "../AppSettings";
+import { getBaseBrotherForTray } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
+import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
+import { addTrayToDB, BrotherDashboardOffice, getLastOffice, ITrayHourResponse } from "./Offices";
 
 export const AddTray = () => {
 
-    const [brothers, setBrothers] = React.useState<Array<BaseBrother> | null>(null);
+    const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
+    const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
+    const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
+    const [message, setMessage] = useState<string>()
+
+    let offices = Array<ITrayHourResponse>()
 
     useEffect(() => {
-        async function getTrayBrothersFromDb() {
-            const response = await fetch(`${webAPIUrl}/brothers-tray`);
-            const result : Array<BaseBrother> = await response.json();
-            setBrothers(result);
+        async function getData() {
+            const brothers = await getBaseBrotherForTray()
+            setBrothers(brothers)
+            const obstacles = await getObstacleFromBrothers();
+            setObstacles(obstacles)
+            const lastOffice = await getLastOffice();
+            setLastOffice(lastOffice)
         }
-        getTrayBrothersFromDb()
+        getData()
     }, [])
 
-    const handleSendLiturgistTray = () => {
-        console.log('send!')
+
+    const handleSendLiturgistTray = async() => {
+        const result = await addTrayToDB(offices)
+        setMessage(result?.message)
+        console.log(result)
+
     }
 
-    const handleSetTray = (brotherId:number, trayHour:string) => {
-        console.log(trayHour)
-    }
-
-    const isAvailableCheck = (hour:string) => {
-        switch (hour) {
-            case "8.00":
-                return false
-            case "9.00":
-                return false
+    const pushObjectToArrayTray = (brotherId:number, trayHour:string) => {
+        const objectExist = offices.find(office => office.brotherId === brotherId && office.trayHour === trayHour);
+        if(!objectExist?.brotherId) {
+            offices.push({brotherId, trayHour})
+        } else {
+            offices = offices.filter(office => office !== objectExist)
         }
+    }
+
+    const handleSetTray = (brotherId:number, trayHour:string, index:number) => {
+        const id = index.toString() + trayHour
+        if(isAvailableCheck(id, brotherId, trayHour)) {
+            pushObjectToArrayTray(brotherId, trayHour)
+        }
+    }
+
+    const isAvailableCheck = (id:string, brotherId:number, trayHour:string):Boolean => {
+        let checkedBox = document.getElementById(id) as HTMLInputElement
+        
+        const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === trayHour)).length ?? 0
+        if(isObstacled > 0) {
+            console.log('Nie może wziąć tego oficjum')
+            checkedBox.checked = false
+            return false
+        }
+        const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && item.cantorOffice !== null)
+        if(obstacleOfficeConnected && trayHour === "T10") {
+            console.log('Nie może wziąć tego oficjum')
+            checkedBox.checked = false
+            return false
+        }
+        return true;
+        // console.log(obstaclesBetweenOffices)
     }
 
     return (
         <div>Wyznaczanie tacy
+            <div className="message-body">{message}</div>
             <Table striped bordered hover variant="light">
                 <thead>
                     <tr>
@@ -59,16 +96,16 @@ export const AddTray = () => {
                             <td>{index+1}</td>
                             <td>{brother.name}</td>
                             <td>{brother.surname}</td>
-                            <td><FormCheck checked={isAvailableCheck("8.00")} onChange={(e) => handleSetTray(brother.id, "8.00")} /></td>
-                            <td><FormCheck checked={isAvailableCheck("9.00")} onChange={(e) => handleSetTray(brother.id, "9.00")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "10.30")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "12.00")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "13.30")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "15.30")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "17.00")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "19.00")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "20.20")} /></td>
-                            <td><FormCheck onChange={(e) => handleSetTray(brother.id, "21.30")} /></td>
+                            <td><FormCheck id={index.toString() + "T8"} onChange={(e) => handleSetTray(brother.id, "T8", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T9"} onChange={(e) => handleSetTray(brother.id, "T9", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T10"} onChange={(e) => handleSetTray(brother.id, "T10", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T12"} onChange={(e) => handleSetTray(brother.id, "T12", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T13"} onChange={(e) => handleSetTray(brother.id, "T13", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T15"} onChange={(e) => handleSetTray(brother.id, "T15", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T17"} onChange={(e) => handleSetTray(brother.id, "T17", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T19"} onChange={(e) => handleSetTray(brother.id, "T19", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T20"} onChange={(e) => handleSetTray(brother.id, "T20", index)} /></td>
+                            <td><FormCheck id={index.toString() + "T21"} onChange={(e) => handleSetTray(brother.id, "T21", index)} /></td>
                         </tr>
                     )}
                 </tbody>
