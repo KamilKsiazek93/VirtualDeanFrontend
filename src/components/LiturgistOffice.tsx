@@ -2,19 +2,84 @@ import React, {useEffect, useState} from "react";
 import { Button, FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
+import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
+import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeAddedResponse, getLastTrays } from "./Offices";
 
 export const LiturgistOffice = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
+    const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
+    const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
+    const [trays, setLastTrays] = useState<Array<ILastTray> | null>();
     const [message, setMessage] = useState<string>()
+    const officeInMass = ["MO", "MK", "MŚ", "KR", "Tur"]
+
+    let offices = Array<IOfficeAddedResponse>()
 
     useEffect(() => {
         async function getData() {
             const brothers = await getBaseBrothersForLiturgistOffice();
             setBrothers(brothers)
+            const obstacles = await getObstacleFromBrothers();
+            setObstacles(obstacles)
+            const lastOffice = await getLastOffice();
+            setLastOffice(lastOffice)
+            const lastTrays = await getLastTrays();
+            setLastTrays(lastTrays)
         }
         getData()
     }, [])
+
+    const checkIsOfficeOnMass = (officeName:string):Boolean => {
+        return officeInMass.includes(officeName);
+    }
+
+    const setCheckboxValue = (id:string, value:boolean):void => {
+        let checkedBox = document.getElementById(id) as HTMLInputElement
+        checkedBox.checked = value
+    }
+
+    const handleSetLiturgistOffice = (brotherId:number, officeName:string, index:number) => {
+        const id = index.toString() + officeName;
+        if(isAvailableCheck(brotherId, officeName) && pushObjectToArrayTray(brotherId, officeName)) {
+            setCheckboxValue(id, true)
+        } else {
+            setCheckboxValue(id, false)
+        }
+    }
+
+    const isAvailableCheck = (brotherId:number, officeName:string):Boolean => {
+
+        const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === officeName)).length ?? 0
+        const isOfficeOnMass = checkIsOfficeOnMass(officeName)
+        if(isObstacled > 0) {
+            console.log('Nie może wziąć tego oficjum bo zgłosił przeszkodę')
+            return false
+        }
+        const isSinging = lastOffice?.find(item => item.brotherId === brotherId && item.cantorOffice !== null)
+        if(isSinging && isOfficeOnMass) {
+            console.log('Nie może wziąć tego oficjum bo śpiewa w scholi')
+            return false
+        }
+        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("T10"));
+        if(hasTrayOnConventualMass && isOfficeOnMass) {
+            console.log('Nie może wziąć tego oficjum bo ma tacę  10')
+            return false
+        }
+        
+        return true
+    }
+
+    const pushObjectToArrayTray = (brotherId:number, officeName:string) => {
+        const objectExist = offices.find(office => office.brotherId === brotherId && office.officeName === officeName);
+        if(!objectExist?.brotherId) {
+            offices.push({brotherId, officeName})
+            return true
+        } else {
+            offices = offices.filter(office => office !== objectExist)
+            return false
+        }
+    }
 
     return (
         <div>
@@ -44,15 +109,15 @@ export const LiturgistOffice = () => {
                             <td>{index + 1}</td>
                             <td>{brother.name}</td>
                             <td>{brother.surname}</td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
-                            <td><FormCheck /> </td>
+                            <td><FormCheck id={index.toString() + "MO"} onChange={(e) => handleSetLiturgistOffice(brother.id, "MO", index)} /></td>
+                            <td><FormCheck id={index.toString() + "MK"} onChange={(e) => handleSetLiturgistOffice(brother.id, "MK", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "MŚ"} onChange={(e) => handleSetLiturgistOffice(brother.id, "MŚ", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "KR"} onChange={(e) => handleSetLiturgistOffice(brother.id, "KR", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "Tur"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Tur", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "Suc1"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Suc1", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "Suc2"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Suc2", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "Resp1"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Resp1", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "Resp2"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Resp2", index)} /> </td>
                         </tr>
                         )}
                     </tbody>
