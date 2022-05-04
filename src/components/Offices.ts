@@ -39,6 +39,16 @@ export interface ITrayHourResponse {
     trayHour: string;
 }
 
+export interface IOfficeLiturgistResponse {
+    brotherId: number;
+    liturgistOffice: string;
+}
+
+export interface ILastTray {
+    idBrother: number;
+    brothersTrays: Array<string>;
+}
+
 export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> => {
     const result = await http<BrotherDashboardOffice[]>({
         path: '/office-last'
@@ -59,4 +69,26 @@ export const addTrayToDB = async(data:ITrayHourResponse[]):Promise<MessageBody |
         return result.body
     }
     return undefined;
+}
+
+export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[]):Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, IOfficeLiturgistResponse[]>({
+        path: '/office-liturgist',
+        method: 'post',
+        body: data
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
+}
+
+export const getLastTrays = async(): Promise<ILastTray[] | null> => {
+    const result = await http<ILastTray[]>({
+        path: '/tray-hour-last'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((bro, index) => bro)
+    }
+    return []
 }

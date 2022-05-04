@@ -18,6 +18,10 @@ export interface BaseBrother {
     statusBrother: string;
 }
 
+export interface BaseBrotherLiturgist extends BaseBrother {
+    isAcolit: boolean;
+}
+
 export interface LoginData {
     email: string;
     password: string;
