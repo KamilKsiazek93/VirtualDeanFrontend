@@ -1,4 +1,4 @@
-import { BaseBrother } from "./Brother";
+import { BaseBrother, BaseBrotherLiturgist } from "./Brother";
 import { http } from "./http";
 import { IObstacleConst, IObstacleWithBrotherData } from "./Obstacle";
 
@@ -81,8 +81,8 @@ export const getBaseBrotherForTray = async(): Promise<BaseBrother[] | null> => {
     return []
 }
 
-export const getBaseBrothersForLiturgistOffice = async(): Promise<BaseBrother[] | null> => {
-    const result = await http<BaseBrother[]>({
+export const getBaseBrothersForLiturgistOffice = async(): Promise<BaseBrotherLiturgist[] | null> => {
+    const result = await http<BaseBrotherLiturgist[]>({
         path: '/brothers-liturgistOffice'
     })
     if(result.ok && result.body) {

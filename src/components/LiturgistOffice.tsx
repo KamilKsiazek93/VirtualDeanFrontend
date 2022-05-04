@@ -1,20 +1,20 @@
 import React, {useEffect, useState} from "react";
 import { Button, FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
-import { BaseBrother } from "./Brother";
+import { BaseBrotherLiturgist } from "./Brother";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeAddedResponse, getLastTrays } from "./Offices";
+import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB } from "./Offices";
 
 export const LiturgistOffice = () => {
 
-    const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
+    const [brothers, setBrothers] = useState<Array<BaseBrotherLiturgist> | null>();
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
     const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
     const [trays, setLastTrays] = useState<Array<ILastTray> | null>();
     const [message, setMessage] = useState<string>()
     const officeInMass = ["MO", "MK", "MŚ", "KR", "Tur"]
 
-    let offices = Array<IOfficeAddedResponse>()
+    let offices = Array<IOfficeLiturgistResponse>()
 
     useEffect(() => {
         async function getData() {
@@ -66,19 +66,29 @@ export const LiturgistOffice = () => {
             console.log('Nie może wziąć tego oficjum bo ma tacę  10')
             return false
         }
+        if((officeName === "MO" || officeName === "MK") && brothers?.find(bro => bro.id === brotherId && bro.isAcolit === false)) {
+            console.log('Nie może wziąć, bo nie jest akolitą')
+            return false
+        }
         
         return true
     }
 
     const pushObjectToArrayTray = (brotherId:number, officeName:string) => {
-        const objectExist = offices.find(office => office.brotherId === brotherId && office.officeName === officeName);
+        const objectExist = offices.find(office => office.brotherId === brotherId && office.liturgistOffice === officeName);
         if(!objectExist?.brotherId) {
-            offices.push({brotherId, officeName})
+            offices.push({brotherId, liturgistOffice: officeName})
             return true
         } else {
             offices = offices.filter(office => office !== objectExist)
             return false
         }
+    }
+
+    const handleAddLiturgistOffice = async() => {
+        const result = await addLiturgistOfficeTDB(offices)
+        setMessage(result?.message)
+        console.log(result)
     }
 
     return (
@@ -101,10 +111,11 @@ export const LiturgistOffice = () => {
                             <th>Suc2</th>
                             <th>Resp1</th>
                             <th>Resp2</th>
+                            <th>Ant</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {brothers?.map((brother:BaseBrother, index) => 
+                        {brothers?.map((brother:BaseBrotherLiturgist, index) => 
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{brother.name}</td>
@@ -118,11 +129,12 @@ export const LiturgistOffice = () => {
                             <td><FormCheck id={index.toString() + "Suc2"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Suc2", index)} /> </td>
                             <td><FormCheck id={index.toString() + "Resp1"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Resp1", index)} /> </td>
                             <td><FormCheck id={index.toString() + "Resp2"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Resp2", index)} /> </td>
+                            <td><FormCheck id={index.toString() + "Ant"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Ant", index)} /> </td>
                         </tr>
                         )}
                     </tbody>
                 </Table>
-                <Button className="button-center" variant="success">Dodaj oficja</Button>
+                <Button className="button-center" variant="success" onClick={handleAddLiturgistOffice}>Dodaj oficja</Button>
             </div>
         </div>
     )

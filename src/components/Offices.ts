@@ -39,9 +39,9 @@ export interface ITrayHourResponse {
     trayHour: string;
 }
 
-export interface IOfficeAddedResponse {
+export interface IOfficeLiturgistResponse {
     brotherId: number;
-    officeName: string;
+    liturgistOffice: string;
 }
 
 export interface ILastTray {
@@ -69,6 +69,18 @@ export const addTrayToDB = async(data:ITrayHourResponse[]):Promise<MessageBody |
         return result.body
     }
     return undefined;
+}
+
+export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[]):Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, IOfficeLiturgistResponse[]>({
+        path: '/office-liturgist',
+        method: 'post',
+        body: data
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
 }
 
 export const getLastTrays = async(): Promise<ILastTray[] | null> => {
