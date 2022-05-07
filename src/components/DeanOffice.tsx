@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import { FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { BaseBrotherLiturgist } from './Brother'
+import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
 
 export const DeanOffice = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrotherLiturgist> | null>()
+    const [obstaclesFromBrother, setObstacleFromBrother] = useState<Array<IObstacleFromBrothers> | null>()
+    const [obstaclesBetweenOffices, setObstaclesBetweenOffices] = useState<Array<ObstacleBetweenOffice> | null>()
 
     useEffect(() => {
         const getData = async() => {
             const brothers = await getBaseBrothersForLiturgistOffice()
             setBrothers(brothers)
+            const obstaclesFromBrothers = await getObstacleFromBrothers()
+            setObstacleFromBrother(obstaclesFromBrothers)
+            const obstaclesBetweenOffices = await getObstacleBetweenOffices()
+            setObstaclesBetweenOffices(obstaclesBetweenOffices)
         }
         getData()
     }, [])
