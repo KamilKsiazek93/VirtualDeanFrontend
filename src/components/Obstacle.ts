@@ -55,11 +55,11 @@ export interface ObstacleBetweenOffice {
 }
 
 export const getObstacleBetweenOffices = async():Promise<ObstacleBetweenOffice[] | null> => {
-    const result = await http<ObstacleBetweenOffice[], ObstacleBetweenOffice>({
+    const result = await http<ObstacleBetweenOffice[]>({
         path: '/obstacle-between-office'
     });
     if(result.ok && result.body) {
-        return result.body;
+        return result.body.map((item) => item);
     }
     return []
 }
