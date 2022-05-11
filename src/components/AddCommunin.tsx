@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, FormCheck } from "react-bootstrap";
+import { Table, FormCheck, Button } from "react-bootstrap";
 import { getBrothersForCommunion } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
+import { addCommunionToDB, ICommunionHourResponse } from "./Offices";
 
 export const AddCommunion = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>()
     const [obstaclesFromBrothers, setObstaclesFromBrothers] = useState<Array<IObstacleFromBrothers> | null>()
+    const [message, setMessage] = useState<string>()
+
+    let offices = Array<ICommunionHourResponse>()
 
     useEffect(() => {
         const getData = async() => {
@@ -20,12 +24,50 @@ export const AddCommunion = () => {
     }, [])
 
     const handleSetCommunion = (brotherId:number, officeName:string, index:number) => {
+        const id = index.toString() + officeName;
+        if(isAvailableCheck(brotherId, officeName) && pushObjectToArrayTray(brotherId, officeName)) {
+            setCheckboxValue(id, true)
+        } else {
+            setCheckboxValue(id, false)
+        }
+    }
 
+    const isAvailableCheck = (brotherId:number, officeName:string):Boolean => {
+        const isInBrotherObstacleList = obstaclesFromBrothers?.find(item => item.brotherId === brotherId && 
+            item.obstacles.find(o => o.includes(officeName)))
+        if(isInBrotherObstacleList) {
+            console.log("Brat zgłosił przeszkodę na to oficjum")
+            return false
+        }
+        return true
+    }
+
+    const pushObjectToArrayTray = (brotherId:number, officeName:string):Boolean => {
+        const objectExist = offices.find(office => office.brotherId === brotherId && office.communionHour === officeName);
+        if(!objectExist?.brotherId) {
+            offices.push({brotherId, communionHour: officeName})
+            return true
+        } else {
+            offices = offices.filter(office => office !== objectExist)
+            return false
+        }
+    }
+
+    const setCheckboxValue = (id:string, value:boolean):void => {
+        let checkedBox = document.getElementById(id) as HTMLInputElement
+        checkedBox.checked = value
+    }
+
+    const handleAddDeanOffice = async() => {
+        const result = await addCommunionToDB(offices)
+        setMessage(result?.message)
+        console.log(result)
     }
 
     return (
         <div>
             <h2 className="header-frame">Wyznacz komunie</h2>
+            <div className="message-body">{message}</div>
             <Table striped bordered hover variant="light">
             <thead>
                     <tr>
@@ -34,7 +76,6 @@ export const AddCommunion = () => {
                         <th>Nazwisko</th>
                         <th>8.00</th>
                         <th>9.00</th>
-                        <th>10.30</th>
                         <th>12.00</th>
                         <th>13.30</th>
                         <th>15.30</th>
@@ -52,7 +93,6 @@ export const AddCommunion = () => {
                             <td>{brother.surname}</td>
                             <td><FormCheck id={index.toString() + "K8"} onChange={(e) => handleSetCommunion(brother.id, "K8", index)} /></td>
                             <td><FormCheck id={index.toString() + "K9"} onChange={(e) => handleSetCommunion(brother.id, "K9", index)} /></td>
-                            <td><FormCheck id={index.toString() + "K10"} onChange={(e) => handleSetCommunion(brother.id, "K10", index)} /></td>
                             <td><FormCheck id={index.toString() + "K12"} onChange={(e) => handleSetCommunion(brother.id, "K12", index)} /></td>
                             <td><FormCheck id={index.toString() + "K13"} onChange={(e) => handleSetCommunion(brother.id, "K13", index)} /></td>
                             <td><FormCheck id={index.toString() + "K15"} onChange={(e) => handleSetCommunion(brother.id, "K15", index)} /></td>
@@ -64,6 +104,7 @@ export const AddCommunion = () => {
                     )}
                 </tbody>
             </Table>
+            <Button className="button-center" variant="success" onClick={handleAddDeanOffice}>Dodaj oficja</Button>
         </div>
     )
 }
