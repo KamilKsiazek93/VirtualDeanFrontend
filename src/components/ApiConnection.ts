@@ -81,6 +81,16 @@ export const getBaseBrotherForTray = async(): Promise<BaseBrother[] | null> => {
     return []
 }
 
+export const getBrothersForCommunion = async():Promise<BaseBrother[] | null> => {
+    const result = await http<BaseBrother[]>({
+        path: '/brothers-communion'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((bro) => bro)
+    }
+    return []
+}
+
 export const getBaseBrothersForLiturgistOffice = async(): Promise<BaseBrotherLiturgist[] | null> => {
     const result = await http<BaseBrotherLiturgist[]>({
         path: '/brothers-liturgistOffice'
