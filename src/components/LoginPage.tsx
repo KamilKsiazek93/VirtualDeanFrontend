@@ -47,6 +47,9 @@ export const LoginPage = () => {
             case "DZIEKAN":
                 location("/dziekan")
                 break;
+            case "DZIEKAN_KOMUNIJNY":
+                location("dziekan-komunijny")
+                break;
             default:
                 setLoginInformation("Niepoprawny login lub hasło!")
                 break;
