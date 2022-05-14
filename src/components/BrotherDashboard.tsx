@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import {  } from "react-redux";
 import { getBrotherFromLocalStorage } from "./Brother";
+import { BrotherDashboardOffice, getLastOfficeForBrother } from "./Offices";
+
+const showOffice = (office:Array<string> | undefined) => {
+    office = office?.map((item) => item.slice(1)).sort()
+    return (
+        <ul>
+            {office?.map((item) =>
+                <li key={item}>{item}</li>
+            )}
+        </ul>
+    )
+}
 
 export const BrotherDashboard = () => {
     const brotherLocalStorage = getBrotherFromLocalStorage()
-
     const name = brotherLocalStorage.name
     const surname = brotherLocalStorage.surname
+
+    const [brotherOffice, setBrotherOffice] = useState<BrotherDashboardOffice>()
+
+    useEffect(() => {
+        const getData = async() => {
+            const offices = await getLastOfficeForBrother(brotherLocalStorage.id)
+            setBrotherOffice(offices)
+        }
+        getData()
+    }, [])
+
     return (
         <div>
             <h2 className="header-frame">Dzień dobry {name} {surname}!</h2>
@@ -25,11 +47,11 @@ export const BrotherDashboard = () => {
                     </thead>
                     <tbody>
                         <tr key="1">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{brotherOffice?.cantorOffice}</td>
+                            <td>{brotherOffice?.liturgistOffice}</td>
+                            <td>{brotherOffice?.deanOffice}</td>
+                            <td>{showOffice(brotherOffice?.tray)}</td>
+                            <td>{showOffice(brotherOffice?.communion)}</td>
                         </tr>
                     </tbody>
                 </Table>
