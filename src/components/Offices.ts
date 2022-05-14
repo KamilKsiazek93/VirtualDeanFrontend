@@ -18,8 +18,8 @@ export interface BrotherDashboardOffice {
     cantorOffice: string;
     liturgistOffice: string;
     deanOffice: string;
-    trayOffice: Array<string>
-    communionOffice: Array<string>
+    tray: Array<string>
+    communion: Array<string>
 }
 
 export const addScholaToDb = async(data:CantorOfficeResponse[]):Promise<MessageBody | undefined> => {
@@ -57,6 +57,16 @@ export interface IDeanOfficeResponse {
 export interface ILastTray {
     idBrother: number;
     brothersTrays: Array<string>;
+}
+
+export const getLastOfficeForBrother = async(brotherId:number): Promise<BrotherDashboardOffice | undefined> => {
+    const result = await http<BrotherDashboardOffice>({
+        path: `/office-last/${brotherId}`
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
 }
 
 export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> => {
