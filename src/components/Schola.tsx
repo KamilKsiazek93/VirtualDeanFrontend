@@ -9,6 +9,7 @@ export const Schola = () => {
     const [brothers, setBrothers] = useState<Array<SingingBrothers> | null>(null);
     const [message, setMessage] = useState<string>()
     let offices = Array<CantorOfficeResponse>();
+    const isOfficeAlreadySet = false
 
     useEffect(() => {
         async function getSingingBrothersFromDb() {
@@ -34,8 +35,17 @@ export const Schola = () => {
         console.log(result);
     }
 
-    return (
-        <div>
+    const RenderMessageIfOfficeIsAlreadySet = () => {
+        return (
+            <div>
+                <p>Oficja zostały zapisane w bazie danych. Obecnie nie możesz wyznaczyć innych oficjów</p>
+            </div>
+        )
+    }
+
+    const ScholaPage = () => {
+        return (
+            <div>
             <h2 className="header-frame">Wyznacz scholę</h2>
             <div className="message-body">{message}</div>
             <div className="table-center">
@@ -64,5 +74,10 @@ export const Schola = () => {
                 <Button className="button-center" variant="success" onClick={handleSendCantorOffice}>Zatwierdź</Button>
             </div>
         </div>
+        )
+    }
+
+    return (
+        isOfficeAlreadySet ? <RenderMessageIfOfficeIsAlreadySet /> : <ScholaPage />
     )
 }
