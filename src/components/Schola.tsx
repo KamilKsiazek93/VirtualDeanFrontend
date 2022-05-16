@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { webAPIUrl } from "../AppSettings";
 import { SingingBrothers } from "./Brother";
-import { addScholaToDb, CantorOfficeResponse } from "./Offices";
+import { addScholaToDb, CantorOfficeResponse, isScholaAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
+import { getBaseBrothersForSchola } from "./ApiConnection";
 
 export const Schola = () => {
 
     const [brothers, setBrothers] = useState<Array<SingingBrothers> | null>(null);
     const [message, setMessage] = useState<string>()
+    const [isOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     let offices = Array<CantorOfficeResponse>();
-    const isOfficeAlreadySet = false
 
     useEffect(() => {
-        async function getSingingBrothersFromDb() {
-            const response = await fetch(`${webAPIUrl}/brothers-singing`);
-            const result : Array<SingingBrothers> = await response.json();
-            setBrothers(result);
+        const getSingingBrothersFromDb = async() => {
+            const brothers = await getBaseBrothersForSchola()
+            setBrothers(brothers);
+            const isOfficeAbleToSet = await isScholaAbleToSet()
+            setInfoAboutOfficeSet(isOfficeAbleToSet)
         }
         getSingingBrothersFromDb();
     }, []);
@@ -78,6 +80,6 @@ export const Schola = () => {
     }
 
     return (
-        isOfficeAlreadySet ? <RenderMessageIfOfficeIsAlreadySet /> : <ScholaPage />
+        isOfficeAbleToSet ? <ScholaPage /> : <RenderMessageIfOfficeIsAlreadySet /> 
     )
 }

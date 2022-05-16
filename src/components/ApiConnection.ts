@@ -1,4 +1,4 @@
-import { BaseBrother, BaseBrotherLiturgist } from "./Brother";
+import { BaseBrother, BaseBrotherLiturgist, SingingBrothers } from "./Brother";
 import { http } from "./http";
 import { IObstacleConst, IObstacleWithBrotherData } from "./Obstacle";
 
@@ -64,6 +64,16 @@ export const deleteConstObstacle = async(id:number): Promise<number | undefined>
 export const getBaseBrother = async(): Promise<BaseBrother[] | null> => {
     const result = await http<BaseBrother[]>({
         path: '/brothers-base'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((bro, index) => bro)
+    }
+    return []
+}
+
+export const getBaseBrothersForSchola = async(): Promise<SingingBrothers[] | null> => {
+    const result = await http<SingingBrothers[]>({
+        path: '/brothers-singing'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)

@@ -136,3 +136,13 @@ export const getLastTrays = async(): Promise<ILastTray[] | null> => {
     }
     return []
 }
+
+export const isScholaAbleToSet = async(): Promise<Boolean> => {
+    const result = await http<Boolean>({
+        path: '/pipeline-schola'
+    })
+    if(result.ok && result.body) {
+        return true
+    }
+    return false
+}
