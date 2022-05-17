@@ -3,6 +3,7 @@ import { SingingBrothers } from "./Brother";
 import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
 import { getBaseBrothersForSchola } from "./ApiConnection";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 
 export const Schola = () => {
 
@@ -33,15 +34,6 @@ export const Schola = () => {
     const handleSendCantorOffice = async() => {
         const result = await addScholaToDb(offices);
         setMessage(result?.message)
-        console.log(result);
-    }
-
-    const RenderMessageIfOfficeIsAlreadySet = () => {
-        return (
-            <div className="message-body">
-                <p>Oficja zostały zapisane w bazie danych. Obecnie nie możesz wyznaczyć innych oficjów</p>
-            </div>
-        )
     }
 
     const ScholaPage = () => {
@@ -79,6 +71,6 @@ export const Schola = () => {
     }
 
     return (
-        isScholaAbleToSet ? <ScholaPage /> : <RenderMessageIfOfficeIsAlreadySet /> 
+        isScholaAbleToSet ? <ScholaPage /> : <MessageIfOfficeIsAlreadySet /> 
     )
 }

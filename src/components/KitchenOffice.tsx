@@ -3,6 +3,7 @@ import { BaseBrother } from "./Brother";
 import { Table, FormCheck, Button } from "react-bootstrap";
 import { addKitchenOfficeToDB, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
@@ -50,14 +51,6 @@ export const KitchenOffice = () => {
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
-    }
-
-    const RenderMessageIfOfficeIsAlreadySet = () => {
-        return (
-            <div className="message-body">
-                <p>Oficja zostały zapisane w bazie danych. Obecnie nie możesz wyznaczyć innych oficjów</p>
-            </div>
-        )
     }
 
     const KitchenPage = () => (
@@ -112,6 +105,6 @@ export const KitchenOffice = () => {
     )
 
     return (
-        isKitchenOfficeAbleToSet ? <KitchenPage /> : <RenderMessageIfOfficeIsAlreadySet />
+        isKitchenOfficeAbleToSet ? <KitchenPage /> : <MessageIfOfficeIsAlreadySet />
     )
 }
