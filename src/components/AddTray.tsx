@@ -25,7 +25,7 @@ export const AddTray = () => {
             const lastOffice = await getLastOffice();
             setLastOffice(lastOffice)
             const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-tray')
-            setInfoAboutOfficeSet(isTrayAbleToSet)
+            setInfoAboutOfficeSet(isTrayAvailableToSet)
         }
         getData()
     }, [])
