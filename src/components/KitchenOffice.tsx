@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import { webAPIUrl } from "../AppSettings";
 import { BaseBrother } from "./Brother";
 import { Table, FormCheck, Button } from "react-bootstrap";
-import { KitchenOfficeResp } from "./Offices";
+import { isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
+import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
+    const [isKitchenOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     let offices = Array<KitchenOfficeResp>();
 
     const numberOfKitchenOfficeInSungleDay = 5;
 
     useEffect(() => {
-        async function getBrothersFromDB() {
-            let response = await fetch(`${webAPIUrl}/brothers-base`);
-            let result : Array<BaseBrother> = await response.json();
-            setBrothers(result);
+        const getBrothersFromDB = async() => {
+            const brothers = await getBaseBrothersForLiturgistOffice()
+            setBrothers(brothers)
+            const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-kitchen')
+            setInfoAboutOfficeSet(isKitchenOfficeAbleToSet)
         }
         getBrothersFromDB();
     }, [])

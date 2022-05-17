@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { webAPIUrl } from "../AppSettings";
 import { SingingBrothers } from "./Brother";
 import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
