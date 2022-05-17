@@ -2,8 +2,9 @@ import React, {useEffect, useState} from "react";
 import { Button, FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { BaseBrotherLiturgist } from "./Brother";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB } from "./Offices";
+import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB, isOfficeAbleToSet } from "./Offices";
 
 export const LiturgistOffice = () => {
 
@@ -11,6 +12,7 @@ export const LiturgistOffice = () => {
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
     const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
     const [trays, setLastTrays] = useState<Array<ILastTray> | null>();
+    const [isLiturgistOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
     const officeInMass = ["MO", "MK", "MŚ", "KR", "Tur"]
 
@@ -26,6 +28,8 @@ export const LiturgistOffice = () => {
             setLastOffice(lastOffice)
             const lastTrays = await getLastTrays();
             setLastTrays(lastTrays)
+            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('/pipeline-liturgist')
+            setInfoAboutOfficeSet(isLiturgistOfficeAvailableToSet)
         }
         getData()
     }, [])
@@ -88,10 +92,9 @@ export const LiturgistOffice = () => {
     const handleAddLiturgistOffice = async() => {
         const result = await addLiturgistOfficeTDB(offices)
         setMessage(result?.message)
-        console.log(result)
     }
 
-    return (
+    const LiturgistPage = () => (
         <div>
             <h2 className="header-frame">Wyznaczanie oficjów liturgicznych</h2>
             <div className="message-body">{message}</div>
@@ -137,5 +140,9 @@ export const LiturgistOffice = () => {
                 <Button className="button-center" variant="success" onClick={handleAddLiturgistOffice}>Dodaj oficja</Button>
             </div>
         </div>
+    )
+
+    return (
+        isLiturgistOfficeAbleToSet ? <LiturgistPage /> : <MessageIfOfficeIsAlreadySet />
     )
 }

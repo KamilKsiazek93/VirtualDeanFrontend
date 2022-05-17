@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, FormCheck } from "react-bootstrap";
 import { getBaseBrotherForTray } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { addTrayToDB, BrotherDashboardOffice, getLastOffice, ITrayHourResponse } from "./Offices";
+import { addTrayToDB, BrotherDashboardOffice, getLastOffice, isOfficeAbleToSet, ITrayHourResponse } from "./Offices";
 
 export const AddTray = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
     const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
+    const [isTrayAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
     let offices = Array<ITrayHourResponse>()
@@ -22,6 +24,8 @@ export const AddTray = () => {
             setObstacles(obstacles)
             const lastOffice = await getLastOffice();
             setLastOffice(lastOffice)
+            const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-tray')
+            setInfoAboutOfficeSet(isTrayAvailableToSet)
         }
         getData()
     }, [])
@@ -30,8 +34,6 @@ export const AddTray = () => {
     const handleSendLiturgistTray = async() => {
         const result = await addTrayToDB(offices)
         setMessage(result?.message)
-        console.log(result)
-
     }
 
     const pushObjectToArrayTray = (brotherId:number, trayHour:string) => {
@@ -66,11 +68,11 @@ export const AddTray = () => {
             return false
         }
         return true;
-        // console.log(obstaclesBetweenOffices)
     }
 
-    return (
-        <div>Wyznaczanie tacy
+    const TrayPage = () => (
+        <div>
+            <h2 className="header-frame">Wyznaczanie tacy</h2>
             <div className="message-body">{message}</div>
             <Table striped bordered hover variant="light">
                 <thead>
@@ -112,5 +114,9 @@ export const AddTray = () => {
             </Table>
             <Button onClick={handleSendLiturgistTray}>Zatwierdź</Button>
         </div>
+    )
+
+    return (
+        isTrayAbleToSet ? <TrayPage /> : <MessageIfOfficeIsAlreadySet />
     )
 }

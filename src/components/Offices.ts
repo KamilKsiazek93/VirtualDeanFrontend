@@ -79,6 +79,18 @@ export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> =
     return []
 }
 
+export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[]):Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, KitchenOfficeResp[]>({
+        path: '/tray-hour',
+        method: 'post',
+        body: data
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined;
+}
+
 export const addTrayToDB = async(data:ITrayHourResponse[]):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ITrayHourResponse[]>({
         path: '/tray-hour',
@@ -136,3 +148,15 @@ export const getLastTrays = async(): Promise<ILastTray[] | null> => {
     }
     return []
 }
+
+export const isOfficeAbleToSet = async(pipelineName:string): Promise<Boolean> => {
+    const result = await http<Boolean>({
+        path: `${pipelineName}`
+    })
+    if(result.ok && result.body) {
+        return true
+    }
+    return false
+}
+
+

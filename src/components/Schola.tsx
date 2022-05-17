@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { webAPIUrl } from "../AppSettings";
 import { SingingBrothers } from "./Brother";
-import { addScholaToDb, CantorOfficeResponse } from "./Offices";
+import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
+import { getBaseBrothersForSchola } from "./ApiConnection";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 
 export const Schola = () => {
 
     const [brothers, setBrothers] = useState<Array<SingingBrothers> | null>(null);
     const [message, setMessage] = useState<string>()
+    const [isScholaAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     let offices = Array<CantorOfficeResponse>();
 
     useEffect(() => {
-        async function getSingingBrothersFromDb() {
-            const response = await fetch(`${webAPIUrl}/brothers-singing`);
-            const result : Array<SingingBrothers> = await response.json();
-            setBrothers(result);
+        const getSingingBrothersFromDb = async() => {
+            const brothers = await getBaseBrothersForSchola()
+            setBrothers(brothers);
+            const isScholaAbleToSet = await isOfficeAbleToSet('/pipeline-cantor')
+            setInfoAboutOfficeSet(isScholaAbleToSet)
         }
         getSingingBrothersFromDb();
     }, []);
@@ -31,11 +34,11 @@ export const Schola = () => {
     const handleSendCantorOffice = async() => {
         const result = await addScholaToDb(offices);
         setMessage(result?.message)
-        console.log(result);
     }
 
-    return (
-        <div>
+    const ScholaPage = () => {
+        return (
+            <div>
             <h2 className="header-frame">Wyznacz scholę</h2>
             <div className="message-body">{message}</div>
             <div className="table-center">
@@ -64,5 +67,10 @@ export const Schola = () => {
                 <Button className="button-center" variant="success" onClick={handleSendCantorOffice}>Zatwierdź</Button>
             </div>
         </div>
+        )
+    }
+
+    return (
+        isScholaAbleToSet ? <ScholaPage /> : <MessageIfOfficeIsAlreadySet /> 
     )
 }

@@ -1,39 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { webAPIUrl } from "../AppSettings";
 import { BaseBrother } from "./Brother";
 import { Table, FormCheck, Button } from "react-bootstrap";
-import { KitchenOfficeResp } from "./Offices";
+import { addKitchenOfficeToDB, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
+import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
+    const [message, setMessage] = useState<string>()
+    const [isKitchenOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     let offices = Array<KitchenOfficeResp>();
 
     const numberOfKitchenOfficeInSungleDay = 5;
 
     useEffect(() => {
-        async function getBrothersFromDB() {
-            let response = await fetch(`${webAPIUrl}/brothers-base`);
-            let result : Array<BaseBrother> = await response.json();
-            setBrothers(result);
+        const getBrothersFromDB = async() => {
+            const brothers = await getBaseBrothersForLiturgistOffice()
+            setBrothers(brothers)
+            const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-kitchen')
+            setInfoAboutOfficeSet(isKitchenOfficeAbleToSet)
         }
         getBrothersFromDB();
     }, [])
 
-    const handleSendOffice = () => {
-        fetch(`${webAPIUrl}/kitchen-offices`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-              },
-            body: JSON.stringify(offices)
-        })
-        .then(response => response.json())
-        .then(data => {
-        console.log('Success:', data);
-        })
-        .catch((error) => {
-        console.error('Error:', error);
-        });
+    const handleSendOffice = async() => {
+        const result = await addKitchenOfficeToDB(offices)
+        setMessage(result?.message)
     }
 
     const addOfficeToArray = (brotherId:number, officeName:string, day:string) => {
@@ -53,21 +45,18 @@ export const KitchenOffice = () => {
     }
 
     const handleSetKitchenOffice = (brotherId:number, day:string, officeName:string) => {
-       
-        
         const objectExist = findingObjectInKitchenArray(brotherId, day, officeName)
         if(!objectExist?.brotherId) {
             addOfficeToArray(brotherId, officeName, day)
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
-        console.log(offices)
     }
-    //console.log(offices)
 
-    return (
+    const KitchenPage = () => (
         <div>
             <h1>Oficja kuchenne</h1>
+            <div className="message-body">{message}</div>
             <Table striped bordered hover variant="light">
                 <thead>
                     <tr>
@@ -113,5 +102,9 @@ export const KitchenOffice = () => {
             </Table>
             <Button onClick={handleSendOffice}>Zatwierdź</Button>
         </div>
+    )
+
+    return (
+        isKitchenOfficeAbleToSet ? <KitchenPage /> : <MessageIfOfficeIsAlreadySet />
     )
 }
