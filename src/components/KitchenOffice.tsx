@@ -44,19 +44,23 @@ export const KitchenOffice = () => {
     }
 
     const handleSetKitchenOffice = (brotherId:number, day:string, officeName:string) => {
-       
-        
         const objectExist = findingObjectInKitchenArray(brotherId, day, officeName)
         if(!objectExist?.brotherId) {
             addOfficeToArray(brotherId, officeName, day)
         } else {
             offices = offices.filter(office => office !== objectExist)
         }
-        console.log(offices)
     }
-    //console.log(offices)
 
-    return (
+    const RenderMessageIfOfficeIsAlreadySet = () => {
+        return (
+            <div className="message-body">
+                <p>Oficja zostały zapisane w bazie danych. Obecnie nie możesz wyznaczyć innych oficjów</p>
+            </div>
+        )
+    }
+
+    const KitchenPage = () => (
         <div>
             <h1>Oficja kuchenne</h1>
             <div className="message-body">{message}</div>
@@ -105,5 +109,9 @@ export const KitchenOffice = () => {
             </Table>
             <Button onClick={handleSendOffice}>Zatwierdź</Button>
         </div>
+    )
+
+    return (
+        isKitchenOfficeAbleToSet ? <KitchenPage /> : <RenderMessageIfOfficeIsAlreadySet />
     )
 }
