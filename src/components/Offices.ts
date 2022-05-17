@@ -69,6 +69,16 @@ export const getLastOfficeForBrother = async(brotherId:number): Promise<BrotherD
     return undefined
 }
 
+export const getPreviousOfficeForBrother = async(brotherId:number): Promise<BrotherDashboardOffice | undefined> => {
+    const result = await http<BrotherDashboardOffice>({
+        path: `/office-previous/${brotherId}`
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
+}
+
 export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> => {
     const result = await http<BrotherDashboardOffice[]>({
         path: '/office-last'
