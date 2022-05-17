@@ -79,6 +79,18 @@ export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> =
     return []
 }
 
+export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[]):Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, KitchenOfficeResp[]>({
+        path: '/tray-hour',
+        method: 'post',
+        body: data
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined;
+}
+
 export const addTrayToDB = async(data:ITrayHourResponse[]):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ITrayHourResponse[]>({
         path: '/tray-hour',
