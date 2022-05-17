@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { FormCheck, Table, Button } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { BaseBrotherLiturgist } from './Brother'
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { addDeanOfficeTDB, IDeanOfficeResponse } from "./Offices";
+import { addDeanOfficeTDB, IDeanOfficeResponse, isOfficeAbleToSet } from "./Offices";
 
 export const DeanOffice = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrotherLiturgist> | null>()
     const [obstaclesFromBrother, setObstacleFromBrother] = useState<Array<IObstacleFromBrothers> | null>()
     const [obstaclesBetweenOffices, setObstaclesBetweenOffices] = useState<Array<ObstacleBetweenOffice> | null>()
+    const [isDeanOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
     let offices = Array<IDeanOfficeResponse>()
@@ -22,9 +24,9 @@ export const DeanOffice = () => {
             setObstacleFromBrother(obstaclesFromBrothers)
             const obstaclesBetweenOffices = await getObstacleBetweenOffices()
             setObstaclesBetweenOffices(obstaclesBetweenOffices)
+            const isDeanOfficeAbleToSet = await isOfficeAbleToSet('pipeline-dean')
+            setInfoAboutOfficeSet(isDeanOfficeAbleToSet)
         }
-        console.log(obstaclesFromBrother)
-        console.log(obstaclesBetweenOffices)
         getData()
     }, [])
 
@@ -66,10 +68,9 @@ export const DeanOffice = () => {
     const handleAddDeanOffice = async() => {
         const result = await addDeanOfficeTDB(offices)
         setMessage(result?.message)
-        console.log(result)
     }
 
-    return (
+    const DeanPage = () => (
         <div>
             <h2 className="header-frame">Wyznaczanie oficjów dziekańskich</h2>
             <div className="message-body">{message}</div>
@@ -101,5 +102,9 @@ export const DeanOffice = () => {
                 <Button className="button-center" variant="success" onClick={handleAddDeanOffice}>Dodaj oficja</Button>
             </div>
         </div>
+    )
+
+    return (
+        isDeanOfficeAbleToSet ? <DeanPage /> : <MessageIfOfficeIsAlreadySet />
     )
 }
