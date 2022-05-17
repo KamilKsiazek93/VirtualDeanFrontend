@@ -137,12 +137,14 @@ export const getLastTrays = async(): Promise<ILastTray[] | null> => {
     return []
 }
 
-export const isScholaAbleToSet = async(): Promise<Boolean> => {
+export const isOfficeAbleToSet = async(pipelineName:string): Promise<Boolean> => {
     const result = await http<Boolean>({
-        path: '/pipeline-cantor'
+        path: `${pipelineName}`
     })
     if(result.ok && result.body) {
         return true
     }
     return false
 }
+
+

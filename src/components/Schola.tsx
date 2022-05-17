@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { webAPIUrl } from "../AppSettings";
 import { SingingBrothers } from "./Brother";
-import { addScholaToDb, CantorOfficeResponse, isScholaAbleToSet } from "./Offices";
+import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
 import { getBaseBrothersForSchola } from "./ApiConnection";
 
@@ -9,15 +9,15 @@ export const Schola = () => {
 
     const [brothers, setBrothers] = useState<Array<SingingBrothers> | null>(null);
     const [message, setMessage] = useState<string>()
-    const [isOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
+    const [isScholaAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     let offices = Array<CantorOfficeResponse>();
 
     useEffect(() => {
         const getSingingBrothersFromDb = async() => {
             const brothers = await getBaseBrothersForSchola()
             setBrothers(brothers);
-            const isOfficeAbleToSet = await isScholaAbleToSet()
-            setInfoAboutOfficeSet(isOfficeAbleToSet)
+            const isScholaAbleToSet = await isOfficeAbleToSet('/pipeline-cantor')
+            setInfoAboutOfficeSet(isScholaAbleToSet)
         }
         getSingingBrothersFromDb();
     }, []);
@@ -80,6 +80,6 @@ export const Schola = () => {
     }
 
     return (
-        isOfficeAbleToSet ? <ScholaPage /> : <RenderMessageIfOfficeIsAlreadySet /> 
+        isScholaAbleToSet ? <ScholaPage /> : <RenderMessageIfOfficeIsAlreadySet /> 
     )
 }
