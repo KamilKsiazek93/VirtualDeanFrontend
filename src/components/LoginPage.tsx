@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +56,8 @@ export const LoginPage = () => {
         }
     }
 
-    const submitLogin = async() => {
+    const submitLogin = async(event:React.FormEvent) => {
+        event.preventDefault()
         const data = {email, password}
         const result = await loginAction(data);
         
@@ -67,12 +68,12 @@ export const LoginPage = () => {
         <div>
             <div id="loginInformation">{loginInformation}</div>
             <div className="form-frame">
-                <Form>
+                <Form onSubmit={submitLogin}>
                     <Form.Group>
                         <Form.Control type="text" onChange={(e) => handleEmail(e.target.value)} placeholder="Email" id="name" value={email}/>
                         <br />
                         <Form.Control type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
-                        <Button variant="success" onClick={submitLogin}>Zaloguj się!</Button>
+                        <Button type="submit" variant="success">Zaloguj się!</Button>
                     </Form.Group>
                 </Form>
             </div>
