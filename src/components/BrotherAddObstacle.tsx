@@ -9,6 +9,8 @@ export const BrotherAddObstacle = () => {
     const [brother, setBrother] = useState<BaseBrother>()
     const [message, setMessage] = useState<string>()
 
+    const brotherLocalStorage = getBrotherFromLocalStorage()
+    const jwtToken = brotherLocalStorage.jwtToken;
     let obstacles = Array<IBrothersObstacle>();
 
     useEffect(() => {
@@ -33,7 +35,7 @@ export const BrotherAddObstacle = () => {
     }
 
     const sendObstacleToDB = async() => {
-        const result = await sendBrotherObstacleToDB(obstacles)
+        const result = await sendBrotherObstacleToDB(obstacles, jwtToken)
         setMessage(result?.message)
     }
 

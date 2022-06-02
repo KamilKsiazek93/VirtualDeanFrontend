@@ -3,7 +3,7 @@ import { Navigate  } from "react-router-dom";
 import { BaseBrother } from "../components/Brother";
 
 export const CantorRoute = ({children}:any) => {
-    let userLocalStorage:BaseBrother = {id: 0, name: "", surname: "" , statusBrother: ""};
+    let userLocalStorage:BaseBrother = {id: 0, name: "", surname: "" , statusBrother: "", jwtToken: ""};
     const storage = window.localStorage;
 
     if(storage.length > 0) {

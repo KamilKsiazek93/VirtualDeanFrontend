@@ -16,6 +16,7 @@ export interface BaseBrother {
     name: string;
     surname: string;
     statusBrother: string;
+    jwtToken: string;
 }
 
 export interface BaseBrotherLiturgist extends BaseBrother {
