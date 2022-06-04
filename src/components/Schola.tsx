@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SingingBrothers } from "./Brother";
+import { getBrotherFromLocalStorage, SingingBrothers } from "./Brother";
 import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
 import { getBaseBrothersForSchola } from "./ApiConnection";
@@ -10,6 +10,9 @@ export const Schola = () => {
     const [brothers, setBrothers] = useState<Array<SingingBrothers> | null>(null);
     const [message, setMessage] = useState<string>()
     const [isScholaAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
+
+    const brotherLocalStorage = getBrotherFromLocalStorage()
+    const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<CantorOfficeResponse>();
 
     useEffect(() => {
@@ -32,7 +35,7 @@ export const Schola = () => {
     }
 
     const handleSendCantorOffice = async() => {
-        const result = await addScholaToDb(offices);
+        const result = await addScholaToDb(offices, jwtToken);
         setMessage(result?.message)
     }
 

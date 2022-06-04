@@ -22,18 +22,6 @@ export interface BrotherDashboardOffice {
     communion: Array<string>
 }
 
-export const addScholaToDb = async(data:CantorOfficeResponse[]):Promise<MessageBody | undefined> => {
-    const result = await http<MessageBody, CantorOfficeResponse[]>({
-        path: '/office-singing',
-        method: 'post',
-        body: data
-    })
-    if(result.ok && result.body) {
-        return result.body;
-    }
-    return undefined;
-}
-
 export interface ITrayHourResponse {
     brotherId: number;
     trayHour: string;
@@ -57,6 +45,19 @@ export interface IDeanOfficeResponse {
 export interface ILastTray {
     idBrother: number;
     brothersTrays: Array<string>;
+}
+
+export const addScholaToDb = async(data:CantorOfficeResponse[], accessToken:string):Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, CantorOfficeResponse[]>({
+        path: '/office-singing',
+        method: 'post',
+        body: data,
+        accessToken
+    })
+    if(result.ok && result.body) {
+        return result.body;
+    }
+    return undefined;
 }
 
 export const getLastOfficeForBrother = async(brotherId:number): Promise<BrotherDashboardOffice | undefined> => {
