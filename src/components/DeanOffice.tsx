@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormCheck, Table, Button } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
-import { BaseBrotherLiturgist } from './Brother'
+import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from './Brother'
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
 import { addDeanOfficeTDB, IDeanOfficeResponse, isOfficeAbleToSet } from "./Offices";
@@ -14,6 +14,8 @@ export const DeanOffice = () => {
     const [isDeanOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
+    const brotherLocalStorage = getBrotherFromLocalStorage()
+    const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<IDeanOfficeResponse>()
 
     useEffect(() => {
@@ -66,7 +68,7 @@ export const DeanOffice = () => {
     }
 
     const handleAddDeanOffice = async() => {
-        const result = await addDeanOfficeTDB(offices)
+        const result = await addDeanOfficeTDB(offices, jwtToken)
         setMessage(result?.message)
     }
 

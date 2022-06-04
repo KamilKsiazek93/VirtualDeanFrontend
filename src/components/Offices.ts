@@ -90,11 +90,12 @@ export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> =
     return []
 }
 
-export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[]):Promise<MessageBody | undefined> => {
+export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, KitchenOfficeResp[]>({
         path: '/tray-hour',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body
@@ -138,11 +139,12 @@ export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[]):Prom
     return undefined
 }
 
-export const addDeanOfficeTDB = async(data:IDeanOfficeResponse[]):Promise<MessageBody | undefined> => {
+export const addDeanOfficeTDB = async(data:IDeanOfficeResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IDeanOfficeResponse[]>({
         path: '/office-dean',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body

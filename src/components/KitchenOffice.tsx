@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BaseBrother } from "./Brother";
+import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
 import { Table, FormCheck, Button } from "react-bootstrap";
 import { addKitchenOfficeToDB, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
@@ -9,6 +9,9 @@ export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
     const [message, setMessage] = useState<string>()
     const [isKitchenOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
+
+    const brotherLocalStorage = getBrotherFromLocalStorage()
+    const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<KitchenOfficeResp>();
 
     const numberOfKitchenOfficeInSungleDay = 5;
@@ -24,7 +27,7 @@ export const KitchenOffice = () => {
     }, [])
 
     const handleSendOffice = async() => {
-        const result = await addKitchenOfficeToDB(offices)
+        const result = await addKitchenOfficeToDB(offices, jwtToken)
         setMessage(result?.message)
     }
 
