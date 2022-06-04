@@ -75,7 +75,8 @@ export const AddCommunion = () => {
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>8.00</th>
-                        <th>9.00</th>                        <th>12.00</th>
+                        <th>9.00</th>                        
+                        <th>12.00</th>
                         <th>13.30</th>
                         <th>15.30</th>
                         <th>17.00</th>
