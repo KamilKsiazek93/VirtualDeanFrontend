@@ -26,7 +26,7 @@ export const LoginPage = () => {
     const redirectActionAfterLogin = (brother:BaseBrother | undefined) => {
 
         const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? ""
-        , surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? ""}
+        , surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? "", jwtToken: brother?.jwtToken ?? "" }
         
         if(brotherState.id > 0) {
             storage.setItem('user', JSON.stringify(brotherState));

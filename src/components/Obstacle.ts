@@ -36,11 +36,12 @@ export interface MessageBody {
     message: string
 }
 
-export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[]): Promise<MessageBody | undefined> => {
+export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[], jwtToken:string): Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IBrothersObstacle[]>({
         path: '/obstacles',
         method: 'post',
-        body: data
+        body: data,
+        accessToken: jwtToken
     });
     if(result.ok && result.body) {
         return result.body

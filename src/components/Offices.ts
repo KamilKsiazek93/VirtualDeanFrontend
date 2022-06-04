@@ -22,18 +22,6 @@ export interface BrotherDashboardOffice {
     communion: Array<string>
 }
 
-export const addScholaToDb = async(data:CantorOfficeResponse[]):Promise<MessageBody | undefined> => {
-    const result = await http<MessageBody, CantorOfficeResponse[]>({
-        path: '/office-singing',
-        method: 'post',
-        body: data
-    })
-    if(result.ok && result.body) {
-        return result.body;
-    }
-    return undefined;
-}
-
 export interface ITrayHourResponse {
     brotherId: number;
     trayHour: string;
@@ -57,6 +45,19 @@ export interface IDeanOfficeResponse {
 export interface ILastTray {
     idBrother: number;
     brothersTrays: Array<string>;
+}
+
+export const addScholaToDb = async(data:CantorOfficeResponse[], accessToken:string):Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, CantorOfficeResponse[]>({
+        path: '/office-singing',
+        method: 'post',
+        body: data,
+        accessToken
+    })
+    if(result.ok && result.body) {
+        return result.body;
+    }
+    return undefined;
 }
 
 export const getLastOfficeForBrother = async(brotherId:number): Promise<BrotherDashboardOffice | undefined> => {
@@ -89,11 +90,12 @@ export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> =
     return []
 }
 
-export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[]):Promise<MessageBody | undefined> => {
+export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, KitchenOfficeResp[]>({
         path: '/tray-hour',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body
@@ -101,11 +103,12 @@ export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[]):Promise<Mess
     return undefined;
 }
 
-export const addTrayToDB = async(data:ITrayHourResponse[]):Promise<MessageBody | undefined> => {
+export const addTrayToDB = async(data:ITrayHourResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ITrayHourResponse[]>({
         path: '/tray-hour',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body
@@ -125,11 +128,12 @@ export const addCommunionToDB = async(data:ICommunionHourResponse[]):Promise<Mes
     return undefined;
 }
 
-export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[]):Promise<MessageBody | undefined> => {
+export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IOfficeLiturgistResponse[]>({
         path: '/office-liturgist',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body
@@ -137,11 +141,12 @@ export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[]):Prom
     return undefined
 }
 
-export const addDeanOfficeTDB = async(data:IDeanOfficeResponse[]):Promise<MessageBody | undefined> => {
+export const addDeanOfficeTDB = async(data:IDeanOfficeResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IDeanOfficeResponse[]>({
         path: '/office-dean',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body

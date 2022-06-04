@@ -18,10 +18,13 @@ export const http = async<RESB, REQB = undefined>(
     const request = new Request(`${webAPIUrl}${config.path}`, {
         method: config.method ?? 'get',
         headers: {
-            'Content-Type': 'application/json', 
+            'Content-Type': 'application/json',
         },
         body: config.body ? JSON.stringify(config.body) : undefined,
     });
+    if (config.accessToken) {
+        request.headers.set('authorization', `bearer ${config.accessToken}`);
+    }
 
     const response = await fetch(request);
     if(response.ok) {
