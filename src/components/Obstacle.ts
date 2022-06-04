@@ -33,7 +33,7 @@ export interface IBrothersObstacle {
 }
 
 export interface MessageBody {
-    message: string
+    message: string;
 }
 
 export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[], jwtToken:string): Promise<MessageBody | undefined> => {
