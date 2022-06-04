@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, FormCheck } from "react-bootstrap";
 import { getBaseBrotherForTray } from "./ApiConnection";
-import { BaseBrother } from "./Brother";
+import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
 import { addTrayToDB, BrotherDashboardOffice, getLastOffice, isOfficeAbleToSet, ITrayHourResponse } from "./Offices";
@@ -14,6 +14,8 @@ export const AddTray = () => {
     const [isTrayAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
+    const brotherLocalStorage = getBrotherFromLocalStorage()
+    const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<ITrayHourResponse>()
 
     useEffect(() => {
@@ -32,7 +34,7 @@ export const AddTray = () => {
 
 
     const handleSendLiturgistTray = async() => {
-        const result = await addTrayToDB(offices)
+        const result = await addTrayToDB(offices, jwtToken)
         setMessage(result?.message)
     }
 

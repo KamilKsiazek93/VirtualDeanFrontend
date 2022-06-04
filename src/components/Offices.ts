@@ -103,11 +103,12 @@ export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[], accessToken:
     return undefined;
 }
 
-export const addTrayToDB = async(data:ITrayHourResponse[]):Promise<MessageBody | undefined> => {
+export const addTrayToDB = async(data:ITrayHourResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ITrayHourResponse[]>({
         path: '/tray-hour',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body
@@ -127,11 +128,12 @@ export const addCommunionToDB = async(data:ICommunionHourResponse[]):Promise<Mes
     return undefined;
 }
 
-export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[]):Promise<MessageBody | undefined> => {
+export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IOfficeLiturgistResponse[]>({
         path: '/office-liturgist',
         method: 'post',
-        body: data
+        body: data,
+        accessToken
     })
     if(result.ok && result.body) {
         return result.body

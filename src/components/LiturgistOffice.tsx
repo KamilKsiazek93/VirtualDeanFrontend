@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Button, FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
-import { BaseBrotherLiturgist } from "./Brother";
+import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from "./Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
 import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB, isOfficeAbleToSet } from "./Offices";
@@ -16,6 +16,8 @@ export const LiturgistOffice = () => {
     const [message, setMessage] = useState<string>()
     const officeInMass = ["MO", "MK", "MŚ", "KR", "Tur"]
 
+    const brotherLocalStorage = getBrotherFromLocalStorage()
+    const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<IOfficeLiturgistResponse>()
 
     useEffect(() => {
@@ -90,7 +92,7 @@ export const LiturgistOffice = () => {
     }
 
     const handleAddLiturgistOffice = async() => {
-        const result = await addLiturgistOfficeTDB(offices)
+        const result = await addLiturgistOfficeTDB(offices, jwtToken)
         setMessage(result?.message)
     }
 
