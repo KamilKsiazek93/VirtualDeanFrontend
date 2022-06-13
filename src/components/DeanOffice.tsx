@@ -26,7 +26,7 @@ export const DeanOffice = () => {
             setObstacleFromBrother(obstaclesFromBrothers)
             const obstaclesBetweenOffices = await getObstacleBetweenOffices()
             setObstaclesBetweenOffices(obstaclesBetweenOffices)
-            const isDeanOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-dean')
+            const isDeanOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-status/DEAN')
             setInfoAboutOfficeSet(isDeanOfficeAbleToSet)
         }
         getData()
