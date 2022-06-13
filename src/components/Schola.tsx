@@ -19,7 +19,7 @@ export const Schola = () => {
         const getSingingBrothersFromDb = async() => {
             const brothers = await getBaseBrothersForSchola()
             setBrothers(brothers);
-            const isScholaAbleToSet = await isOfficeAbleToSet('/pipeline-cantor')
+            const isScholaAbleToSet = await isOfficeAbleToSet('/pipeline-status/CANTOR')
             setInfoAboutOfficeSet(isScholaAbleToSet)
         }
         getSingingBrothersFromDb();

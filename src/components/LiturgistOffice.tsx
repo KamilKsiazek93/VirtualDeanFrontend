@@ -30,7 +30,7 @@ export const LiturgistOffice = () => {
             setLastOffice(lastOffice)
             const lastTrays = await getLastTrays();
             setLastTrays(lastTrays)
-            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('/pipeline-liturgist')
+            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('/pipeline-status/LITURGIST')
             setInfoAboutOfficeSet(isLiturgistOfficeAvailableToSet)
         }
         getData()
