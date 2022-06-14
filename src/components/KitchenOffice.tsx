@@ -20,7 +20,7 @@ export const KitchenOffice = () => {
         const getBrothersFromDB = async() => {
             const brothers = await getBaseBrothersForLiturgistOffice()
             setBrothers(brothers)
-            const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-kitchen')
+            const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-status/KITCHEN')
             setInfoAboutOfficeSet(isKitchenOfficeAbleToSet)
         }
         getBrothersFromDB();
