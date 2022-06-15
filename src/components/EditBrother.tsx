@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import { webAPIUrl } from "../AppSettings";
-import {AddingBrother} from "./Brother";
+import {EditingBrother} from "./Brother";
 
 export const EditBrothers = () => {
 
-    const [brothers, setBrothers] = useState<Array<AddingBrother | null>>();
+    const [brothers, setBrothers] = useState<Array<EditingBrother | null>>();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -57,7 +57,7 @@ export const EditBrothers = () => {
     useEffect(() => {
         async function getBrothersFromDB() {
             let response = await fetch(`${webAPIUrl}/brothers`);
-            let result : Array<AddingBrother> = await response.json();
+            let result : Array<EditingBrother> = await response.json();
             setBrothers(result);
         }
         getBrothersFromDB()
@@ -71,7 +71,7 @@ export const EditBrothers = () => {
     }
 
     const handleEditBrother = () => {
-        const data : AddingBrother = {
+        const data : EditingBrother = {
             id : idEditing,
             name: nameEditing,
             surname : surnameEditing,
