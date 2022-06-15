@@ -7,6 +7,7 @@ export const AddBrotherForm = () => {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [precedency, setPrecedency] = useState("");
+    const [email, setEmail] = useState("");
     const [singing, setSinging] = useState(false);
     const [lector, setLector] = useState(false);
     const [acolit, setAcolit] = useState(false);
@@ -23,6 +24,10 @@ export const AddBrotherForm = () => {
 
     const changePrecedency = ({target} : any) => {
         setPrecedency(target.value)
+    }
+
+    const changeEmail = ({target} : any) => {
+        setEmail(target.value)
     }
 
     const changeSinging = ({target} : any) => {
@@ -45,6 +50,7 @@ export const AddBrotherForm = () => {
         setName("")
         setSurname("")
         setPrecedency("")
+        setEmail("")
         setSinging(false)
         setLector(false)
         setAcolit(false)
@@ -61,6 +67,7 @@ export const AddBrotherForm = () => {
             name: name,
             surname : surname,
             precedency: precedency,
+            email: email,
             isSinging: singing,
             isLector: lector,
             isAcolit: acolit,
@@ -95,6 +102,8 @@ export const AddBrotherForm = () => {
                     <Form.Control type="text" placeholder="Imie" id="name" onChange={changeName} value={name} />
                     <br />
                     <Form.Control type="text" placeholder="Nazwisko" id="lastname" onChange={changeSurname} value={surname} />
+                    <br />
+                    <Form.Control type="text" placeholder="Email" id="email" onChange={changeEmail} value={email} />
                     <br />
                     <Form.Control type="date" placeholder="Precedencja" id="precedency" onChange={changePrecedency} value={precedency}/>
                     <br />
