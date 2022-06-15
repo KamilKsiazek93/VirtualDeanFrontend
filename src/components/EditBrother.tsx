@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import { webAPIUrl } from "../AppSettings";
-import {EditingBrother} from "./Brother";
+import { AddingBrother } from "./Brother";
 
 export const EditBrothers = () => {
 
-    const [brothers, setBrothers] = useState<Array<EditingBrother | null>>();
+    const [brothers, setBrothers] = useState<Array<AddingBrother | null>>();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -20,6 +20,7 @@ export const EditBrothers = () => {
     const [nameEditing, setEditingName] = useState("");
     const [surnameEditing, setEditingSurname] = useState("");
     const [precedencyEditing, setEditingPrecedency] = useState("");
+    const [emailEditing, setEditingEmail] = useState("");
     const [singingEditing, setEditingSinging] = useState(false);
     const [lectorEditing, setEditingLector] = useState(false);
     const [acolitEditing, setEditingAcolit] = useState(false);
@@ -32,6 +33,10 @@ export const EditBrothers = () => {
 
     const changeSurnameEditing = ({target} : any) => {
         setEditingSurname(target.value)
+    }
+
+    const changeEditingEmail = ({target} : any) => {
+        setEditingEmail(target.value)
     }
 
     const changePrecedencyEditing = ({target} : any) => {
@@ -57,7 +62,7 @@ export const EditBrothers = () => {
     useEffect(() => {
         async function getBrothersFromDB() {
             let response = await fetch(`${webAPIUrl}/brothers`);
-            let result : Array<EditingBrother> = await response.json();
+            let result : Array<AddingBrother> = await response.json();
             setBrothers(result);
         }
         getBrothersFromDB()
@@ -71,10 +76,11 @@ export const EditBrothers = () => {
     }
 
     const handleEditBrother = () => {
-        const data : EditingBrother = {
+        const data : AddingBrother = {
             id : idEditing,
             name: nameEditing,
             surname : surnameEditing,
+            email: emailEditing,
             precedency: precedencyEditing,
             isSinging: singingEditing,
             isLector: lectorEditing,
@@ -124,6 +130,7 @@ export const EditBrothers = () => {
         let brotherForEdit = brothers?.find((bro) => bro?.id === id)
         setEditingName(brotherForEdit?.name ?? "")
         setEditingSurname(brotherForEdit?.surname ?? "")
+        setEditingEmail(brotherForEdit?.email ?? "")
         setEditingPrecedency((brotherForEdit?.precedency)?.substring(0, 10) ?? "")
         setEditingSinging(brotherForEdit?.isSinging ?? false)
         setEditingLector(brotherForEdit?.isLector ?? false)
@@ -175,6 +182,8 @@ export const EditBrothers = () => {
                             <Form.Control type="text" placeholder="Nazwisko" id="lastname" onChange={changeSurnameEditing} value={surnameEditing} />
                             <br />
                             <Form.Control type="date" placeholder="Precedencja" id="precedency" onChange={changePrecedencyEditing} value={precedencyEditing}/>
+                            <br />
+                            <Form.Control type="text" placeholder="Email" id="email" onChange={changeEditingEmail} value={emailEditing} />
                             <br />
                             <Form.Check label="Schola" type="checkbox" id="singing" onChange={changeSingingEditing} checked={singingEditing} />
                             <Form.Check label="Lektor" type="checkbox" id="lector" onChange={changeLectorEditing} checked={lectorEditing}/>
