@@ -16,11 +16,14 @@ export interface EditingBrother {
     id: number;
     name: string;
     surname: string;
+    email: string;
+    passwordHash: string;
     precedency: string;
     isSinging: boolean;
     isLector: boolean;
     isAcolit: boolean;
     isDiacon: boolean;
+    statusBrother: string;
 }
 
 
@@ -64,12 +67,12 @@ export const getBrotherFromLocalStorage = ():BaseBrother => {
     return JSON.parse(storage.getItem('user') || "");
 }
 
-export const loginAction = async(brother:LoginData): Promise<BaseBrother | undefined> => {
-    const result = await http<BaseBrother, LoginData>({
+export const loginAction = async(brother:LoginData): Promise<BaseBrother | null> => {
+    const result = await http<BaseBrother>({
         path: `/brother-login?email=${brother.email}&password=${brother.password}`
     });
     if(result.ok && result.body) {
         return result.body
     }
-    return undefined
+    return null
 }
