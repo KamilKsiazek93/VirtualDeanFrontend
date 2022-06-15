@@ -16,11 +16,14 @@ export interface EditingBrother {
     id: number;
     name: string;
     surname: string;
+    email: string;
+    passwordHash: string;
     precedency: string;
     isSinging: boolean;
     isLector: boolean;
     isAcolit: boolean;
     isDiacon: boolean;
+    statusBrother: string;
 }
 
 
