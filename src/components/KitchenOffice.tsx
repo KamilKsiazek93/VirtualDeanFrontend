@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
 import { Table, FormCheck, Button } from "react-bootstrap";
-import { addKitchenOfficeToDB, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
+import { addKitchenOfficeToDB, getOfficeNames, IOfficeNames, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 
 export const KitchenOffice = () => {
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>(null);
     const [message, setMessage] = useState<string>()
+    const [officeNames, setOfficeNames] = useState<Array<IOfficeNames> | null>()
     const [isKitchenOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
+    const [numberOfKitchenOfficeInSingleDay, setNumberOfKitchenOffice] = useState<number>();
+    const [loading, setLoading] = useState<Boolean>(true)
 
     const brotherLocalStorage = getBrotherFromLocalStorage()
     const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<KitchenOfficeResp>();
 
-    const numberOfKitchenOfficeInSungleDay = 5;
-
     useEffect(() => {
         const getBrothersFromDB = async() => {
             const brothers = await getBaseBrothersForLiturgistOffice()
             setBrothers(brothers)
+            const officesNames = await getOfficeNames('KITCHEN')
+            setOfficeNames(officesNames)
+            setNumberOfKitchenOffice(officeNames?.length ?? 5)
             const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-status/KITCHEN')
             setInfoAboutOfficeSet(isKitchenOfficeAbleToSet)
         }
         getBrothersFromDB();
     }, [])
+
 
     const handleSendOffice = async() => {
         const result = await addKitchenOfficeToDB(offices, jwtToken)
@@ -64,8 +69,8 @@ export const KitchenOffice = () => {
                 <thead>
                     <tr>
                         <th colSpan={3}></th>
-                        <th colSpan={numberOfKitchenOfficeInSungleDay}>Sobota</th>
-                        <th colSpan={numberOfKitchenOfficeInSungleDay}>Niedziela</th>
+                        <th colSpan={numberOfKitchenOfficeInSingleDay}>Sobota</th>
+                        <th colSpan={numberOfKitchenOfficeInSingleDay}>Niedziela</th>
                     </tr>
                     <tr>
                         <th>Lp</th>
