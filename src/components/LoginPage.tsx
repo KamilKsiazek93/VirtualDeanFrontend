@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/auth";
-import { BaseBrother, loginAction } from "./Brother";
+import { BaseBrother, loginAction, LoginData } from "./Brother";
 
 export const LoginPage = () => {
 
@@ -23,7 +23,7 @@ export const LoginPage = () => {
         setPassword(password)
     }
 
-    const redirectActionAfterLogin = (brother:BaseBrother | undefined) => {
+    const redirectActionAfterLogin = (brother:BaseBrother | null) => {
 
         const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? ""
         , surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? "", jwtToken: brother?.jwtToken ?? "" }
@@ -58,9 +58,8 @@ export const LoginPage = () => {
 
     const submitLogin = async(event:React.FormEvent) => {
         event.preventDefault()
-        const data = {email, password}
+        const data:LoginData = {email, password}
         const result = await loginAction(data);
-        
         redirectActionAfterLogin(result)
     }
 
