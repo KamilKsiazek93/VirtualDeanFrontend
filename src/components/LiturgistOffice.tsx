@@ -90,21 +90,21 @@ export const LiturgistOffice = () => {
         const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === officeName)).length ?? 0
         const isOfficeOnMass = checkIsOfficeOnMass(officeName)
         if(isObstacled > 0) {
-            console.log('Nie może wziąć tego oficjum bo zgłosił przeszkodę')
+            setMessage('Nie może wziąć tego oficjum bo zgłosił przeszkodę')
             return false
         }
         const isSinging = lastOffice?.find(item => item.brotherId === brotherId && item.cantorOffice !== null)
         if(isSinging && isOfficeOnMass) {
-            console.log('Nie może wziąć tego oficjum bo śpiewa w scholi')
+            setMessage('Nie może wziąć tego oficjum bo śpiewa w scholi')
             return false
         }
-        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("T10"));
+        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("10.30"));
         if(hasTrayOnConventualMass && isOfficeOnMass) {
-            console.log('Nie może wziąć tego oficjum bo ma tacę  10')
+            setMessage('Nie może wziąć tego oficjum bo ma tacę o 10.30')
             return false
         }
         if((officeName === "MO" || officeName === "MK") && brothers?.find(bro => bro.id === brotherId && bro.isAcolit === false)) {
-            console.log('Nie może wziąć, bo nie jest akolitą')
+            setMessage('Nie może wziąć, bo nie jest akolitą')
             return false
         }
         
