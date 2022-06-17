@@ -189,3 +189,13 @@ export const getOfficeNames = async(pathName:string): Promise<IOfficeNames[] | n
     }
     return []
 }
+
+export const getHoursForTray = async(): Promise<string[] | null> => {
+    const result = await http<string[]>({
+        path: '/hours-tray'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((name, index) => name)
+    }
+    return []
+}
