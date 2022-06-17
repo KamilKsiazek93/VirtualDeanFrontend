@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Table, FormCheck, Button } from "react-bootstrap";
 import { getBrothersForCommunion } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
+import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { addCommunionToDB, ICommunionHourResponse } from "./Offices";
+import { addCommunionToDB, ICommunionHourResponse, isOfficeAbleToSet } from "./Offices";
 
 export const AddCommunion = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>()
     const [obstaclesFromBrothers, setObstaclesFromBrothers] = useState<Array<IObstacleFromBrothers> | null>()
+    const [hoursCommunion, setHoursCommunion] = useState<Array<string> | null>()
+    const [isCommunionAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
     let offices = Array<ICommunionHourResponse>()
@@ -19,6 +22,8 @@ export const AddCommunion = () => {
             setBrothers(brothers)
             const obstaclesFromBrothers = await getObstacleFromBrothers()
             setObstaclesFromBrothers(obstaclesFromBrothers)
+            const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-status/COMMUNION')
+            setInfoAboutOfficeSet(isTrayAvailableToSet)
         }
         getData()
     }, [])
@@ -64,7 +69,7 @@ export const AddCommunion = () => {
         console.log(result)
     }
 
-    return (
+    const CommunionPage = () => (
         <div>
             <h2 className="header-frame">Wyznacz komunie</h2>
             <div className="message-body">{message}</div>
@@ -106,5 +111,8 @@ export const AddCommunion = () => {
             </Table>
             <Button className="button-center" variant="success" onClick={handleAddDeanOffice}>Dodaj oficja</Button>
         </div>
+    )
+    return (
+        isCommunionAbleToSet ? <CommunionPage /> : <MessageIfOfficeIsAlreadySet />
     )
 }

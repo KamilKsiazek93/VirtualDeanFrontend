@@ -199,3 +199,13 @@ export const getHoursForTray = async(): Promise<string[] | null> => {
     }
     return []
 }
+
+export const getHoursForCommunion = async(): Promise<string[] | null> => {
+    const result = await http<string[]>({
+        path: '/hours-communion'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((name, index) => name)
+    }
+    return []
+}
