@@ -11,5 +11,5 @@ export const CommunionRoute = ({children}:any) => {
         userLocalStorage = JSON.parse(storage.getItem('user') || "");
     }
 
-    return userLocalStorage?.statusBrother === 'DZIEKAN_KOMUNIJNY' ? children : <Navigate to="/" />
+    return userLocalStorage?.statusBrother === 'KOMUNIJNY' ? children : <Navigate to="/" />
 }

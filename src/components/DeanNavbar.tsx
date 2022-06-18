@@ -24,6 +24,7 @@ export const DeanNavbar = () => {
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="oficja">Wyznacz oficja tygodniowe</Nav.Link>
                     <Nav.Link as={Link} to="oficja-kuchenne">Wyznacz oficja kuchenne</Nav.Link>
+                    <Nav.Link as={Link} to="oficja-wydruk">Pokaż oficja tygodniowe</Nav.Link>
                     <Nav.Link as={Link} to="dodaj-brata">Dodaj brata</Nav.Link>
                     <Nav.Link as={Link} to="edytuj-braci">Edytuj braci</Nav.Link>
                     <Nav.Link as={Link} to="przeszkody-stale">Przedzkody stałe</Nav.Link>
