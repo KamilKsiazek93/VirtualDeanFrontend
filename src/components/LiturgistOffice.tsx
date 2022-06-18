@@ -15,7 +15,7 @@ export const LiturgistOffice = () => {
     const [officeNames, setOfficeNames] = useState<Array<IOfficeNames> | null>();
     const [isLiturgistOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
-    const officeInMass = ["MO", "MK", "MŚ", "KR", "TUR"]
+    const officeInMass = ["MO", "MK", "MŚ", "KR", "TUR", "L1", "L2"]
 
     const brotherLocalStorage = getBrotherFromLocalStorage()
     const jwtToken = brotherLocalStorage.jwtToken;
@@ -105,6 +105,11 @@ export const LiturgistOffice = () => {
         }
         if((officeName === "MO" || officeName === "MK") && brothers?.find(bro => bro.id === brotherId && bro.isAcolit === false)) {
             console.log('Nie może wziąć, bo nie jest akolitą')
+            return false
+        }
+
+        if((officeName === "L1" || officeName === "L2") && brothers?.find(bro => bro.id === brotherId && bro.isLector === false)) {
+            console.log('Nie może wziąć, bo nie jest lektorem')
             return false
         }
         
