@@ -22,6 +22,11 @@ export interface BrotherDashboardOffice {
     communion: Array<string>
 }
 
+export interface WeeklyOffices extends BrotherDashboardOffice {
+    name: string;
+    surname: string;
+}
+
 export interface ITrayHourResponse {
     brotherId: number;
     trayHour: string;
@@ -86,8 +91,8 @@ export const getPreviousOfficeForBrother = async(brotherId:number): Promise<Brot
     return undefined
 }
 
-export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> => {
-    const result = await http<BrotherDashboardOffice[]>({
+export const getLastOffice = async(): Promise<WeeklyOffices[] | null> => {
+    const result = await http<WeeklyOffices[]>({
         path: '/office-last'
     })
     if(result.ok && result.body) {
