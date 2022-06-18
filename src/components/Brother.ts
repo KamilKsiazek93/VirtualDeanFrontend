@@ -37,6 +37,7 @@ export interface BaseBrother {
 
 export interface BaseBrotherLiturgist extends BaseBrother {
     isAcolit: boolean;
+    isLector: boolean;
 }
 
 export interface LoginData {
