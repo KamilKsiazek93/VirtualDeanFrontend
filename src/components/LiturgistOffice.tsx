@@ -15,7 +15,7 @@ export const LiturgistOffice = () => {
     const [officeNames, setOfficeNames] = useState<Array<IOfficeNames> | null>();
     const [isLiturgistOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
-    const officeInMass = ["MO", "MK", "MŚ", "KR", "Tur"]
+    const officeInMass = ["MO", "MK", "MŚ", "KR", "TUR"]
 
     const brotherLocalStorage = getBrotherFromLocalStorage()
     const jwtToken = brotherLocalStorage.jwtToken;
@@ -81,7 +81,7 @@ export const LiturgistOffice = () => {
         if(isAvailableCheck(brotherId, officeName) && pushObjectToArrayTray(brotherId, officeName)) {
             setCheckboxValue(id, true)
         } else {
-            setCheckboxValue(id, false)
+             setCheckboxValue(id, false)
         }
     }
 
@@ -98,9 +98,9 @@ export const LiturgistOffice = () => {
             console.log('Nie może wziąć tego oficjum bo śpiewa w scholi')
             return false
         }
-        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("T10"));
+        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("10.30"));
         if(hasTrayOnConventualMass && isOfficeOnMass) {
-            console.log('Nie może wziąć tego oficjum bo ma tacę  10')
+            console.log('Nie może wziąć tego oficjum bo ma tacę o 10.30')
             return false
         }
         if((officeName === "MO" || officeName === "MK") && brothers?.find(bro => bro.id === brotherId && bro.isAcolit === false)) {

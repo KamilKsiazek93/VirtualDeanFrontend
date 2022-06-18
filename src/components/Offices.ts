@@ -22,6 +22,11 @@ export interface BrotherDashboardOffice {
     communion: Array<string>
 }
 
+export interface WeeklyOffices extends BrotherDashboardOffice {
+    name: string;
+    surname: string;
+}
+
 export interface ITrayHourResponse {
     brotherId: number;
     trayHour: string;
@@ -86,8 +91,8 @@ export const getPreviousOfficeForBrother = async(brotherId:number): Promise<Brot
     return undefined
 }
 
-export const getLastOffice = async(): Promise<BrotherDashboardOffice[] | null> => {
-    const result = await http<BrotherDashboardOffice[]>({
+export const getLastOffice = async(): Promise<WeeklyOffices[] | null> => {
+    const result = await http<WeeklyOffices[]>({
         path: '/office-last'
     })
     if(result.ok && result.body) {
@@ -183,6 +188,26 @@ export const isOfficeAbleToSet = async(pipelineName:string): Promise<Boolean> =>
 export const getOfficeNames = async(pathName:string): Promise<IOfficeNames[] | null> => {
     const result = await http<IOfficeNames[]>({
         path: `/office-name/${pathName}`
+    })
+    if(result.ok && result.body) {
+        return result.body.map((name, index) => name)
+    }
+    return []
+}
+
+export const getHoursForTray = async(): Promise<string[] | null> => {
+    const result = await http<string[]>({
+        path: '/hours-tray'
+    })
+    if(result.ok && result.body) {
+        return result.body.map((name, index) => name)
+    }
+    return []
+}
+
+export const getHoursForCommunion = async(): Promise<string[] | null> => {
+    const result = await http<string[]>({
+        path: '/hours-communion'
     })
     if(result.ok && result.body) {
         return result.body.map((name, index) => name)
