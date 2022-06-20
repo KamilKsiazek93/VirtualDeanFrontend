@@ -71,8 +71,8 @@ export const LoginPage = () => {
                     <Form.Group>
                         <Form.Control type="text" onChange={(e) => handleEmail(e.target.value)} placeholder="Email" id="name" value={email}/>
                         <br />
-                        <Form.Control type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
-                        <Button type="submit" variant="success">Zaloguj się!</Button>
+                        <Form.Control  type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
+                        <Button className="button-bottom" type="submit" variant="success">Zaloguj się!</Button>
                     </Form.Group>
                 </Form>
             </div>

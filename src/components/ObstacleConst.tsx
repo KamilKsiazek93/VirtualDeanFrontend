@@ -102,7 +102,7 @@ export const ObstacleConst = () => {
 
     return (
         <div>
-            <h1>Zarządzaj przeszkodami stałymi</h1>
+            <h2 className="header-frame">Zarządzaj przeszkodami stałymi</h2>
 
             <Modal
                 show={show}
