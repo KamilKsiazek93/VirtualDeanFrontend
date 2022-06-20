@@ -146,7 +146,7 @@ export const EditBrothers = () => {
 
     return (
         <div>
-            <h1>Edycja braci</h1>
+            <h2 className="header-frame">Edycja braci</h2>
             <Modal
                 show={show}
                 onHide={handleClose}

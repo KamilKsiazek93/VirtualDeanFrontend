@@ -111,7 +111,7 @@ export const KitchenOffice = () => {
 
     const KitchenPage = () => (
         <div>
-            <h1>Oficja kuchenne</h1>
+            <h2 className="header-frame">Oficja kuchenne</h2>
             <div className="message-body">{message}</div>
             <ShowKitchenTable />
         </div>

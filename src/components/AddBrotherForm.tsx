@@ -93,7 +93,9 @@ export const AddBrotherForm = () => {
     }
 
     return (
-        <div className="form-frame">
+        <div>
+            <h2 className="header-frame">Dodaj brata</h2>
+            <div className="form-frame">
             <div>
                 <p id="addUserInfo">{messageAddedUser}</p>
             </div>
@@ -115,6 +117,7 @@ export const AddBrotherForm = () => {
                     <Button variant="primary" onClick={addBrotherToDB}>Dodaj</Button>
                 </Form.Group>
             </Form>
+        </div>
         </div>
     )
 }
