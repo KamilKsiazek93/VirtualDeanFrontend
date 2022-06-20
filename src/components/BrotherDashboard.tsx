@@ -4,7 +4,7 @@ import { getBrotherFromLocalStorage } from "./Brother";
 import { BrotherDashboardOffice, getLastOfficeForBrother, getPreviousOfficeForBrother } from "./Offices";
 
 const showOffice = (office:Array<string> | undefined) => {
-    office = office?.map((item) => item.slice(1)).sort()
+    office = office?.map((item) => item).sort()
     return (
         <ul>
             {office?.map((item) =>

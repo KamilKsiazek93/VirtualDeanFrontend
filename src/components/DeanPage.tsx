@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { AddBrotherForm } from "./AddBrotherForm";
 import { DeanNavbar } from "./DeanNavbar";
 import { DeanOffice } from "./DeanOffice";
+import { DeanPrintedOffices } from "./DeanPrintedOffices";
 import { EditBrothers } from "./EditBrother";
 import { KitchenOffice } from './KitchenOffice';
 import { ObstacleBetweenOffices } from "./ObstacleBetweenOffices";
@@ -15,6 +16,7 @@ export const DeanPage = () => (
         <Routes>
             <Route path="oficja-kuchenne" element={<KitchenOffice />} />
             <Route path="oficja" element={<DeanOffice />} />
+            <Route path="oficja-wydruk" element={<DeanPrintedOffices />} />
             <Route path="dodaj-brata" element={<AddBrotherForm />} />
             <Route path="edytuj-braci" element={<EditBrothers />} />
             <Route path="przeszkody-stale" element={<ObstacleConst />} />

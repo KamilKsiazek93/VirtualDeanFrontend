@@ -3,8 +3,8 @@ import { Button, FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from "./Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
-import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB, isOfficeAbleToSet } from "./Offices";
+import { getObstacleFromBrothers, IObstacleFromBrothers, OfficeName } from "./Obstacle";
+import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB, isOfficeAbleToSet, IOfficeNames, getOfficeNames } from "./Offices";
 
 export const LiturgistOffice = () => {
 
@@ -12,13 +12,42 @@ export const LiturgistOffice = () => {
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
     const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
     const [trays, setLastTrays] = useState<Array<ILastTray> | null>();
+    const [officeNames, setOfficeNames] = useState<Array<IOfficeNames> | null>();
     const [isLiturgistOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
-    const officeInMass = ["MO", "MK", "MŚ", "KR", "Tur"]
+    const officeInMass = ["MO", "MK", "MŚ", "KR", "TUR", "L1", "L2"]
 
     const brotherLocalStorage = getBrotherFromLocalStorage()
     const jwtToken = brotherLocalStorage.jwtToken;
     let offices = Array<IOfficeLiturgistResponse>()
+
+    const RenderHeader = () => (
+        <thead>
+            <tr>
+                <th>Lp</th>
+                <th>Imię</th>
+                <th>Naziwsko</th>
+                {officeNames?.map((name) =>
+                    <th key={name.id.toString() + name.officeName.toString()}>{name.officeName}</th>
+                )}
+            </tr>
+        </thead>
+    )
+
+    const RenderBody = () => (
+        <tbody>
+            {brothers?.map((brother:BaseBrotherLiturgist, index) =>
+                <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{brother.name}</td>
+                <td>{brother.surname}</td>
+                {officeNames?.map((office) => 
+                    <td key={office.officeAdmin + office.id.toString()}><FormCheck id={index.toString() + office.officeName} onChange={(e) => handleSetLiturgistOffice(brother.id, office.officeName, index)} /></td>
+                )}
+                </tr>
+            )}
+        </tbody>
+    )
 
     useEffect(() => {
         async function getData() {
@@ -30,7 +59,9 @@ export const LiturgistOffice = () => {
             setLastOffice(lastOffice)
             const lastTrays = await getLastTrays();
             setLastTrays(lastTrays)
-            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('/pipeline-liturgist')
+            const officesNames = await getOfficeNames('LITURGIST');
+            setOfficeNames(officesNames)
+            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('/pipeline-status/LITURGIST')
             setInfoAboutOfficeSet(isLiturgistOfficeAvailableToSet)
         }
         getData()
@@ -50,7 +81,7 @@ export const LiturgistOffice = () => {
         if(isAvailableCheck(brotherId, officeName) && pushObjectToArrayTray(brotherId, officeName)) {
             setCheckboxValue(id, true)
         } else {
-            setCheckboxValue(id, false)
+             setCheckboxValue(id, false)
         }
     }
 
@@ -67,13 +98,18 @@ export const LiturgistOffice = () => {
             console.log('Nie może wziąć tego oficjum bo śpiewa w scholi')
             return false
         }
-        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("T10"));
+        const hasTrayOnConventualMass = trays?.find(item => item.idBrother === brotherId && item.brothersTrays.includes("10.30"));
         if(hasTrayOnConventualMass && isOfficeOnMass) {
-            console.log('Nie może wziąć tego oficjum bo ma tacę  10')
+            console.log('Nie może wziąć tego oficjum bo ma tacę o 10.30')
             return false
         }
         if((officeName === "MO" || officeName === "MK") && brothers?.find(bro => bro.id === brotherId && bro.isAcolit === false)) {
             console.log('Nie może wziąć, bo nie jest akolitą')
+            return false
+        }
+
+        if((officeName === "L1" || officeName === "L2") && brothers?.find(bro => bro.id === brotherId && bro.isLector === false)) {
+            console.log('Nie może wziąć, bo nie jest lektorem')
             return false
         }
         
@@ -96,51 +132,21 @@ export const LiturgistOffice = () => {
         setMessage(result?.message)
     }
 
+    const ShowTable = () => (
+        <div className="table-center">
+            <Table striped bordered hover variant="light">
+                <RenderHeader />
+                <RenderBody />
+            </Table>
+            <Button className="button-center" variant="success" onClick={handleAddLiturgistOffice}>Dodaj oficja</Button>
+        </div>
+    )
+
     const LiturgistPage = () => (
         <div>
             <h2 className="header-frame">Wyznaczanie oficjów liturgicznych</h2>
             <div className="message-body">{message}</div>
-            <div className="table-center">
-                <Table striped bordered hover variant="light">
-                    <thead>
-                        <tr>
-                            <th>Lp</th>
-                            <th>Imię</th>
-                            <th>Naziwsko</th>
-                            <th>MO</th>
-                            <th>MK</th>
-                            <th>MŚ</th>
-                            <th>KR</th>
-                            <th>Tur</th>
-                            <th>Suc1</th>
-                            <th>Suc2</th>
-                            <th>Resp1</th>
-                            <th>Resp2</th>
-                            <th>Ant</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {brothers?.map((brother:BaseBrotherLiturgist, index) => 
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{brother.name}</td>
-                            <td>{brother.surname}</td>
-                            <td><FormCheck id={index.toString() + "MO"} onChange={(e) => handleSetLiturgistOffice(brother.id, "MO", index)} /></td>
-                            <td><FormCheck id={index.toString() + "MK"} onChange={(e) => handleSetLiturgistOffice(brother.id, "MK", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "MŚ"} onChange={(e) => handleSetLiturgistOffice(brother.id, "MŚ", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "KR"} onChange={(e) => handleSetLiturgistOffice(brother.id, "KR", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "Tur"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Tur", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "Suc1"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Suc1", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "Suc2"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Suc2", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "Resp1"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Resp1", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "Resp2"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Resp2", index)} /> </td>
-                            <td><FormCheck id={index.toString() + "Ant"} onChange={(e) => handleSetLiturgistOffice(brother.id, "Ant", index)} /> </td>
-                        </tr>
-                        )}
-                    </tbody>
-                </Table>
-                <Button className="button-center" variant="success" onClick={handleAddLiturgistOffice}>Dodaj oficja</Button>
-            </div>
+            <ShowTable />
         </div>
     )
 

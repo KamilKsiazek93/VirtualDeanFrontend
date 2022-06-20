@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/auth";
-import { BaseBrother, loginAction } from "./Brother";
+import { BaseBrother, loginAction, LoginData } from "./Brother";
 
 export const LoginPage = () => {
 
@@ -23,7 +23,7 @@ export const LoginPage = () => {
         setPassword(password)
     }
 
-    const redirectActionAfterLogin = (brother:BaseBrother | undefined) => {
+    const redirectActionAfterLogin = (brother:BaseBrother | null) => {
 
         const brotherState: BaseBrother = {id: brother?.id ?? 0, name: brother?.name ?? ""
         , surname: brother?.surname ?? "", statusBrother: brother?.statusBrother ?? "", jwtToken: brother?.jwtToken ?? "" }
@@ -47,8 +47,8 @@ export const LoginPage = () => {
             case "DZIEKAN":
                 location("/dziekan")
                 break;
-            case "DZIEKAN_KOMUNIJNY":
-                location("dziekan-komunijny")
+            case "KOMUNIJNY":
+                location("/dziekan-komunijny")
                 break;
             default:
                 setLoginInformation("Niepoprawny login lub hasło!")
@@ -58,22 +58,21 @@ export const LoginPage = () => {
 
     const submitLogin = async(event:React.FormEvent) => {
         event.preventDefault()
-        const data = {email, password}
+        const data:LoginData = {email, password}
         const result = await loginAction(data);
-        
         redirectActionAfterLogin(result)
     }
 
     return (
         <div>
             <div id="loginInformation">{loginInformation}</div>
-            <div className="form-frame">
+            <div className="form-login">
                 <Form onSubmit={submitLogin}>
                     <Form.Group>
                         <Form.Control type="text" onChange={(e) => handleEmail(e.target.value)} placeholder="Email" id="name" value={email}/>
                         <br />
-                        <Form.Control type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
-                        <Button type="submit" variant="success">Zaloguj się!</Button>
+                        <Form.Control  type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
+                        <Button className="button-bottom" type="submit" variant="success">Zaloguj się!</Button>
                     </Form.Group>
                 </Form>
             </div>
