@@ -66,7 +66,7 @@ export const LoginPage = () => {
     return (
         <div>
             <div id="loginInformation">{loginInformation}</div>
-            <div className="form-frame">
+            <div className="form-login">
                 <Form onSubmit={submitLogin}>
                     <Form.Group>
                         <Form.Control type="text" onChange={(e) => handleEmail(e.target.value)} placeholder="Email" id="name" value={email}/>
