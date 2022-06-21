@@ -1,6 +1,9 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "engines": {
+    "node": "16.13.2"
+  },
   "homepage": "https://KamilKsiazek93.github.io/VirtualDeanFrontend",
   "private": true,
   "dependencies": {
