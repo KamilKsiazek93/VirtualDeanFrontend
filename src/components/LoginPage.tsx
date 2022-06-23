@@ -80,6 +80,7 @@ export const LoginPage = () => {
                         </Form.Group>
                     </Form>
                 </div>
+                <div className="footer-herb"></div>
             </div>
         </div>
     )
