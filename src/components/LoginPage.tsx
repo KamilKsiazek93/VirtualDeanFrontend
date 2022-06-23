@@ -64,17 +64,23 @@ export const LoginPage = () => {
     }
 
     return (
-        <div>
-            <div id="loginInformation">{loginInformation}</div>
-            <div className="form-login">
-                <Form onSubmit={submitLogin}>
-                    <Form.Group>
-                        <Form.Control type="text" onChange={(e) => handleEmail(e.target.value)} placeholder="Email" id="name" value={email}/>
-                        <br />
-                        <Form.Control  type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
-                        <Button className="button-bottom" type="submit" variant="success">Zaloguj się!</Button>
-                    </Form.Group>
-                </Form>
+        <div className="container-fluid">
+            <div className="row">
+                <div className="header-page col-lg-12">Wirtualny dziekanat braci dominikanów</div>
+                <div className="col-lg-4"></div>
+                <div id="loginInformation" className="message-body col-lg-4">{loginInformation}</div>
+                <div className="col-lg-4"></div>
+                <div className="form-login col-lg-6">
+                    <Form onSubmit={submitLogin}>
+                        <Form.Group>
+                            <Form.Control type="text" onChange={(e) => handleEmail(e.target.value)} placeholder="Email" id="name" value={email}/>
+                            <br />
+                            <Form.Control  type="password" onChange={(e) => handlePassword(e.target.value)} placeholder="Hasło" id="password" value={password} />
+                            <Button className="button-bottom" type="submit" variant="success">Zaloguj się!</Button>
+                        </Form.Group>
+                    </Form>
+                </div>
+                <div className="footer-herb"></div>
             </div>
         </div>
     )
