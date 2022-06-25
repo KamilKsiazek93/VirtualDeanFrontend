@@ -205,28 +205,30 @@ export const EditBrothers = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Table striped bordered hover variant="light">
-                <thead>
-                    <tr>
-                        <th>Lp</th>
-                        <th>Imię</th>
-                        <th>Nazwisko</th>
-                        <th>Edytuj</th>
-                        <th>Usuń</th>
-                     </tr>
-                </thead>
-                <tbody>
-                    {brothers?.map((brother, index) => 
-                        <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>{brother?.name}</td>
-                            <td>{brother?.surname}</td>
-                            <td><Button variant="warning" onClick={(e => confirmEditBrother(brother?.id))} >Edytuj</Button></td>
-                            <td><Button variant="danger" onClick={(e) => confirmDeleteBrother(brother?.id, brother?.name, brother?.surname)}>Usuń</Button></td>
+            <div className="table-center">
+                <Table striped bordered hover variant="light">
+                    <thead>
+                        <tr>
+                            <th>Lp</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>Edytuj</th>
+                            <th>Usuń</th>
                         </tr>
-                    )}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                        {brothers?.map((brother, index) => 
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{brother?.name}</td>
+                                <td>{brother?.surname}</td>
+                                <td><Button variant="warning" onClick={(e => confirmEditBrother(brother?.id))} >Edytuj</Button></td>
+                                <td><Button variant="danger" onClick={(e) => confirmDeleteBrother(brother?.id, brother?.name, brother?.surname)}>Usuń</Button></td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
+            </div>
         </div>
     )
 }

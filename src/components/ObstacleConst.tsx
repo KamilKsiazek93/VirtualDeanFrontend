@@ -192,31 +192,33 @@ export const ObstacleConst = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Table striped bordered hover variant="light">
-                <thead>
-                <tr>
-                    <th>Lp</th>
-                    <th>Imię</th>
-                    <th>Nazwisko</th>
-                    <th>Przedzkoda</th>
-                    <th>Edytuj</th>
-                    <th>Usuń</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {obstacleWithBrothers?.map((obstacle, index) => 
-                        <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>{obstacle?.name}</td>
-                            <td>{obstacle?.surname}</td>
-                            <td>{obstacle?.obstacleName}</td>
-                            <td><Button variant="warning" onClick={(e) => handleEditObstacle(obstacle)}>Edytuj</Button></td>
-                            <td><Button variant="danger" onClick={(e) => handleDeleteObstacle(obstacle?.id)}>Usuń</Button></td>
-                        </tr>
-                    )}
-                </tbody>
-            </Table>
-            <Button variant="success" onClick={handleAddConstObstacle}>Dodaj przeszkodę stałą</Button>
+            <div className="table-center">
+                <Table striped bordered hover variant="light">
+                    <thead>
+                    <tr>
+                        <th>Lp</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Przedzkoda</th>
+                        <th>Edytuj</th>
+                        <th>Usuń</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {obstacleWithBrothers?.map((obstacle, index) => 
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{obstacle?.name}</td>
+                                <td>{obstacle?.surname}</td>
+                                <td>{obstacle?.obstacleName}</td>
+                                <td><Button variant="warning" onClick={(e) => handleEditObstacle(obstacle)}>Edytuj</Button></td>
+                                <td><Button variant="danger" onClick={(e) => handleDeleteObstacle(obstacle?.id)}>Usuń</Button></td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
+                <Button variant="success" onClick={handleAddConstObstacle}>Dodaj przeszkodę stałą</Button>
+            </div>
         </div>
     )
 }
