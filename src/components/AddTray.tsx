@@ -4,7 +4,7 @@ import { getBaseBrotherForTray } from "./ApiConnection";
 import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { addTrayToDB, BrotherDashboardOffice, getHoursForTray, getLastOffice, isOfficeAbleToSet, ITrayHourResponse } from "./Offices";
+import { addTrayToDB, BrotherDashboardOffice, getHoursForTray, getKitchenOffice, getLastOffice, getLastWeek, isOfficeAbleToSet, ITrayHourResponse, KitchenOfficeResp } from "./Offices";
 
 export const AddTray = () => {
 
@@ -12,6 +12,8 @@ export const AddTray = () => {
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
     const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
     const [hoursTray, setHoursTray] = useState<Array<string> | null>()
+    const [kitchenOffice, setKitchenOffice] = useState<Array<KitchenOfficeResp> | null>()
+    const [obstacleBetweenOffices, setObstacleBetweenOffices] = useState<Array<ObstacleBetweenOffice> | null>()
     const [isTrayAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
@@ -49,6 +51,7 @@ export const AddTray = () => {
 
     useEffect(() => {
         async function getData() {
+            const weekNumber = await getLastWeek();
             const brothers = await getBaseBrotherForTray()
             setBrothers(brothers)
             const obstacles = await getObstacleFromBrothers();
@@ -57,12 +60,15 @@ export const AddTray = () => {
             setLastOffice(lastOffice)
             const hoursTray = await getHoursForTray();
             setHoursTray(hoursTray)
+            const kitchenOffice = await getKitchenOffice(weekNumber);
+            setKitchenOffice(kitchenOffice);
+            const obstacleBetweenOffices = await getObstacleBetweenOffices();
+            setObstacleBetweenOffices(obstacleBetweenOffices);
             const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-status/TRAY')
             setInfoAboutOfficeSet(isTrayAvailableToSet)
         }
         getData()
     }, [])
-
 
     const handleSendLiturgistTray = async() => {
         const result = await addTrayToDB(offices, jwtToken)
@@ -73,33 +79,48 @@ export const AddTray = () => {
         const objectExist = offices.find(office => office.brotherId === brotherId && office.trayHour === trayHour);
         if(!objectExist?.brotherId) {
             offices.push({brotherId, trayHour})
+            return true
         } else {
             offices = offices.filter(office => office !== objectExist)
+            return false
         }
+    }
+
+    const setCheckboxValue = (id:string, value:boolean):void => {
+        let checkedBox = document.getElementById(id) as HTMLInputElement
+        checkedBox.checked = value
     }
 
     const handleSetTray = (brotherId:number, trayHour:string, index:number) => {
         const id = index.toString() + trayHour
-        if(isAvailableCheck(id, brotherId, trayHour)) {
-            pushObjectToArrayTray(brotherId, trayHour)
+        if(isAvailableCheck(id, brotherId, trayHour) && pushObjectToArrayTray(brotherId, trayHour)) {
+            setCheckboxValue(id, true)
+        } else {
+            setCheckboxValue(id, false)
         }
     }
 
     const isAvailableCheck = (id:string, brotherId:number, trayHour:string):Boolean => {
-        let checkedBox = document.getElementById(id) as HTMLInputElement
-        
+
         const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === trayHour)).length ?? 0
         if(isObstacled > 0) {
-            setMessage('Nie może wziąć tego oficjum - zgłosił przeszkodę')
-            checkedBox.checked = false
+            console.log('Nie może wziąć tego oficjum - zgłosił przeszkodę')
             return false
         }
+
         const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && item.cantorOffice !== null)
         if(obstacleOfficeConnected && trayHour === "10.30") {
-            setMessage('Nie może wziąć tego oficjum - śpiewa w scholi')
-            checkedBox.checked = false
+            console.log('Nie może wziąć tego oficjum - śpiewa w scholi')
             return false
         }
+
+        const hasBrotherKitchenOffice = kitchenOffice?.find(item => item.brotherId === brotherId &&
+            item.sundayOffices !== null && trayHour === "12.00")
+        if(hasBrotherKitchenOffice) {
+            console.log("Brat ma oficjum kuchenne")
+            return false
+        }
+
         return true;
     }
 

@@ -79,7 +79,7 @@ export const AddCommunion = () => {
             return false
         }
         const hasBrotherKitchenOffice = kitchenOffice?.find(item => item.brotherId === brotherId &&
-            item.sundayOffices !== null)
+            item.sundayOffices !== null && officeName === "12.00")
         if(hasBrotherKitchenOffice) {
             console.log("Brat ma oficjum kuchenne")
             return false
