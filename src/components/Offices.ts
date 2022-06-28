@@ -114,6 +114,26 @@ export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[], accessToken:
     return undefined;
 }
 
+export const getLastWeek  = async(): Promise<number> => {
+    const result = await http<number>({
+        path: '/week-number'
+    })
+    if(result.ok && result.body) {
+        return result.body;
+    }
+    return 0
+}
+
+export const getKitchenOffice  = async(weekNumber:number): Promise<KitchenOfficeResp[] | null> => {
+    const result = await http<KitchenOfficeResp[]>({
+        path: `/kitchen-offices/${weekNumber}`
+    })
+    if(result.ok && result.body) {
+        return result.body.map((item, index) => item)
+    }
+    return []
+}
+
 export const addTrayToDB = async(data:ITrayHourResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ITrayHourResponse[]>({
         path: '/tray-hour',
