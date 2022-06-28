@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, FormCheck, Button } from "react-bootstrap";
 import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
-import { getOfficesName, IBrothersObstacle, sendBrotherObstacleToDB } from "./Obstacle";
+import { getOfficeNameForObstacleBrother, IBrothersObstacle, sendBrotherObstacleToDB } from "./Obstacle";
 
 export const BrotherAddObstacle = () => {
 
@@ -15,7 +15,7 @@ export const BrotherAddObstacle = () => {
 
     useEffect(() => {
         const getData = async() => {
-            const officeNames = await getOfficesName()
+            const officeNames = await getOfficeNameForObstacleBrother()
             setOfficesName(officeNames)
             const brother = getBrotherFromLocalStorage();
             setBrother(brother);

@@ -15,6 +15,17 @@ export interface OfficeName {
     officeName: string;
 }
 
+export interface IBrothersObstacle {
+    id: number;
+    brotherId: number;
+    weekOfOffices: number;
+    obstacle: string;
+}
+
+export interface MessageBody {
+    message: string;
+}
+
 export const getOfficesName = async():Promise<string[] | null> => {
     const result = await http<string[], OfficeName>({
         path: '/offices-name'
@@ -25,15 +36,14 @@ export const getOfficesName = async():Promise<string[] | null> => {
     return [];
 }
 
-export interface IBrothersObstacle {
-    id: number;
-    brotherId: number;
-    weekOfOffices: number;
-    obstacle: string;
-}
-
-export interface MessageBody {
-    message: string;
+export const getOfficeNameForObstacleBrother = async():Promise<string[] | null> => {
+    const result = await http<string[], OfficeName>({
+        path: '/office-name/obstacle'
+    });
+    if(result.ok && result.body) {
+        return result.body;
+    }
+    return [];
 }
 
 export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[], jwtToken:string): Promise<MessageBody | undefined> => {
