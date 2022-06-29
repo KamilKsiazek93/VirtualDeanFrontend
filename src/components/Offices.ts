@@ -52,6 +52,11 @@ export interface ILastTray {
     brothersTrays: Array<string>;
 }
 
+
+export interface FlatOffice {
+    brotherId: number;
+    officeName: string;
+}
 export interface IOfficeNames {
     id: number;
     officeName: string;
@@ -122,6 +127,16 @@ export const getLastWeek  = async(): Promise<number> => {
         return result.body;
     }
     return 0
+}
+
+export const getLastFlatOffice = async(weekId:number): Promise<FlatOffice[] | null> => {
+    const result = await http<FlatOffice[]>({
+        path: `/office-flat/${weekId}`
+    })
+    if(result.ok && result.body) {
+        return result.body.map((bro, index) => bro)
+    }
+    return []
 }
 
 export const getKitchenOffice  = async(weekNumber:number): Promise<KitchenOfficeResp[] | null> => {

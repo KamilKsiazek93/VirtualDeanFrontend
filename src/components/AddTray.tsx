@@ -4,13 +4,13 @@ import { getBaseBrotherForTray } from "./ApiConnection";
 import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { addTrayToDB, BrotherDashboardOffice, getHoursForTray, getKitchenOffice, getLastOffice, getLastWeek, isOfficeAbleToSet, ITrayHourResponse, KitchenOfficeResp } from "./Offices";
+import { addTrayToDB, FlatOffice, getHoursForTray, getKitchenOffice, getLastFlatOffice, getLastWeek, isOfficeAbleToSet, ITrayHourResponse, KitchenOfficeResp } from "./Offices";
 
 export const AddTray = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>();
     const [obstacles, setObstacles] = useState<Array<IObstacleFromBrothers> | null>();
-    const [lastOffice, setLastOffice] = useState<Array<BrotherDashboardOffice> | null>()
+    const [lastOffice, setLastOffice] = useState<Array<FlatOffice> | null>()
     const [hoursTray, setHoursTray] = useState<Array<string> | null>()
     const [kitchenOffice, setKitchenOffice] = useState<Array<KitchenOfficeResp> | null>()
     const [obstacleBetweenOffices, setObstacleBetweenOffices] = useState<Array<ObstacleBetweenOffice> | null>()
@@ -56,7 +56,7 @@ export const AddTray = () => {
             setBrothers(brothers)
             const obstacles = await getObstacleFromBrothers();
             setObstacles(obstacles)
-            const lastOffice = await getLastOffice();
+            const lastOffice = await getLastFlatOffice(weekNumber);
             setLastOffice(lastOffice)
             const hoursTray = await getHoursForTray();
             setHoursTray(hoursTray)
@@ -108,7 +108,7 @@ export const AddTray = () => {
             return false
         }
 
-        const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && item.cantorOffice !== null)
+        const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && (item.officeName === "PS" || item.officeName === "S"))
         if(obstacleOfficeConnected && trayHour === "10.30") {
             console.log('Nie może wziąć tego oficjum - śpiewa w scholi')
             return false
