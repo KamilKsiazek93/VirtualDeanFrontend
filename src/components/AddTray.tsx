@@ -100,6 +100,13 @@ export const AddTray = () => {
         }
     }
 
+    let isAnyOfficeCnntectedWithObstacle = false;
+    const checkIfExistOfficeConnectedWithObstacle = (lastOfficeName:string, officeConnectedWithObstacle:ObstacleBetweenOffice[]) => {
+        if(officeConnectedWithObstacle?.filter(item => item.officeName === lastOfficeName)) {
+            isAnyOfficeCnntectedWithObstacle = true;
+        }
+    }
+
     const isAvailableCheck = (id:string, brotherId:number, trayHour:string):Boolean => {
 
         const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === trayHour)).length ?? 0
@@ -108,11 +115,11 @@ export const AddTray = () => {
             return false
         }
 
-        const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && (item.officeName === "PS" || item.officeName === "S"))
-        if(obstacleOfficeConnected && trayHour === "10.30") {
-            console.log('Nie może wziąć tego oficjum - śpiewa w scholi')
-            return false
-        }
+        // const obstacleOfficeConnected = lastOffice?.find(item => item.brotherId === brotherId && (item.officeName === "PS" || item.officeName === "S"))
+        // if(obstacleOfficeConnected && trayHour === "10.30") {
+        //     console.log('Nie może wziąć tego oficjum - śpiewa w scholi')
+        //     return false
+        // }
 
         const hasBrotherKitchenOffice = kitchenOffice?.find(item => item.brotherId === brotherId &&
             item.sundayOffices !== null && trayHour === "12.00")
@@ -120,6 +127,18 @@ export const AddTray = () => {
             console.log("Brat ma oficjum kuchenne")
             return false
         }
+
+        const officeConnectedWithObstacle = obstacleBetweenOffices?.filter(item => item.officeConnected === trayHour) ?? []
+        const lastOfficeBrother = lastOffice?.filter(item => item.brotherId === brotherId && item) ?? []
+        if(officeConnectedWithObstacle.length > 0 && lastOfficeBrother?.length > 0) {
+            lastOfficeBrother?.forEach(item => checkIfExistOfficeConnectedWithObstacle(item.officeName, officeConnectedWithObstacle))
+
+            if(isAnyOfficeCnntectedWithObstacle) {
+                console.log("Brat ma już wyznaczone oficjum powiązane z przeszkodą")
+                return false
+            }
+        }
+        
 
         return true;
     }
