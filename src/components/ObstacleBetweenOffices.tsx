@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table, Modal } from "react-bootstrap";
-import { deleteObstacleBetweenOffices, getObstacleBetweenOffices, getOfficesName, ObstacleBetweenOffice, postObstacleBetweenOffices, putObstacleBetweenOffices } from "./Obstacle";
+import { deleteObstacleBetweenOffices, getObstacleBetweenOffices, getOfficeNameForObstacleBrother, ObstacleBetweenOffice, postObstacleBetweenOffices, putObstacleBetweenOffices } from "./Obstacle";
 
 export const ObstacleBetweenOffices = () => {
 
@@ -25,7 +25,7 @@ export const ObstacleBetweenOffices = () => {
         const getDate = async() => {
             const obstacles = await getObstacleBetweenOffices()
             setObstacleBetweenOffices(obstacles)
-            const offices = await getOfficesName();
+            const offices = await getOfficeNameForObstacleBrother();
             setOffices(offices)
         }
         getDate();
