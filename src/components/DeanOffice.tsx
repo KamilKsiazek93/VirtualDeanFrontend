@@ -3,14 +3,14 @@ import { FormCheck, Table, Button } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
 import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from './Brother'
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
-import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
-import { addDeanOfficeTDB, IDeanOfficeResponse, isOfficeAbleToSet } from "./Offices";
+import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
+import { addDeanOfficeTDB, getKitchenOffice, getLastWeek, IDeanOfficeResponse, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
 
 export const DeanOffice = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrotherLiturgist> | null>()
     const [obstaclesFromBrother, setObstacleFromBrother] = useState<Array<IObstacleFromBrothers> | null>()
-    const [obstaclesBetweenOffices, setObstaclesBetweenOffices] = useState<Array<ObstacleBetweenOffice> | null>()
+    const [kitchenOffice, setKitchenOffice] = useState<Array<KitchenOfficeResp> | null>()
     const [isDeanOfficeAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
@@ -20,12 +20,13 @@ export const DeanOffice = () => {
 
     useEffect(() => {
         const getData = async() => {
+            const weekNumber = await getLastWeek();
             const brothers = await getBaseBrothersForLiturgistOffice()
             setBrothers(brothers)
             const obstaclesFromBrothers = await getObstacleFromBrothers()
             setObstacleFromBrother(obstaclesFromBrothers)
-            const obstaclesBetweenOffices = await getObstacleBetweenOffices()
-            setObstaclesBetweenOffices(obstaclesBetweenOffices)
+            const kitchenOffice = await getKitchenOffice(weekNumber);
+            setKitchenOffice(kitchenOffice);
             const isDeanOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-status/DEAN')
             setInfoAboutOfficeSet(isDeanOfficeAbleToSet)
         }
@@ -48,6 +49,14 @@ export const DeanOffice = () => {
             console.log("Brat zgłosił przeszkodę na to oficjum")
             return false
         }
+
+        const hasBrotherKitchenOffice = kitchenOffice?.find(item => item.brotherId === brotherId &&
+            item.saturdayOffices !== null && (officeName === "PR" || officeName === "SR"))
+        if(hasBrotherKitchenOffice) {
+            console.log("Brat ma oficjum kuchenne")
+            return false
+        }
+
         return true
     }
 

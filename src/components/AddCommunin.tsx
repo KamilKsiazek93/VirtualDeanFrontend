@@ -4,13 +4,14 @@ import { getBrothersForCommunion } from "./ApiConnection";
 import { BaseBrother } from "./Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { addCommunionToDB, getHoursForCommunion, ICommunionHourResponse, isOfficeAbleToSet } from "./Offices";
+import { addCommunionToDB, getHoursForCommunion, getKitchenOffice, getLastWeek, ICommunionHourResponse, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
 
 export const AddCommunion = () => {
 
     const [brothers, setBrothers] = useState<Array<BaseBrother> | null>()
     const [obstaclesFromBrothers, setObstaclesFromBrothers] = useState<Array<IObstacleFromBrothers> | null>()
     const [hoursCommunion, setHoursCommunion] = useState<Array<string> | null>()
+    const [kitchenOffice, setKitchenOffice] = useState<Array<KitchenOfficeResp> | null>()
     const [isCommunionAbleToSet, setInfoAboutOfficeSet] = useState<Boolean>()
     const [message, setMessage] = useState<string>()
 
@@ -46,12 +47,15 @@ export const AddCommunion = () => {
 
     useEffect(() => {
         const getData = async() => {
+            const weekNumber = await getLastWeek();
             const brothers = await getBrothersForCommunion()
             setBrothers(brothers)
             const obstaclesFromBrothers = await getObstacleFromBrothers()
             setObstaclesFromBrothers(obstaclesFromBrothers)
             const hoursCommunion = await getHoursForCommunion();
             setHoursCommunion(hoursCommunion)
+            const kitchenOffice = await getKitchenOffice(weekNumber);
+            setKitchenOffice(kitchenOffice);
             const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-status/COMMUNION')
             setInfoAboutOfficeSet(isTrayAvailableToSet)
         }
@@ -72,6 +76,12 @@ export const AddCommunion = () => {
             item.obstacles.find(o => o.includes(officeName)))
         if(isInBrotherObstacleList) {
             setMessage("Brat zgłosił przeszkodę na to oficjum")
+            return false
+        }
+        const hasBrotherKitchenOffice = kitchenOffice?.find(item => item.brotherId === brotherId &&
+            item.sundayOffices !== null && officeName === "12.00")
+        if(hasBrotherKitchenOffice) {
+            console.log("Brat ma oficjum kuchenne")
             return false
         }
         return true
