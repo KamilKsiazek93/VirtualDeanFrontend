@@ -66,6 +66,7 @@ export const AddTray = () => {
             setObstacleBetweenOffices(obstacleBetweenOffices);
             const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-status/TRAY')
             setInfoAboutOfficeSet(isTrayAvailableToSet)
+            
         }
         getData()
     }, [])
@@ -107,7 +108,7 @@ export const AddTray = () => {
         }
     }
 
-    const isAvailableCheck = (id:string, brotherId:number, trayHour:string):Boolean => {
+    const isAvailableCheck = (id:string, brotherId:number, trayHour:string):boolean => {
 
         const isObstacled = obstacles?.filter(item => item.brotherId === brotherId && item.obstacles.find(obstacle => obstacle === trayHour)).length ?? 0
         if(isObstacled > 0) {
@@ -142,6 +143,20 @@ export const AddTray = () => {
 
         return true;
     }
+
+    // const setDisabledBox = (i:number, hour:string, brotherId:number) => {
+    //     const id = i.toString() + hour
+    //     let checkForm = document.getElementById(id) as HTMLInputElement
+    //     checkForm.disabled = !isAvailableCheck(id, brotherId, hour)
+    // }
+
+    // const checkDisabledBox = () => {
+    //     brothers?.map((brother, index) => 
+    //         hoursTray?.map(hour => setDisabledBox(index, hour, brother.id))
+    //     )
+    // }
+
+    // checkDisabledBox()
 
     const ShowTable = () => (
         <div className="table-center">
