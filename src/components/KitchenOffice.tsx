@@ -62,7 +62,7 @@ export const KitchenOffice = () => {
             const officesNames = await getOfficeNames('KITCHEN')
             setOfficeNames(officesNames)
             setNumberOfKitchenOffice(officeNames?.length ?? 5)
-            const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('/pipeline-status/KITCHEN')
+            const isKitchenOfficeAbleToSet = await isOfficeAbleToSet('KITCHEN')
             setInfoAboutOfficeSet(isKitchenOfficeAbleToSet)
         }
         getBrothersFromDB();

@@ -56,7 +56,7 @@ export const AddCommunion = () => {
             setHoursCommunion(hoursCommunion)
             const kitchenOffice = await getKitchenOffice(weekNumber);
             setKitchenOffice(kitchenOffice);
-            const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-status/COMMUNION')
+            const isTrayAvailableToSet = await isOfficeAbleToSet('COMMUNION')
             setInfoAboutOfficeSet(isTrayAvailableToSet)
         }
         getData()

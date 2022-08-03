@@ -22,13 +22,19 @@ export interface IBrothersObstacle {
     obstacle: string;
 }
 
+export interface ObstacleBetweenOffice {
+    id: number;
+    officeName: string;
+    officeConnected: string;
+}
+
 export interface MessageBody {
     message: string;
 }
 
 export const getOfficesName = async():Promise<string[] | null> => {
     const result = await http<string[], OfficeName>({
-        path: '/offices-name'
+        path: 'offices/names'
     });
     if(result.ok && result.body) {
         return result.body;
@@ -38,7 +44,7 @@ export const getOfficesName = async():Promise<string[] | null> => {
 
 export const getOfficeNameForObstacleBrother = async():Promise<string[] | null> => {
     const result = await http<string[], OfficeName>({
-        path: '/office-name/obstacle'
+        path: 'offices/office-name/obstacle'
     });
     if(result.ok && result.body) {
         return result.body;
@@ -48,7 +54,7 @@ export const getOfficeNameForObstacleBrother = async():Promise<string[] | null> 
 
 export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[], jwtToken:string): Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IBrothersObstacle[]>({
-        path: '/obstacles',
+        path: 'obstacles',
         method: 'post',
         body: data,
         accessToken: jwtToken
@@ -59,15 +65,9 @@ export const sendBrotherObstacleToDB = async(data:IBrothersObstacle[], jwtToken:
     return undefined;
 }
 
-export interface ObstacleBetweenOffice {
-    id: number;
-    officeName: string;
-    officeConnected: string;
-}
-
 export const getObstacleBetweenOffices = async():Promise<ObstacleBetweenOffice[] | null> => {
     const result = await http<ObstacleBetweenOffice[]>({
-        path: '/obstacle-between-office'
+        path: 'obstacles/offices'
     });
     if(result.ok && result.body) {
         return result.body.map((item) => item);
@@ -77,7 +77,7 @@ export const getObstacleBetweenOffices = async():Promise<ObstacleBetweenOffice[]
 
 export const postObstacleBetweenOffices = async(data:ObstacleBetweenOffice): Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ObstacleBetweenOffice>({
-        path: '/obstacle-between-office',
+        path: 'obstacles/offices',
         method: 'post',
         body: data
     });
@@ -89,7 +89,7 @@ export const postObstacleBetweenOffices = async(data:ObstacleBetweenOffice): Pro
 
 export const putObstacleBetweenOffices = async(data:ObstacleBetweenOffice): Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ObstacleBetweenOffice>({
-        path: `/obstacle-between-office/${data.id}`,
+        path: `obstacles/offices/${data.id}`,
         method: 'put',
         body: data
     });
@@ -101,7 +101,7 @@ export const putObstacleBetweenOffices = async(data:ObstacleBetweenOffice): Prom
 
 export const deleteObstacleBetweenOffices = async(id:number): Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, number>({
-        path: `/obstacle-between-office/${id}`,
+        path: `obstacles/offices/${id}`,
         method: 'delete',
         body: id
     });
@@ -118,7 +118,7 @@ export interface IObstacleFromBrothers {
 
 export const getObstacleFromBrothers = async(): Promise<IObstacleFromBrothers[] | null> => {
     const result = await http<IObstacleFromBrothers[]>({
-        path: '/obstacle-last'
+        path: 'obstacles/last'
     })
     if(result.ok && result.body) {
         return result.body.map((item, index) => item)

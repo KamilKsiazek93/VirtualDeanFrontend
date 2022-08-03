@@ -1,4 +1,5 @@
 import { webAPIUrl } from "../AppSettings";
+import { getAccessTokenFromLocalStorage } from "./Offices";
 
 export interface HttpRequest<REQB> {
     path: string;
@@ -24,6 +25,9 @@ export const http = async<RESB, REQB = undefined>(
     });
     if (config.accessToken) {
         request.headers.set('authorization', `bearer ${config.accessToken}`);
+    } else {
+        const token = await getAccessTokenFromLocalStorage()
+        request.headers.set('authorization', `bearer ${token}`);
     }
 
     const response = await fetch(request);
