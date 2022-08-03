@@ -172,7 +172,7 @@ export const addTrayToDB = async(data:ITrayHourResponse[], accessToken:string):P
 
 export const addCommunionToDB = async(data:ICommunionHourResponse[]):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ICommunionHourResponse[]>({
-        path: '/communion-hour',
+        path: 'communions',
         method: 'post',
         body: data
     })
@@ -250,7 +250,7 @@ export const getHoursForTray = async(): Promise<string[] | null> => {
 
 export const getHoursForCommunion = async(): Promise<string[] | null> => {
     const result = await http<string[]>({
-        path: '/hours-communion'
+        path: 'communions/hours'
     })
     if(result.ok && result.body) {
         return result.body.map((name, index) => name)
