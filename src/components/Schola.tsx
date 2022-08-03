@@ -23,7 +23,7 @@ export const Schola = () => {
             setBrothers(brothers);
             const obstaclesFromBrothers = await getObstacleFromBrothers()
             setObstaclesFromBrothers(obstaclesFromBrothers)
-            const isScholaAbleToSet = await isOfficeAbleToSet('/pipeline-status/CANTOR')
+            const isScholaAbleToSet = await isOfficeAbleToSet('CANTOR')
             setInfoAboutOfficeSet(isScholaAbleToSet)
         }
         getSingingBrothersFromDb();

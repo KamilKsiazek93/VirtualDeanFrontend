@@ -64,7 +64,7 @@ export const AddTray = () => {
             setKitchenOffice(kitchenOffice);
             const obstacleBetweenOffices = await getObstacleBetweenOffices();
             setObstacleBetweenOffices(obstacleBetweenOffices);
-            const isTrayAvailableToSet = await isOfficeAbleToSet('/pipeline-status/TRAY')
+            const isTrayAvailableToSet = await isOfficeAbleToSet('TRAY')
             setInfoAboutOfficeSet(isTrayAvailableToSet)
             
         }

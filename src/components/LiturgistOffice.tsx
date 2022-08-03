@@ -61,7 +61,7 @@ export const LiturgistOffice = () => {
             setLastTrays(lastTrays)
             const officesNames = await getOfficeNames('LITURGIST');
             setOfficeNames(officesNames)
-            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('/pipeline-status/LITURGIST')
+            const isLiturgistOfficeAvailableToSet = await isOfficeAbleToSet('LITURGIST')
             setInfoAboutOfficeSet(isLiturgistOfficeAvailableToSet)
         }
         getData()
