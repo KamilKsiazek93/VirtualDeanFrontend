@@ -16,7 +16,7 @@ export interface IBody {
 
 export const getConstOBstacleWithBrotherTest = async (): Promise <IObstacleWithBrotherData[] | null> => {
     const result = await http<IObstacleWithBrotherData[]>({
-        path: '/obstacle-const/brothers-data'
+        path: 'obstacles/const/brothers-data'
     });
     if(result.ok && result.body) {
         return result.body.map(mapObstacle);
@@ -27,7 +27,7 @@ export const getConstOBstacleWithBrotherTest = async (): Promise <IObstacleWithB
 
 export const postConstObstacle = async(obstacle:IObstacleConst): Promise<IObstacleConst | undefined> => {
     const result = await http<IObstacleConst, IObstacleConst>({
-        path: '/obstacle-const',
+        path: 'obstacles/const',
         method: 'post',
         body: obstacle
     });
@@ -39,7 +39,7 @@ export const postConstObstacle = async(obstacle:IObstacleConst): Promise<IObstac
 
 export const putConstObstacle = async(obstacle:IObstacleConst): Promise<IObstacleConst | undefined> => {
     const result = await http<IObstacleConst, IObstacleConst>({
-        path: `/obstacle-const/${obstacle.id}`,
+        path: `obstacles/const/${obstacle.id}`,
         method: 'put',
         body: obstacle
     })
@@ -51,7 +51,7 @@ export const putConstObstacle = async(obstacle:IObstacleConst): Promise<IObstacl
 
 export const deleteConstObstacle = async(id:number): Promise<number | undefined> => {
     const result = await http<number, number>({
-        path: `/obstacle-const/${id}`,
+        path: `obstacles/const/${id}`,
         method: 'delete',
         body: id
     })
