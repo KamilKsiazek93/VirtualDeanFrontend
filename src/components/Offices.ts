@@ -139,7 +139,7 @@ export const getKitchenOffice  = async(weekNumber:number): Promise<KitchenOffice
 
 export const getLastWeek  = async(): Promise<number> => {
     const result = await http<number>({
-        path: '/week-number'
+        path: 'weeks'
     })
     if(result.ok && result.body) {
         return result.body;
