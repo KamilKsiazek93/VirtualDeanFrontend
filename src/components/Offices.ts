@@ -159,7 +159,7 @@ export const getLastFlatOffice = async(weekId:number): Promise<FlatOffice[] | nu
 
 export const addTrayToDB = async(data:ITrayHourResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, ITrayHourResponse[]>({
-        path: '/tray-hour',
+        path: 'trays',
         method: 'post',
         body: data,
         accessToken
@@ -210,7 +210,7 @@ export const addDeanOfficeTDB = async(data:IDeanOfficeResponse[], accessToken:st
 
 export const getLastTrays = async(): Promise<ILastTray[] | null> => {
     const result = await http<ILastTray[]>({
-        path: '/tray-hour-last'
+        path: 'trays/last'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
@@ -220,7 +220,7 @@ export const getLastTrays = async(): Promise<ILastTray[] | null> => {
 
 export const isOfficeAbleToSet = async(pipelineName:string): Promise<Boolean> => {
     const result = await http<Boolean>({
-        path: `${pipelineName}`
+        path: `offices/pipeline/name/${pipelineName}`
     })
     if(result.ok && result.body) {
         return true
@@ -240,7 +240,7 @@ export const getOfficeNames = async(pathName:string): Promise<IOfficeNames[] | n
 
 export const getHoursForTray = async(): Promise<string[] | null> => {
     const result = await http<string[]>({
-        path: '/hours-tray'
+        path: 'trays/hours'
     })
     if(result.ok && result.body) {
         return result.body.map((name, index) => name)
