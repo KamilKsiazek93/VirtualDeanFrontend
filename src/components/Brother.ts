@@ -62,10 +62,19 @@ export interface UserState {
     user: BaseBrother;
 }
 
+export const getNotNullBrother = ():BaseBrother => {
+    return {
+        id: 0,
+        name: "",
+        surname: "",
+        statusBrother: "BRAT",
+        jwtToken: ""
+    }
+}
 
 export const getBrotherFromLocalStorage = ():BaseBrother => {
     const storage = window.localStorage;
-    return JSON.parse(storage.getItem('user') || "");
+    return storage.getItem('user') !== null ? JSON.parse(storage.getItem('user') || "") : getNotNullBrother()
 }
 
 export const loginAction = async(brother:LoginData): Promise<BaseBrother | null> => {

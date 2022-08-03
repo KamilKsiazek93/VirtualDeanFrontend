@@ -99,14 +99,13 @@ export const getPreviousOfficeForBrother = async(brotherId:number): Promise<Brot
 
 export const getAccessTokenFromLocalStorage = async() => {
     const brotherLocalStorage = await getBrotherFromLocalStorage()
-    return brotherLocalStorage.jwtToken;
+    return brotherLocalStorage.jwtToken ?? "";
 }
 
 export const getLastOffice = async(): Promise<WeeklyOffices[] | null> => {
-    const accessToken:string = await getAccessTokenFromLocalStorage()
+    //const accessToken:string = await getAccessTokenFromLocalStorage()
     const result = await http<WeeklyOffices[]>({
-        path: 'offices/office-last',
-        accessToken
+        path: 'offices/office-last'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
