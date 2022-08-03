@@ -63,7 +63,7 @@ export const deleteConstObstacle = async(id:number): Promise<number | undefined>
 
 export const getBaseBrother = async(): Promise<BaseBrother[] | null> => {
     const result = await http<BaseBrother[]>({
-        path: '/brothers-base'
+        path: 'brothers/base'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
@@ -73,7 +73,7 @@ export const getBaseBrother = async(): Promise<BaseBrother[] | null> => {
 
 export const getBaseBrothersForSchola = async(): Promise<SingingBrothers[] | null> => {
     const result = await http<SingingBrothers[]>({
-        path: '/brothers-singing'
+        path: 'brothers/singing'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
@@ -83,7 +83,7 @@ export const getBaseBrothersForSchola = async(): Promise<SingingBrothers[] | nul
 
 export const getBaseBrotherForTray = async(): Promise<BaseBrother[] | null> => {
     const result = await http<BaseBrother[]>({
-        path: '/brothers-tray'
+        path: 'brothers/tray'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
@@ -93,7 +93,7 @@ export const getBaseBrotherForTray = async(): Promise<BaseBrother[] | null> => {
 
 export const getBrothersForCommunion = async():Promise<BaseBrother[] | null> => {
     const result = await http<BaseBrother[]>({
-        path: '/brothers-communion'
+        path: 'brothers/communion'
     })
     if(result.ok && result.body) {
         return result.body.map((bro) => bro)
@@ -103,7 +103,7 @@ export const getBrothersForCommunion = async():Promise<BaseBrother[] | null> => 
 
 export const getBaseBrothersForLiturgistOffice = async(): Promise<BaseBrotherLiturgist[] | null> => {
     const result = await http<BaseBrotherLiturgist[]>({
-        path: '/brothers-liturgistOffice'
+        path: 'brothers/liturgistOffice'
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
