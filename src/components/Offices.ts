@@ -66,7 +66,7 @@ export interface IOfficeNames {
 
 export const addScholaToDb = async(data:CantorOfficeResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, CantorOfficeResponse[]>({
-        path: '/office-singing',
+        path: 'offices/singing',
         method: 'post',
         body: data,
         accessToken
@@ -79,7 +79,7 @@ export const addScholaToDb = async(data:CantorOfficeResponse[], accessToken:stri
 
 export const getLastOfficeForBrother = async(brotherId:number): Promise<BrotherDashboardOffice | undefined> => {
     const result = await http<BrotherDashboardOffice>({
-        path: `/office-last/${brotherId}`
+        path: `offices/office-last/${brotherId}`
     })
     if(result.ok && result.body) {
         return result.body
@@ -89,7 +89,7 @@ export const getLastOfficeForBrother = async(brotherId:number): Promise<BrotherD
 
 export const getPreviousOfficeForBrother = async(brotherId:number): Promise<BrotherDashboardOffice | undefined> => {
     const result = await http<BrotherDashboardOffice>({
-        path: `/office-previous/${brotherId}`
+        path: `offices/office-previous/${brotherId}`
     })
     if(result.ok && result.body) {
         return result.body
@@ -116,7 +116,7 @@ export const getLastOffice = async(): Promise<WeeklyOffices[] | null> => {
 
 export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, KitchenOfficeResp[]>({
-        path: '/kitchen-offices',
+        path: 'offices/kitchen',
         method: 'post',
         body: data,
         accessToken
@@ -125,6 +125,16 @@ export const addKitchenOfficeToDB = async(data:KitchenOfficeResp[], accessToken:
         return result.body
     }
     return undefined;
+}
+
+export const getKitchenOffice  = async(weekNumber:number): Promise<KitchenOfficeResp[] | null> => {
+    const result = await http<KitchenOfficeResp[]>({
+        path: `offices/kitchen/${weekNumber}`
+    })
+    if(result.ok && result.body) {
+        return result.body.map((item, index) => item)
+    }
+    return []
 }
 
 export const getLastWeek  = async(): Promise<number> => {
@@ -139,20 +149,10 @@ export const getLastWeek  = async(): Promise<number> => {
 
 export const getLastFlatOffice = async(weekId:number): Promise<FlatOffice[] | null> => {
     const result = await http<FlatOffice[]>({
-        path: `/office-flat/${weekId}`
+        path: `offices/office-flat/${weekId}`
     })
     if(result.ok && result.body) {
         return result.body.map((bro, index) => bro)
-    }
-    return []
-}
-
-export const getKitchenOffice  = async(weekNumber:number): Promise<KitchenOfficeResp[] | null> => {
-    const result = await http<KitchenOfficeResp[]>({
-        path: `/kitchen-offices/${weekNumber}`
-    })
-    if(result.ok && result.body) {
-        return result.body.map((item, index) => item)
     }
     return []
 }
@@ -184,7 +184,7 @@ export const addCommunionToDB = async(data:ICommunionHourResponse[]):Promise<Mes
 
 export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IOfficeLiturgistResponse[]>({
-        path: '/office-liturgist',
+        path: 'offices/office',
         method: 'post',
         body: data,
         accessToken
@@ -197,7 +197,7 @@ export const addLiturgistOfficeTDB = async(data:IOfficeLiturgistResponse[], acce
 
 export const addDeanOfficeTDB = async(data:IDeanOfficeResponse[], accessToken:string):Promise<MessageBody | undefined> => {
     const result = await http<MessageBody, IDeanOfficeResponse[]>({
-        path: '/office-dean',
+        path: 'offices/dean',
         method: 'post',
         body: data,
         accessToken
@@ -230,7 +230,7 @@ export const isOfficeAbleToSet = async(pipelineName:string): Promise<Boolean> =>
 
 export const getOfficeNames = async(pathName:string): Promise<IOfficeNames[] | null> => {
     const result = await http<IOfficeNames[]>({
-        path: `/office-name/${pathName}`
+        path: `offices/office-name/${pathName}`
     })
     if(result.ok && result.body) {
         return result.body.map((name, index) => name)
