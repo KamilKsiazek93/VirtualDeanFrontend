@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { AddCommunion } from "./AddCommunin";
+import { AddCommunion } from "./AddCommunion";
 import { CommunionNavbar } from "./CommunionNavbar";
 
 export const CommunionDeanPage = () => (

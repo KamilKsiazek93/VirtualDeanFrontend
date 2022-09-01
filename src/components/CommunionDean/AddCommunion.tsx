@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table, FormCheck, Button } from "react-bootstrap";
-import { getBrothersForCommunion } from "./ApiConnection";
-import { BaseBrother } from "./Brother/Brother";
-import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
-import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { addCommunionToDB, getHoursForCommunion, getKitchenOffice, getLastWeek, ICommunionHourResponse, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
+import { getBrothersForCommunion } from "../ApiConnection";
+import { BaseBrother } from "../Brother/Brother";
+import { MessageIfOfficeIsAlreadySet } from "../MessageIfOfficeIsAlreadySet";
+import { getObstacleFromBrothers, IObstacleFromBrothers } from "../Obstacle";
+import { addCommunionToDB, getHoursForCommunion, getKitchenOffice, getLastWeek, ICommunionHourResponse, isOfficeAbleToSet, KitchenOfficeResp } from "../Offices";
 
 export const AddCommunion = () => {
 

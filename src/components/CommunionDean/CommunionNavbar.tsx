@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../actions/auth";
+import { logout } from "../../actions/auth";
 
 export const CommunionNavbar = () => {
 

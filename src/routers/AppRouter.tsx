@@ -5,7 +5,7 @@ import { LiturgistPage } from "../components/Liturgist/LiturgistPage";
 import { CantorPage } from "../components/Cantor/CantorPage";
 import { BrotherPage } from "../components/Brother/BrotherPage";
 import { LoginPage } from "../components/LoginPage";
-import { CommunionDeanPage } from "../components/CommunionDeanPage";
+import { CommunionDeanPage } from "../components/CommunionDean/CommunionDeanPage";
 import { BrotherRoute } from "./BrotherRoute";
 import { CantorRoute } from "./CantorRoute";
 import { DeanRoute } from "./DeanRoute";
