@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import { webAPIUrl } from "../AppSettings";
-import { EditingBrother } from "./Brother";
+import { EditingBrother } from "./Brother/Brother";
 
 export const EditBrothers = () => {
 

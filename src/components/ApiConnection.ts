@@ -1,4 +1,4 @@
-import { BaseBrother, BaseBrotherLiturgist, SingingBrothers } from "./Brother";
+import { BaseBrother, BaseBrotherLiturgist, SingingBrothers } from "./Brother/Brother";
 import { http } from "./http";
 import { IObstacleConst, IObstacleWithBrotherData } from "./Obstacle";
 

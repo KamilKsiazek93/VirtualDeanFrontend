@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, FormCheck, Button } from "react-bootstrap";
 import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
-import { getOfficeNameForObstacleBrother, IBrothersObstacle, sendBrotherObstacleToDB } from "./Obstacle";
+import { getOfficeNameForObstacleBrother, IBrothersObstacle, sendBrotherObstacleToDB } from "../Obstacle";
 
 export const BrotherAddObstacle = () => {
 

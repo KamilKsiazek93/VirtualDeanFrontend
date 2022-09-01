@@ -1,4 +1,4 @@
-import { getBrotherFromLocalStorage } from "./Brother";
+import { getBrotherFromLocalStorage } from "./Brother/Brother";
 import { http } from "./http";
 import { MessageBody } from "./Obstacle";
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { getBrotherFromLocalStorage } from "./Brother";
-import { BrotherDashboardOffice, getLastOfficeForBrother, getPreviousOfficeForBrother } from "./Offices";
+import { BrotherDashboardOffice, getLastOfficeForBrother, getPreviousOfficeForBrother } from "../Offices";
 
 const showOffice = (office:Array<string> | undefined) => {
     office = office?.map((item) => item).sort()

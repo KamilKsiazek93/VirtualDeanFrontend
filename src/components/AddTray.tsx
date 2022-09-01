@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, FormCheck } from "react-bootstrap";
 import { getBaseBrotherForTray } from "./ApiConnection";
-import { BaseBrother, getBrotherFromLocalStorage } from "./Brother";
+import { BaseBrother, getBrotherFromLocalStorage } from "./Brother/Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleBetweenOffices, getObstacleFromBrothers, IObstacleFromBrothers, ObstacleBetweenOffice } from "./Obstacle";
 import { addTrayToDB, FlatOffice, getHoursForTray, getKitchenOffice, getLastFlatOffice, getLastWeek, isOfficeAbleToSet, ITrayHourResponse, KitchenOfficeResp } from "./Offices";

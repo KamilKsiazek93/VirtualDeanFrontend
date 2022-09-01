@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
-import { BaseBrother } from "./Brother";
+import { BaseBrother } from "./Brother/Brother";
 import { deleteConstObstacle, getBaseBrother, getConstOBstacleWithBrotherTest , postConstObstacle, putConstObstacle} from "./ApiConnection";
 import { getOfficesName, IObstacleWithBrotherData } from "./Obstacle";
 

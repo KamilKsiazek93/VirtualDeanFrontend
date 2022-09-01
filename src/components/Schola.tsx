@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getBrotherFromLocalStorage, SingingBrothers } from "./Brother";
+import { getBrotherFromLocalStorage, SingingBrothers } from "./Brother/Brother";
 import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
 import { getBaseBrothersForSchola } from "./ApiConnection";

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Button, FormCheck, Table } from "react-bootstrap";
 import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
-import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from "./Brother";
+import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from "./Brother/Brother";
 import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
 import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
 import { BrotherDashboardOffice, ILastTray, getLastOffice, IOfficeLiturgistResponse, getLastTrays, addLiturgistOfficeTDB, isOfficeAbleToSet, IOfficeNames, getOfficeNames } from "./Offices";

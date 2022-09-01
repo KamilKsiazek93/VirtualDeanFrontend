@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../actions/auth";
+import { logout } from "../../actions/auth";
 
 export const BrotherNavbar = () => {
     const dispatch = useDispatch()
