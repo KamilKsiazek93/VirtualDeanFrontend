@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DeanPage } from "../components/Dean/DeanPage";
-import { LiturgistPage } from "../components/LiturgistPage";
+import { LiturgistPage } from "../components/Liturgist/LiturgistPage";
 import { CantorPage } from "../components/CantorPage";
 import { BrotherPage } from "../components/Brother/BrotherPage";
 import { LoginPage } from "../components/LoginPage";
