@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { DeanPage } from "../components/DeanPage";
+import { DeanPage } from "../components/Dean/DeanPage";
 import { LiturgistPage } from "../components/LiturgistPage";
 import { CantorPage } from "../components/CantorPage";
 import { BrotherPage } from "../components/Brother/BrotherPage";

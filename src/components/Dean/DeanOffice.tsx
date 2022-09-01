@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FormCheck, Table, Button } from "react-bootstrap";
-import { getBaseBrothersForLiturgistOffice } from "./ApiConnection";
-import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from './Brother/Brother'
-import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
-import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
-import { addDeanOfficeTDB, getKitchenOffice, getLastWeek, IDeanOfficeResponse, isOfficeAbleToSet, KitchenOfficeResp } from "./Offices";
+import { getBaseBrothersForLiturgistOffice } from "../ApiConnection";
+import { BaseBrotherLiturgist, getBrotherFromLocalStorage } from '../Brother/Brother'
+import { MessageIfOfficeIsAlreadySet } from "../MessageIfOfficeIsAlreadySet";
+import { getObstacleFromBrothers, IObstacleFromBrothers } from "../Obstacle";
+import { addDeanOfficeTDB, getKitchenOffice, getLastWeek, IDeanOfficeResponse, isOfficeAbleToSet, KitchenOfficeResp } from "../Offices";
 
 export const DeanOffice = () => {
 

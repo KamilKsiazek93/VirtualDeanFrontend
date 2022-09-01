@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../actions/auth";
+import { logout } from "../../actions/auth";
 
 export const DeanNavbar = () => {
 

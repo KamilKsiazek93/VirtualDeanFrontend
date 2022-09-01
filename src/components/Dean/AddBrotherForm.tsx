@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { Form, Button } from "react-bootstrap";
-import { webAPIUrl } from "../AppSettings";
-import { AddingBrother } from "./Brother/Brother";
+import { webAPIUrl } from "../../AppSettings";
+import { AddingBrother } from "../Brother/Brother";
 
 export const AddBrotherForm = () => {
     const [name, setName] = useState("");

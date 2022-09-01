@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import { getLastOffice, WeeklyOffices } from "./Offices";
+import { getLastOffice, WeeklyOffices } from "../Offices";
 
 export const DeanPrintedOffices = () => {
 
