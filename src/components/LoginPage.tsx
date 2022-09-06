@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/auth";
-import { BaseBrother, loginAction, LoginData } from "./Brother";
+import { BaseBrother, loginAction, LoginData } from "./Brother/Brother";
 
 export const LoginPage = () => {
 

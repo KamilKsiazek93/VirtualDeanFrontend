@@ -1,4 +1,4 @@
-import { BaseBrother } from "../components/Brother"
+import { BaseBrother } from "../components/Brother/Brother"
 
 export const login = (user:BaseBrother) => ({
     type: 'LOGIN',

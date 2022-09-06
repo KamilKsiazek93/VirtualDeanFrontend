@@ -1,6 +1,6 @@
-import { BaseBrother, BaseBrotherLiturgist, SingingBrothers } from "./Brother";
+import { BaseBrother, BaseBrotherLiturgist, IUpdatePassword, SingingBrothers } from "./Brother/Brother";
 import { http } from "./http";
-import { IObstacleConst, IObstacleWithBrotherData } from "./Obstacle";
+import { IObstacleConst, IObstacleWithBrotherData, MessageBody } from "./Obstacle";
 
 export const mapObstacle = (
     obstacle: IObstacleWithBrotherData
@@ -109,4 +109,16 @@ export const getBaseBrothersForLiturgistOffice = async(): Promise<BaseBrotherLit
         return result.body.map((bro, index) => bro)
     }
     return []
+}
+
+export const updatePasswordInDb = async(data: IUpdatePassword): Promise<MessageBody | undefined> => {
+    const result = await http<MessageBody, IUpdatePassword>({
+        path: 'brothers/password',
+        method: 'post',
+        body: data
+    })
+    if(result.ok && result.body) {
+        return result.body
+    }
+    return undefined
 }

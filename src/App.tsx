@@ -1,9 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter, Routes } from "react-router-dom";
-import { DeanPage } from './components/DeanPage';
-import { LiturgistPage } from './components/LiturgistPage';
-import { CantorPage } from './components/CantorPage';
-import { BrotherPage } from './components/BrotherPage';
+import { DeanPage } from './components/Dean/DeanPage';
+import { LiturgistPage } from './components/Liturgist/LiturgistPage';
 import { LoginPage } from './components/LoginPage';
 
 function App() {

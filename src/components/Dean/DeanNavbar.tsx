@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../actions/auth";
+import { logout } from "../../actions/auth";
 
 export const DeanNavbar = () => {
 
@@ -29,6 +29,7 @@ export const DeanNavbar = () => {
                     <Nav.Link as={Link} to="edytuj-braci">Edytuj braci</Nav.Link>
                     <Nav.Link as={Link} to="przeszkody-stale">Przedzkody stałe</Nav.Link>
                     <Nav.Link as={Link} to="przeszkody-miedzy-oficjami">Przeszkody między oficjami</Nav.Link>
+                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
                     <Button onClick={handleLogout}>Wyloguj</Button>
                 </Nav>
                 </Navbar.Collapse>

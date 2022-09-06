@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table, Modal } from "react-bootstrap";
-import { deleteObstacleBetweenOffices, getObstacleBetweenOffices, getOfficeNameForObstacleBrother, ObstacleBetweenOffice, postObstacleBetweenOffices, putObstacleBetweenOffices } from "./Obstacle";
+import { deleteObstacleBetweenOffices, getObstacleBetweenOffices, getOfficeNameForObstacleBrother, ObstacleBetweenOffice, postObstacleBetweenOffices, putObstacleBetweenOffices } from "../Obstacle";
 
 export const ObstacleBetweenOffices = () => {
 

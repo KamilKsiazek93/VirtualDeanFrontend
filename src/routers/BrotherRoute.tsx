@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate  } from "react-router-dom";
-import { BaseBrother } from "../components/Brother";
+import { BaseBrother } from "../components/Brother/Brother";
 
 export const BrotherRoute = ({children}:any) => {
     let userLocalStorage:BaseBrother = {id: 0, name: "", surname: "" , statusBrother: "", jwtToken: ""};

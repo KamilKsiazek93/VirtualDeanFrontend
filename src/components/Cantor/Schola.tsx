@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getBrotherFromLocalStorage, SingingBrothers } from "./Brother";
-import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "./Offices";
+import { getBrotherFromLocalStorage, SingingBrothers } from "../Brother/Brother";
+import { addScholaToDb, CantorOfficeResponse, isOfficeAbleToSet } from "../Offices";
 import { FormCheck, Table, Button } from 'react-bootstrap';
-import { getBaseBrothersForSchola } from "./ApiConnection";
-import { MessageIfOfficeIsAlreadySet } from "./MessageIfOfficeIsAlreadySet";
-import { getObstacleFromBrothers, IObstacleFromBrothers } from "./Obstacle";
+import { getBaseBrothersForSchola } from "../ApiConnection";
+import { MessageIfOfficeIsAlreadySet } from "../MessageIfOfficeIsAlreadySet";
+import { getObstacleFromBrothers, IObstacleFromBrothers } from "../Obstacle";
 
 export const Schola = () => {
 

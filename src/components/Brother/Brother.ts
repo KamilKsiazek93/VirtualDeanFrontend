@@ -1,4 +1,4 @@
-import { http } from "./http";
+import { http } from "../http";
 
 export interface AddingBrother {
     id: number;
@@ -43,6 +43,12 @@ export interface BaseBrotherLiturgist extends BaseBrother {
 export interface LoginData {
     email: string;
     password: string;
+}
+
+export interface IUpdatePassword {
+    brotherId: number;
+    currentPassword: string;
+    newPassword: string;
 }
 
 export interface SingingBrothers extends BaseBrother {

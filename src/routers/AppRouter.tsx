@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { DeanPage } from "../components/DeanPage";
-import { LiturgistPage } from "../components/LiturgistPage";
-import { CantorPage } from "../components/CantorPage";
-import { BrotherPage } from "../components/BrotherPage";
+import { DeanPage } from "../components/Dean/DeanPage";
+import { LiturgistPage } from "../components/Liturgist/LiturgistPage";
+import { CantorPage } from "../components/Cantor/CantorPage";
+import { BrotherPage } from "../components/Brother/BrotherPage";
 import { LoginPage } from "../components/LoginPage";
-import { CommunionDeanPage } from "../components/CommunionDeanPage";
+import { CommunionDeanPage } from "../components/CommunionDean/CommunionDeanPage";
 import { BrotherRoute } from "./BrotherRoute";
 import { CantorRoute } from "./CantorRoute";
 import { DeanRoute } from "./DeanRoute";
