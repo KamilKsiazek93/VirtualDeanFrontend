@@ -29,6 +29,7 @@ export const DeanNavbar = () => {
                     <Nav.Link as={Link} to="edytuj-braci">Edytuj braci</Nav.Link>
                     <Nav.Link as={Link} to="przeszkody-stale">Przedzkody stałe</Nav.Link>
                     <Nav.Link as={Link} to="przeszkody-miedzy-oficjami">Przeszkody między oficjami</Nav.Link>
+                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
                     <Button onClick={handleLogout}>Wyloguj</Button>
                 </Nav>
                 </Navbar.Collapse>
