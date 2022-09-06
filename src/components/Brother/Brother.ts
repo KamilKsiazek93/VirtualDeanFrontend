@@ -45,6 +45,12 @@ export interface LoginData {
     password: string;
 }
 
+export interface IUpdatePassword {
+    brotherId: number;
+    currentPassword: string;
+    newPassword: string;
+}
+
 export interface SingingBrothers extends BaseBrother {
     isSinging: boolean;
 }

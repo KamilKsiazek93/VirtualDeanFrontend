@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { updatePasswordInDb } from "./ApiConnection";
+import { getBrotherFromLocalStorage, IUpdatePassword } from "./Brother/Brother";
 
 export const ChangePassword = () => {
 
-    const [changePassswordMessage, setChangePasswordMessage] = useState("")
-    const [oldPassword, setOldPasword] = useState("")
+    const [changePassswordMessage, setChangePasswordMessage] = useState<string>()
+    const [currentPassword, setCurrentPasword] = useState("")
     const [newPassword, setNewPasword] = useState("")
     const [repeatedPassword, setRepeatedPasword] = useState("")
 
-    const handleOldPasword = (oldPassword:string) => {
-        setOldPasword(oldPassword)
+    const handleCurrentPasword = (currentPassword:string) => {
+        setCurrentPasword(currentPassword)
     }
 
     const handleNewPasword = (newPassword:string) => {
@@ -20,8 +22,20 @@ export const ChangePassword = () => {
         setRepeatedPasword(repeatedPassword)
     }
 
-    const changePasswordInDb = () => {
-        console.log("hasło zostało zmienione")
+    const clearInputs = () => {
+        setCurrentPasword("")
+        setNewPasword("")
+        setRepeatedPasword("")
+    }
+
+    const changePasswordInDb = async() => {
+        const brotherId = await await getBrotherFromLocalStorage().id
+        const data:IUpdatePassword = { brotherId, currentPassword, newPassword}
+        const result = await updatePasswordInDb(data)
+        if(result?.message) {
+             clearInputs() 
+        }
+        setChangePasswordMessage(result?.message)
     }
 
     const handleChangePasword = () => {
@@ -44,7 +58,7 @@ export const ChangePassword = () => {
             <div className="form-frame">
                 <Form>
                     <Form.Group>
-                        <Form.Control type="password" placeholder="obecne hasło" id="oldPassword" onChange={(e) => handleOldPasword(e.target.value)}></Form.Control>
+                        <Form.Control type="password" placeholder="obecne hasło" id="currentPassword" onChange={(e) => handleCurrentPasword(e.target.value)}></Form.Control>
                         <br/>
                         <Form.Control type="password" placeholder="nowe hasło" id="newPassword" onChange={(e) => handleNewPasword(e.target.value)}></Form.Control>
                         <br/>
