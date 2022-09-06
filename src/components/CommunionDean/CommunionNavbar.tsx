@@ -23,6 +23,7 @@ export const CommunionNavbar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="oficja">Wyznacz komunie</Nav.Link>
+                        <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
                         <Button onClick={handleLogout}>Wyloguj</Button>
                     </Nav>
                 </Navbar.Collapse>
