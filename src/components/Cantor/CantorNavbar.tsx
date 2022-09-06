@@ -23,6 +23,7 @@ export const CantorNavbar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="schola">Wyznacz scholę</Nav.Link>
+                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
                     <Button onClick={handleLogout}>Wyloguj</Button>
                 </Nav>
                 </Navbar.Collapse>
