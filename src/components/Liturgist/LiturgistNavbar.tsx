@@ -24,6 +24,7 @@ export const LiturgistNavbar = () => {
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="taca">Wyznacz tacę</Nav.Link>
                     <Nav.Link as={Link} to="oficja">Wyznacz oficja liturgiczne</Nav.Link>
+                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
                     <Button onClick={handleLogout}>Wyloguj</Button>
                 </Nav>
                 </Navbar.Collapse>
