@@ -64,7 +64,7 @@ export const ChangePassword = () => {
                         <br/>
                         <Form.Control type="password" placeholder="powtórz nowe hasło" id="repeatedPassword" onChange={(e) => handleRepeatedPasword(e.target.value)}></Form.Control>
                         <br/>
-                        <Button variant="primary" onClick={handleChangePasword}>Zmień hasło</Button>
+                        <Button variant="success" onClick={handleChangePasword}>Zmień hasło</Button>
                     </Form.Group>
                 </Form>
             </div>
