@@ -3,7 +3,7 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MainNavbar = () => (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="main-navbar-nav">
