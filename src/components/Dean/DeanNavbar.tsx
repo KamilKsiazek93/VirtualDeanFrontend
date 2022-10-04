@@ -17,23 +17,28 @@ export const DeanNavbar = () => {
     }
 
     return (
-        <Navbar className="header-nav" expand="lg">
-            <Container>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Nav.Link as={Link} to="oficja">Wyznacz oficja tygodniowe</Nav.Link>
-                    <Nav.Link as={Link} to="oficja-kuchenne">Wyznacz oficja kuchenne</Nav.Link>
-                    <Nav.Link as={Link} to="oficja-wydruk">Pokaż oficja tygodniowe</Nav.Link>
-                    <Nav.Link as={Link} to="dodaj-brata">Dodaj brata</Nav.Link>
-                    <Nav.Link as={Link} to="edytuj-braci">Edytuj braci</Nav.Link>
-                    <Nav.Link as={Link} to="przeszkody-stale">Przedzkody stałe</Nav.Link>
-                    <Nav.Link as={Link} to="przeszkody-miedzy-oficjami">Przeszkody między oficjami</Nav.Link>
-                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
-                    <Button onClick={handleLogout}>Wyloguj</Button>
-                </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <div>
+            <Navbar className="header-nav" expand="lg">
+                <Container>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="oficja">Wyznacz oficja tygodniowe</Nav.Link>
+                        <Nav.Link as={Link} to="oficja-kuchenne">Wyznacz oficja kuchenne</Nav.Link>
+                        <Nav.Link as={Link} to="oficja-wydruk">Pokaż oficja tygodniowe</Nav.Link>
+                        <Nav.Link as={Link} to="dodaj-brata">Dodaj brata</Nav.Link>
+                        <Nav.Link as={Link} to="edytuj-braci">Edytuj braci</Nav.Link>
+                        <Nav.Link as={Link} to="przeszkody-stale">Przedzkody stałe</Nav.Link>
+                        <Nav.Link as={Link} to="przeszkody-miedzy-oficjami">Przeszkody między oficjami</Nav.Link>
+                        <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
+                        <Button onClick={handleLogout}>Wyloguj</Button>
+                    </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            <div className="header-margin">
+                <div className="body-background" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/Herb1.png'})`}}></div>
+            </div>
+        </div>
     )
 }
