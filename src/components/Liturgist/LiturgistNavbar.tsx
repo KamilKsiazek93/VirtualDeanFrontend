@@ -17,18 +17,20 @@ export const LiturgistNavbar = () => {
     }
 
     return (
-        <Navbar bg="light" expand="lg">
-            <Container>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Nav.Link as={Link} to="taca">Wyznacz tacę</Nav.Link>
-                    <Nav.Link as={Link} to="oficja">Wyznacz oficja liturgiczne</Nav.Link>
-                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
-                    <Button onClick={handleLogout}>Wyloguj</Button>
-                </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <div>
+            <Navbar className="header-nav" expand="lg">
+                <Container>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="taca">Wyznacz tacę</Nav.Link>
+                        <Nav.Link as={Link} to="oficja">Wyznacz oficja liturgiczne</Nav.Link>
+                        <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
+                        <Button onClick={handleLogout}>Wyloguj</Button>
+                    </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </div>
     )
 }

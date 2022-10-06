@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { ChangePassword } from "../ChangePassword";
+import { FooterHerb } from "../FooterHerb";
 import { AddBrotherForm } from "./AddBrotherForm";
 import { DeanNavbar } from "./DeanNavbar";
 import { DeanOffice } from "./DeanOffice";
@@ -24,5 +25,7 @@ export const DeanPage = () => (
             <Route path="przeszkody-miedzy-oficjami" element={<ObstacleBetweenOffices />} />
             <Route path="zmiana-hasla" element={<ChangePassword />} />
         </Routes>
+
+        <FooterHerb />
     </div>
 )

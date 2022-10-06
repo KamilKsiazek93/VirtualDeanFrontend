@@ -15,19 +15,21 @@ export const BrotherNavbar = () => {
         navigate('/')
     }
 
-        return (
-        <Navbar bg="light" expand="lg">
-            <Container>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Nav.Link as={Link} to="dashboard">Dashboard</Nav.Link>
-                    <Nav.Link as={Link} to="przeszkody">Zgłoś przeszkody</Nav.Link>
-                    <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
-                    <Button onClick={handleLogout}>Wyloguj</Button>
-                </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+    return (
+        <div>
+            <Navbar className="header-nav" expand="lg">
+                <Container>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="dashboard">Dashboard</Nav.Link>
+                        <Nav.Link as={Link} to="przeszkody">Zgłoś przeszkody</Nav.Link>
+                        <Nav.Link as={Link} to="zmiana-hasla">Zmień hasło</Nav.Link>
+                        <Button onClick={handleLogout}>Wyloguj</Button>
+                    </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </div>
     )
 }
