@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/auth";
 import { BaseBrother, loginAction, LoginData } from "./Brother/Brother";
+import { FooterHerb } from "./FooterHerb";
 
 export const LoginPage = () => {
 
@@ -82,8 +83,7 @@ export const LoginPage = () => {
                         </Form>
                     </div>
                 </div>
-                <div className="body-background" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/Herb1.png'})`}}></div>
-                <div className="footer-herb"></div>
+                <FooterHerb />
             </div>
         </div>
     )

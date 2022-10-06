@@ -37,7 +37,7 @@ export const BrotherDashboard = () => {
             <h2 className="header-frame">Dzień dobry {name} {surname}!</h2>
             <div className="table-center">
                 <h3>Poprzednie oficja:</h3>
-                <Table striped bordered hover variant="light">
+                <Table striped bordered variant="light">
                     <thead>
                         <tr>
                             <th>Schola</th>
@@ -78,9 +78,6 @@ export const BrotherDashboard = () => {
                         </tr>
                     </tbody>
                 </Table>
-            </div>
-            <div>
-                <div className="body-background" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/Herb1.png'})`}}></div>
             </div>
         </div>
     )
